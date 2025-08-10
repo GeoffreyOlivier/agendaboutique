@@ -94,6 +94,18 @@ class ProduitController extends Controller
         return view('produits.index', compact('produits', 'artisan'));
     }
 
+    public function indexPublic()
+    {
+        // Récupérer tous les produits publiés et disponibles
+        $produits = Produit::where('statut', 'publie')
+                          ->where('disponible', true)
+                          ->with('artisan')
+                          ->latest()
+                          ->paginate(12);
+        
+        return view('produits.index-public', compact('produits'));
+    }
+
     public function show(Produit $produit)
     {
         // Vérifier que l'artisan peut voir ce produit

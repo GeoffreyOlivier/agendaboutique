@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InterfaceController;
 use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\ProduitPublicController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route publique pour afficher les produits
+Route::get('/catalogue', [ProduitPublicController::class, 'index'])->name('produits.public');
+
+
+
 // Routes pour les interfaces selon les rôles
 Route::middleware(['auth'])->group(function () {
     // Dashboard principal qui redirige selon le rôle
@@ -27,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     // Interface boutique
     Route::middleware(['auth'])->group(function () {
         Route::get('/shop/dashboard', [InterfaceController::class, 'shopDashboard'])->name('shop.dashboard');
+        Route::get('/shop/artisans', [InterfaceController::class, 'shopArtisans'])->name('shop.artisans');
     });
     
     // Interface artisan

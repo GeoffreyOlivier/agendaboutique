@@ -1,0 +1,109 @@
+/* Styles personnalisés pour la page des artisans */
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.artisan-card {
+    transition: all 0.3s ease;
+}
+
+.artisan-card:hover {
+    transform: translateY(-4px);
+}
+
+.artisan-avatar {
+    transition: transform 0.3s ease;
+}
+
+.artisan-card:hover .artisan-avatar {
+    transform: scale(1.05);
+}
+
+.speciality-tag {
+    transition: all 0.2s ease;
+}
+
+.speciality-tag:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.category-tag {
+    transition: all 0.2s ease;
+}
+
+.category-tag:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Animation d'apparition des cartes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.artisan-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.artisan-card:nth-child(1) { animation-delay: 0.1s; }
+.artisan-card:nth-child(2) { animation-delay: 0.2s; }
+.artisan-card:nth-child(3) { animation-delay: 0.3s; }
+.artisan-card:nth-child(4) { animation-delay: 0.4s; }
+.artisan-card:nth-child(5) { animation-delay: 0.5s; }
+.artisan-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Responsive design amélioré */
+@media (max-width: 768px) {
+    .artisan-card {
+        margin-bottom: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Amélioration des boutons */
+.btn-primary {
+    background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.25);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px 0 rgba(59, 130, 246, 0.35);
+}
+
+.btn-secondary {
+    background: white;
+    border: 2px solid #E5E7EB;
+    color: #374151;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    border-color: #D1D5DB;
+    background-color: #F9FAFB;
+    transform: translateY(-1px);
+}

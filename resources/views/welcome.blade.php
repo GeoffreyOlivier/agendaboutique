@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-no-sidebar')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
@@ -44,6 +44,20 @@
                     Accéder à mon atelier
                 </a>
             </div>
+        </div>
+    </div>
+
+    <!-- Section Découvrir les produits -->
+    <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg shadow-md p-8 mb-8">
+        <div class="text-center">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Découvrez nos créations</h2>
+            <p class="text-gray-600 mb-6">Explorez notre galerie de produits artisanaux uniques</p>
+            <a href="{{ route('produits.public') }}" class="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                Voir la galerie
+            </a>
         </div>
     </div>
 

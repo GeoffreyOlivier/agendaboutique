@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-no-sidebar')
 
 @section('title', 'Mes produits')
 

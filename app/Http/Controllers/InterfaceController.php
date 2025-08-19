@@ -12,22 +12,25 @@ class InterfaceController extends Controller
     {
         $user = Auth::user();
         
-        if ($user->isShopAndArtisan()) {
-            // Pour les utilisateurs avec les deux rôles, on utilise l'interface sauvegardée en session
+        // Rediriger automatiquement vers le bon dashboard selon le rôle
+        if ($user->isShop() && $user->isArtisan()) {
+            // Si l'utilisateur a les deux rôles, vérifier l'interface actuelle
             $currentInterface = Session::get('current_interface', 'shop');
-            
             if ($currentInterface === 'artisan') {
                 return $this->showArtisanDashboard($user);
             } else {
                 return $this->showShopDashboard($user);
             }
         } elseif ($user->isShop()) {
+            // Si l'utilisateur a seulement le rôle shop
             return $this->showShopDashboard($user);
         } elseif ($user->isArtisan()) {
+            // Si l'utilisateur a seulement le rôle artisan
             return $this->showArtisanDashboard($user);
-        } else {
-            return $this->showDefaultDashboard($user);
         }
+        
+        // Si l'utilisateur n'a aucun rôle spécifique, afficher le dashboard par défaut
+        return $this->showDefaultDashboard($user);
     }
 
     public function shopDashboard()
@@ -89,10 +92,11 @@ class InterfaceController extends Controller
     private function showShopDashboard($user)
     {
         $boutique = $user->boutique;
+        $hasBoutique = $boutique !== null;
         $demandes = $boutique ? $boutique->demandes()->latest()->take(5)->get() : collect();
         $artisans = $boutique ? $boutique->artisans()->take(5)->get() : collect();
         
-        return view('interfaces.shop.dashboard', compact('user', 'boutique', 'demandes', 'artisans'));
+        return view('interfaces.shop.dashboard', compact('user', 'boutique', 'demandes', 'artisans', 'hasBoutique'));
     }
 
     public function shopArtisans()

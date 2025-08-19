@@ -22,18 +22,26 @@ class Boutique extends Model
         'pays',
         'telephone',
         'email',
-        'secteur',
         'taille',
-        'specialites',
-        'statut',
-        'actif',
         'siret',
         'tva',
+        'loyer_depot_vente',
+        'loyer_permanence',
+        'commission_depot_vente',
+        'commission_permanence',
+        'nb_permanences_mois_indicatif',
+        'site_web',
+        'instagram_url',
+        'tiktok_url',
+        'facebook_url',
+        'horaires_ouverture',
+        'photo',
+        'statut',
+        'actif',
     ];
 
     protected $casts = [
         'actif' => 'boolean',
-        'specialites' => 'array',
     ];
 
     // Relations
@@ -81,13 +89,20 @@ class Boutique extends Model
         return "{$this->adresse}, {$this->code_postal} {$this->ville}";
     }
 
+    public function getNombreExposantsAttribute()
+    {
+        return match($this->taille) {
+            'petite' => '1-5 exposants',
+            'moyenne' => '6-15 exposants',
+            'grande' => '16+ exposants',
+            default => 'Non défini'
+        };
+    }
+
     public function getNomCompletAttribute()
     {
         return $this->nom;
     }
 
-    public function getSpecialitesListeAttribute()
-    {
-        return is_array($this->specialites) ? implode(', ', $this->specialites) : $this->specialites;
-    }
+
 }

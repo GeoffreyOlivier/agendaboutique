@@ -29,10 +29,14 @@
             <div class="relative flex flex-col p-2 space-y-1">
                 <x-app.sidebar-link :hideUntilGroupHover="false" href="{{ route('notifications') }}" icon="phosphor-bell-duotone" active="false">Notifications</x-app.sidebar-link>
                 <x-app.sidebar-link :hideUntilGroupHover="false" href="{{ '/profile/' . auth()->user()->username }}" icon="phosphor-planet-duotone" active="false">Public Profile</x-app.sidebar-link>
+
+                @if(auth()->user()->isShop() && auth()->user()->boutique)
+                    <x-app.sidebar-link :hideUntilGroupHover="false" href="{{ route('boutiques.edit', auth()->user()->boutique->id) }}" icon="phosphor-store-duotone" active="false">Paramètres Boutique</x-app.sidebar-link>
+                @endif
+
                 {{-- @subscriber
                                 <x-app.sidebar-link href="{{ '/profile/' . auth()->user()->username }}" icon="phosphor-credit-card">Manage Subscription</x-app.sidebar-link>
                 @endsubscriber --}}
-
 
                 <x-app.sidebar-link :hideUntilGroupHover="false" href="{{ route('settings.profile') }}" icon="phosphor-gear-duotone" active="false">Settings</x-app.sidebar-link>
                 @notsubscriber

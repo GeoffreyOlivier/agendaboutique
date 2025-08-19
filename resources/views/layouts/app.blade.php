@@ -234,6 +234,18 @@
                                     <span class="flex-shrink-0 ease-out duration-50">Mode sombre</span>
                                 </button>
                             </div>
+
+                            <!-- Paramètres Boutique -->
+                            @if(auth()->user()->isShop() && auth()->user()->boutique)
+                            <div class="p-2 border-t border-zinc-200 dark:border-zinc-700">
+                                <a href="{{ route('boutiques.edit', auth()->user()->boutique->id) }}" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
+                                    <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    <span class="flex-shrink-0 ease-out duration-50">Paramètres Boutique</span>
+                                </a>
+                            </div>
+                            @endif
                             
                             <!-- Switch d'interface pour les utilisateurs avec les deux rôles -->
                             @auth

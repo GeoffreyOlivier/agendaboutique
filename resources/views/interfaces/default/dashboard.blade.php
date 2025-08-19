@@ -6,9 +6,15 @@
         <h1 class="text-3xl font-bold text-gray-900 mb-4">
             Bienvenue {{ $user->name }}
         </h1>
-        <p class="text-gray-600">
-            Choisissez votre profil pour accéder aux fonctionnalités appropriées.
-        </p>
+        @if(!$user->isShop() && !$user->isArtisan())
+            <p class="text-gray-600">
+                Choisissez votre profil pour accéder aux fonctionnalités appropriées.
+            </p>
+        @else
+            <p class="text-gray-600">
+                Accédez à vos interfaces actives ou gérez vos profils.
+            </p>
+        @endif
     </div>
 
     <!-- Sélection de profil -->
@@ -24,12 +30,18 @@
                 <p class="text-gray-600 mb-6">
                     Gérez votre boutique, la caisse et les demandes d'artisans.
                 </p>
-                <form method="POST" action="{{ route('assign.shop.role') }}" class="inline">
-                    @csrf
-                    <button type="submit" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
-                        Devenir Boutique
-                    </button>
-                </form>
+                @if(!$user->isShop())
+                    <form method="POST" action="{{ route('assign.shop.role') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                            Devenir Boutique
+                        </button>
+                    </form>
+                @else
+                    <span class="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-lg">
+                        ✓ Rôle déjà activé
+                    </span>
+                @endif
             </div>
         </div>
 
@@ -44,12 +56,18 @@
                 <p class="text-gray-600 mb-6">
                     Présentez vos créations et répondez aux demandes des boutiques.
                 </p>
-                <form method="POST" action="{{ route('assign.artisan.role') }}" class="inline">
-                    @csrf
-                    <button type="submit" class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
-                        Devenir Artisan
-                    </button>
-                </form>
+                @if(!$user->isArtisan())
+                    <form method="POST" action="{{ route('assign.artisan.role') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
+                            Devenir Artisan
+                        </button>
+                    </form>
+                @else
+                    <span class="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-lg">
+                        ✓ Rôle déjà activé
+                    </span>
+                @endif
             </div>
         </div>
     </div>
@@ -59,19 +77,25 @@
         <div class="text-center">
             <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                 </svg>
             </div>
             <h3 class="text-xl font-semibold text-gray-900 mb-2">Boutique + Artisan</h3>
             <p class="text-gray-600 mb-6">
                 Vous êtes propriétaire de boutique ET artisan ? Accédez aux deux interfaces.
             </p>
-            <form method="POST" action="{{ route('assign.both.roles') }}" class="inline">
-                @csrf
-                <button type="submit" class="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700">
-                    Activer les deux profils
-                </button>
-            </form>
+            @if(!$user->isShopAndArtisan())
+                <form method="POST" action="{{ route('assign.both.roles') }}" class="inline">
+                    @csrf
+                    <button type="submit" class="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700">
+                        Activer les deux profils
+                    </button>
+                </form>
+            @else
+                <span class="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-lg">
+                    ✓ Les deux rôles sont activés
+                </span>
+            @endif
         </div>
     </div>
 

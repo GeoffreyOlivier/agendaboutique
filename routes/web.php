@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InterfaceController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProduitPublicController;
+use App\Http\Controllers\BoutiqueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,12 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/shop/dashboard', [InterfaceController::class, 'shopDashboard'])->name('shop.dashboard');
         Route::get('/shop/artisans', [InterfaceController::class, 'shopArtisans'])->name('shop.artisans');
+        
+        // Routes pour la création et gestion des boutiques
+        Route::get('/shop/create', [BoutiqueController::class, 'create'])->name('boutiques.create');
+        Route::post('/shop/store', [BoutiqueController::class, 'store'])->name('boutiques.store');
+        Route::get('/shop/{boutique}/edit', [BoutiqueController::class, 'edit'])->name('boutiques.edit');
+        Route::put('/shop/{boutique}', [BoutiqueController::class, 'update'])->name('boutiques.update');
     });
     
     // Interface artisan

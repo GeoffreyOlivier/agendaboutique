@@ -178,8 +178,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
                     </div>
-                    <h4 class="font-medium text-gray-900">Voir tous les artisans</h4>
-                    <p class="text-sm text-gray-500">Gérer les artisans associés</p>
+                    <h4 class="font-medium text-gray-900">Trouver des Artisans</h4>
+                    <p class="text-sm text-gray-500">Découvrir de nouveaux talents</p>
                 </a>
 
                 <a href="#" class="block p-4 border border-gray-200 rounded-lg hover:bg-gray-50">

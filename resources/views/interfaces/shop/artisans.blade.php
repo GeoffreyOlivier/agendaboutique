@@ -98,76 +98,120 @@
 
     <!-- Liste des artisans -->
     @if($artisans->count() > 0)
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             @foreach($artisans as $artisan)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 artisan-card">
-                    <!-- Image de profil de l'artisan -->
-                    <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
-                        <img src="{{ asset('images/default-artisan-avatar.svg') }}" alt="Photo de profil de {{ $artisan->nom_artisan }}" class="w-32 h-32 object-contain artisan-avatar">
+                    <!-- Première ligne : Informations de l'artisan -->
+                    <div class="p-6">
+                        <div class="flex items-start gap-4 mb-4">
+                            <!-- Photo de profil -->
+                            <div class="flex-shrink-0">
+                                <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full flex items-center justify-center">
+                                    <img src="{{ asset('images/default-artisan-avatar.svg') }}" alt="Photo de profil de {{ $artisan->nom_artisan }}" class="w-16 h-16 object-contain rounded-full">
+                                </div>
+                            </div>
+                            
+                            <!-- Informations principales -->
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="text-xl font-semibold text-gray-900">{{ $artisan->nom_artisan }}</h3>
+                                        <button class="p-1 text-gray-400 hover:text-red-500 transition-colors" title="Ajouter aux favoris">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                                        Actif
+                                    </span>
+                                </div>
+                                
+                                @if($artisan->description)
+                                    <p class="text-gray-600 mb-3 text-sm">{{ Str::limit($artisan->description, 120) }}</p>
+                                @endif
+                                
+                                <!-- Spécialités -->
+                                @if($artisan->specialites && count($artisan->specialites) > 0)
+                                    <div class="mb-3">
+                                        <div class="flex flex-wrap gap-2">
+                                            @foreach($artisan->specialites as $specialite)
+                                                <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                                                    {{ $specialite }}
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+                                
+                                <!-- Statistiques -->
+                                <div class="flex items-center justify-between text-sm text-gray-500">
+                                    <span>{{ $artisan->produits->count() }} produit(s)</span>
+                                    @if($artisan->experience_annees)
+                                        <span>{{ $artisan->experience_annees }} an(s) d'expérience</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Bouton voir le profil -->
+                        <div class="text-center">
+                            <a href="{{ route('shop.artisan.profile', $artisan->id) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                                Voir le profil
+                            </a>
+                        </div>
                     </div>
                     
-                    <!-- Informations de l'artisan -->
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-4">
-                            <h3 class="text-xl font-semibold text-gray-900">{{ $artisan->nom_artisan }}</h3>
-                            <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
-                                Actif
-                            </span>
-                        </div>
-                        
-                        @if($artisan->description)
-                            <p class="text-gray-600 mb-4 line-clamp-3">{{ Str::limit($artisan->description, 120) }}</p>
-                        @endif
-                        
-                        <!-- Spécialités -->
-                        @if($artisan->specialites && count($artisan->specialites) > 0)
-                            <div class="mb-4">
-                                <h4 class="text-sm font-medium text-gray-700 mb-2">Spécialités :</h4>
-                                <div class="flex flex-wrap gap-2">
-                                    @foreach($artisan->specialites as $specialite)
-                                        <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full speciality-tag">
-                                            {{ $specialite }}
-                                        </span>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                        
-                        <!-- Catégories de produits -->
+                    <!-- Deuxième ligne : Photos des produits -->
+                    <div class="bg-gray-50 p-4">
                         @if($artisan->produits->count() > 0)
-                            <div class="mb-4">
-                                <h4 class="text-sm font-medium text-gray-700 mb-2">Catégories :</h4>
-                                <div class="flex flex-wrap gap-2">
-                                    @foreach($artisan->produits->pluck('categorie')->unique()->filter() as $categoryName)
-                                        @if($categoryName)
-                                            <span class="px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded-full category-tag">
-                                                {{ $categoryName }}
-                                            </span>
-                                        @endif
-                                    @endforeach
+                            <div class="grid grid-cols-3 gap-3">
+                                @foreach($artisan->produits->take(3) as $produit)
+                                    <div class="bg-white rounded-lg p-2 shadow-sm">
+                                        <div class="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 rounded-md flex items-center justify-center mb-2">
+                                            @if($produit->image_principale)
+                                                <img src="{{ asset('storage/' . $produit->image_principale) }}" alt="{{ $produit->nom }}" class="w-full h-full object-cover rounded-md">
+                                            @else
+                                                <img src="{{ asset('images/products/default-product.svg') }}" alt="{{ $produit->nom }}" class="w-full h-full object-cover rounded-md">
+                                            @endif
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="text-xs font-medium text-gray-900 truncate">{{ Str::limit($produit->nom, 15) }}</p>
+                                            <p class="text-xs text-gray-500">{{ $produit->prix_formate }}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                
+                                <!-- Si moins de 3 produits, afficher des placeholders -->
+                                @for($i = $artisan->produits->count(); $i < 3; $i++)
+                                    <div class="bg-white rounded-lg p-2 shadow-sm">
+                                        <div class="aspect-square bg-gray-100 rounded-md flex items-center justify-center">
+                                            <div class="text-gray-300 text-xs text-center">
+                                                <svg class="w-5 h-5 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                </svg>
+                                                Vide
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="text-xs text-gray-400">Aucun produit</p>
+                                        </div>
+                                    </div>
+                                @endfor
+                            </div>
+                        @else
+                            <div class="text-center py-4">
+                                <div class="text-gray-300 mb-2">
+                                    <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                    </svg>
                                 </div>
+                                <p class="text-xs text-gray-500">Aucun produit disponible</p>
                             </div>
                         @endif
-                        
-                        <!-- Statistiques -->
-                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
-                            <span>{{ $artisan->produits->count() }} produit(s)</span>
-                            @if($artisan->experience_annees)
-                                <span>{{ $artisan->experience_annees }} an(s) d'expérience</span>
-                            @endif
-                        </div>
-                        
-                        <!-- Actions -->
-                        <div class="flex gap-2">
-                            <a href="#" class="flex-1 text-center btn-primary text-sm">
-                                Voir les produits
-                            </a>
-                            <a href="#" class="btn-secondary text-sm">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                                </svg>
-                            </a>
-                        </div>
                     </div>
                 </div>
             @endforeach

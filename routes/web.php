@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/shop/dashboard', [InterfaceController::class, 'shopDashboard'])->name('shop.dashboard');
         Route::get('/shop/artisans', [InterfaceController::class, 'shopArtisans'])->name('shop.artisans');
+        Route::get('/shop/artisans/{artisan}', [InterfaceController::class, 'shopArtisanProfile'])->name('shop.artisan.profile');
         
         // Routes pour la création et gestion des boutiques
         Route::get('/shop/create', [BoutiqueController::class, 'create'])->name('boutiques.create');

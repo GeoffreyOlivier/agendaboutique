@@ -63,8 +63,8 @@ class User extends WaveUser
         static::created(function ($user) {
             // Remove all roles
             $user->syncRoles([]);
-            // Assign the default role
-            $user->assignRole( config('wave.default_user_role', 'registered') );
+            // Assign the default role - Désactivé car géré dans le contrôleur d'inscription
+            // $user->assignRole( config('wave.default_user_role', 'registered') );
         });
     }
 

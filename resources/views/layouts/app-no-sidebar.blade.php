@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Boutique - @yield('title', 'Dashboard')</title>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS est maintenant inclus dans les assets compilés -->
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Alpine.js -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Assets Vite avec Tailwind CSS et Alpine.js -->
+    @filamentStyles
+    @livewireStyles
+    @vite(['resources/themes/anchor/assets/css/app.css', 'resources/themes/anchor/assets/js/app.js'])
     
     <style>
         body {
@@ -108,5 +109,8 @@
             </div>
         </div>
     </main>
+    
+    @livewireScripts
+    @filamentScripts
 </body>
 </html>

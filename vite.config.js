@@ -17,6 +17,8 @@ export default defineConfig({
             ],
             refresh: [
                 `resources/themes/${activeTheme}/**/*`,
+                'resources/views/**/*.blade.php',
+                'vendor/namu/wirechat/**/*.blade.php',
             ],
         }),
     ],

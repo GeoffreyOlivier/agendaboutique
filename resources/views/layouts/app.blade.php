@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda Boutique - @yield('title', 'Dashboard')</title>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS est maintenant inclus dans les assets compilés -->
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Alpine.js -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Assets Vite avec Tailwind CSS et Alpine.js -->
+    @filamentStyles
+    @livewireStyles
+    @vite(['resources/themes/anchor/assets/css/app.css', 'resources/themes/anchor/assets/js/app.js'])
     
     <style>
         body {
@@ -27,37 +28,74 @@
         }
     </style>
     
-    <!-- Configuration Tailwind pour le mode sombre -->
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        zinc: {
-                            50: '#fafafa',
-                            100: '#f4f4f5',
-                            200: '#e4e4e7',
-                            300: '#d4d4d8',
-                            400: '#a1a1aa',
-                            500: '#71717a',
-                            600: '#52525b',
-                            700: '#3f3f46',
-                            800: '#27272a',
-                            900: '#18181b',
-                            950: '#09090b',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- La configuration Tailwind est maintenant dans tailwind.config.js -->
     
     <!-- Used to add dark mode right away, adding here prevents any flicker -->
     <script>
         if (typeof(Storage) !== "undefined") {
             if(localStorage.getItem('theme') && localStorage.getItem('theme') == 'dark'){
                 document.documentElement.classList.add('dark');
+            }
+        }
+        
+        // Solution spécifique pour le problème de dropdown avec Wirechat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Attendre que Alpine soit complètement initialisé
+            let attempts = 0;
+            const maxAttempts = 50;
+            
+            function initDropdown() {
+                attempts++;
+                
+                if (window.Alpine && window.Alpine.data) {
+                    // Force la réinitialisation du dropdown après l'initialisation d'Alpine
+                    setTimeout(() => {
+                        const dropdownElement = document.querySelector('[x-data*="sidebarDropup"]');
+                        if (dropdownElement && window.Alpine.initTree) {
+                            window.Alpine.initTree(dropdownElement);
+                        }
+                    }, 100);
+                } else if (attempts < maxAttempts) {
+                    // Retry si Alpine n'est pas encore prêt
+                    setTimeout(initDropdown, 50);
+                }
+            }
+            
+            initDropdown();
+        });
+        
+        // Fonction globale pour le dropdown de sidebar
+        window.sidebarDropup = function() {
+            return {
+                dropupOpen: false,
+                
+                toggleDropup() {
+                    this.dropupOpen = !this.dropupOpen;
+                    console.log('Dropdown toggled:', this.dropupOpen);
+                },
+                
+                closeDropup() {
+                    this.dropupOpen = false;
+                    console.log('Dropdown closed');
+                },
+                
+                init() {
+                    console.log('Sidebar dropdown initialized');
+                    
+                    // Écouter les clics globaux pour fermer le dropdown
+                    document.addEventListener('click', (e) => {
+                        if (!this.$el.contains(e.target) && this.dropupOpen) {
+                            this.dropupOpen = false;
+                        }
+                    });
+                    
+                    // Fermer avec Escape
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape' && this.dropupOpen) {
+                            this.dropupOpen = false;
+                        }
+                    });
+                }
             }
         }
     </script>
@@ -194,8 +232,8 @@
                     @endauth
 
                     <!-- Dropup avec mode sombre et autres boutons -->
-                    <div x-data="{ dropupOpen: false }" class="relative">
-                        <button @click="dropupOpen = !dropupOpen" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
+                    <div x-data="sidebarDropup()" x-id="['dropdown']" class="relative">
+                        <button @click="toggleDropup()" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
                             <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -206,14 +244,14 @@
                             </svg>
                         </button>
                         
-                        <div x-show="dropupOpen" @click.away="dropupOpen = false" 
+                        <div x-show="dropupOpen" 
                              x-transition:enter="transition ease-out duration-100"
                              x-transition:enter-start="transform opacity-0 scale-95"
                              x-transition:enter-end="transform opacity-100 scale-100"
                              x-transition:leave="transition ease-in duration-75"
                              x-transition:leave-start="transform opacity-100 scale-100"
                              x-transition:leave-end="transform opacity-0 scale-95"
-                             class="absolute bottom-full left-0 mb-2 w-full bg-white dark:bg-zinc-800 rounded-lg shadow-lg border border-zinc-200 dark:border-zinc-700 z-50">
+                             class="absolute bottom-full left-0 mb-2 w-full bg-white dark:bg-zinc-800 rounded-lg shadow-lg border border-zinc-200 dark:border-zinc-700 z-[60]">
                             
                             <!-- Mode sombre -->
                             <div class="p-2">
@@ -227,6 +265,7 @@
                                         html.classList.add('dark');
                                         localStorage.setItem('theme', 'dark');
                                     }
+                                    closeDropup();
                                 " class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
                                     <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -238,7 +277,7 @@
                             <!-- Paramètres Boutique -->
                             @if(auth()->user()->isShop() && auth()->user()->boutique)
                             <div class="p-2 border-t border-zinc-200 dark:border-zinc-700">
-                                <a href="{{ route('boutiques.edit', auth()->user()->boutique->id) }}" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
+                                <a href="{{ route('boutiques.edit', auth()->user()->boutique->id) }}" @click="closeDropup()" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
                                     <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                                     </svg>
@@ -253,7 +292,7 @@
                                 <div class="p-2 border-t border-zinc-200 dark:border-zinc-700">
                                     <form method="POST" action="{{ route('switch.interface') }}" class="w-full">
                                         @csrf
-                                        <button type="submit" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
+                                        <button type="submit" @click="closeDropup()" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
                                             <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
                                             </svg>
@@ -272,7 +311,7 @@
                             
                             <!-- Documentation -->
                             <div class="p-2 border-t border-zinc-200 dark:border-zinc-700">
-                                <a href="#" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
+                                <a href="#" @click="closeDropup()" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
                                     <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                     </svg>
@@ -282,7 +321,7 @@
                             
                             <!-- Support -->
                             <div class="p-2 border-t border-zinc-200 dark:border-zinc-700">
-                                <a href="#" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
+                                <a href="#" @click="closeDropup()" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
                                     <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
@@ -292,7 +331,7 @@
                             
                             <!-- Changelog -->
                             <div class="p-2 border-t border-zinc-200 dark:border-zinc-700">
-                                <a href="#" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
+                                <a href="#" @click="closeDropup()" class="w-full border-transparent transition-colors border px-2.5 py-2 flex rounded-lg text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2">
                                     <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                     </svg>
@@ -350,5 +389,8 @@
             </div>
         </main>
     </div>
+    
+    @livewireScripts
+    @filamentScripts
 </body>
 </html>

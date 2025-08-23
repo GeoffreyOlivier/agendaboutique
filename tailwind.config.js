@@ -22,11 +22,61 @@ export default {
         './wave/resources/views/**/*.blade.php',
         './resources/themes/' + activeTheme + '/**/*.blade.php',
         './resources/plugins/**/*.php',
-        './config/*.php'
+        './config/*.php',
+        "./vendor/namu/wirechat/**/*.blade.php",
+        './vendor/namu/wirechat/resources/views/**/*.blade.php',
+        './vendor/namu/wirechat/src/Livewire/**/*.php',
+    ],
+    
+    // Désactiver la purge en développement pour inclure toutes les classes
+    safelist: [
+        'shrink-0',
+        'inline-flex',
+        'items-center',
+        'justify-center',
+        'relative',
+        'transition',
+        'overflow-visible',
+        'rounded-full',
+        'border',
+        'text-gray-300',
+        'text-gray-400',
+        'bg-gray-100',
+        'dark:bg-gray-600',
+        'dark:text-gray-300',
+        'w-full',
+        'h-full',
+        'object-cover',
+        'object-center',
+        'p-px',
+        'absolute',
+        'z-50',
+        '-bottom-1',
+        '-right-2',
+        'bg-white',
+        'dark:bg-gray-800',
+        'w-5',
+        'h-5',
     ],
 
+    darkMode: 'class',
     theme: {
         extend: {
+            colors: {
+                zinc: {
+                    50: '#fafafa',
+                    100: '#f4f4f5',
+                    200: '#e4e4e7',
+                    300: '#d4d4d8',
+                    400: '#a1a1aa',
+                    500: '#71717a',
+                    600: '#52525b',
+                    700: '#3f3f46',
+                    800: '#27272a',
+                    900: '#18181b',
+                    950: '#09090b',
+                }
+            },
             animation: {
                 'marquee': 'marquee 25s linear infinite',
             },

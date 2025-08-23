@@ -6,10 +6,12 @@ use Illuminate\Support\Str;
 use Wave\User as WaveUser;
 use Illuminate\Notifications\Notifiable;
 use Wave\Traits\HasProfileKeyValues;
+use Namu\WireChat\Traits\Chatable;
 
 class User extends WaveUser
 {
     use Notifiable, HasProfileKeyValues;
+    use Chatable;
 
     public $guard_name = 'web';
 

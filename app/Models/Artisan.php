@@ -39,6 +39,25 @@ class Artisan extends Model
         'materiaux_preferes' => 'array',
     ];
 
+
+    public function getSpecialitesAttribute($value)
+    {
+        if (is_array($value)) return $value;
+
+        if (is_string($value)) {
+            $first = json_decode($value, true);
+            if (is_array($first)) return $first;
+
+            // si le 1er decode retourne une string qui ressemble à un tableau JSON
+            if (is_string($first) && str_starts_with($first, '[')) {
+                $second = json_decode($first, true);
+                if (is_array($second)) return $second;
+            }
+        }
+
+        return []; // valeur sûre
+    }
+
     // Relations
     public function user(): BelongsTo
     {

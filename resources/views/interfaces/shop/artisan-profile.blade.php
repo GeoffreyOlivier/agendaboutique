@@ -60,19 +60,15 @@
                     </div>
                 @endif
 
-                <!-- Spécialités -->
-                @if($artisan->specialites && count($artisan->specialites) > 0)
-                    <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Spécialités</h3>
-                        <div class="flex flex-wrap gap-2">
-                            @foreach($artisan->specialites as $specialite)
-                                <span class="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full">
-                                    {{ $specialite }}
-                                </span>
-                            @endforeach
-                        </div>
-                    </div>
+
+                @if(!empty($artisan->specialites))
+                    @foreach($artisan->specialites as $specialite)
+                        <span class="px-3 py-1 text-sm gap-2 bg-blue-100 text-blue-800 rounded-full">
+                        {{ $specialite }}
+                        </span>
+                    @endforeach
                 @endif
+
 
                 <!-- Techniques -->
                 @if($artisan->techniques && count($artisan->techniques) > 0)

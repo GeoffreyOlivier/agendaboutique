@@ -120,21 +120,21 @@ class InterfaceController extends Controller
     public function shopArtisanProfile($artisanId)
     {
         $user = Auth::user();
-        
+    
         if (!$user->isShop()) {
             return redirect()->route('dashboard')->with('error', 'Vous n\'avez pas les permissions nécessaires.');
         }
-        
+    
         $boutique = $user->boutique;
-        
-        // Récupérer l'artisan avec tous ses produits et informations
+    
         $artisan = \App\Models\Artisan::with(['user', 'produits'])
             ->where('id', $artisanId)
             ->where('statut', 'approuve')
             ->firstOrFail();
-        
+    
         return view('interfaces.shop.artisan-profile', compact('user', 'boutique', 'artisan'));
     }
+    
 
     private function showArtisanDashboard($user)
     {

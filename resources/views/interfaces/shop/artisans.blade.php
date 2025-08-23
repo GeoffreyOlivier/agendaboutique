@@ -132,7 +132,7 @@
                                 @endif
                                 
                                 <!-- Spécialités -->
-                                @if($artisan->specialites && count($artisan->specialites) > 0)
+                                @if($artisan->specialite)
                                     <div class="mb-3">
                                         <div class="flex flex-wrap gap-2">
                                             @foreach($artisan->specialites as $specialite)

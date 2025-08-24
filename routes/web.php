@@ -36,7 +36,6 @@ Route::middleware(['auth'])->group(function () {
     
     // Interface boutique
     Route::middleware(['auth'])->group(function () {
-        Route::get('/shop/dashboard', [InterfaceController::class, 'shopDashboard'])->name('shop.dashboard');
         Route::get('/shop/artisans', [InterfaceController::class, 'shopArtisans'])->name('shop.artisans');
         Route::get('/shop/artisans/{artisan}', [InterfaceController::class, 'shopArtisanProfile'])->name('shop.artisan.profile');
         

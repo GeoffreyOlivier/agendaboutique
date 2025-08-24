@@ -33,21 +33,7 @@ class InterfaceController extends Controller
         return $this->showDefaultDashboard($user);
     }
 
-    public function shopDashboard()
-    {
-        $user = Auth::user();
-        
-        if (!$user->isShop()) {
-            return redirect()->route('dashboard')->with('error', 'Vous n\'avez pas les permissions nécessaires.');
-        }
-        
-        // Sauvegarder l'interface actuelle pour les utilisateurs avec les deux rôles
-        if ($user->isShopAndArtisan()) {
-            Session::put('current_interface', 'shop');
-        }
-        
-        return $this->showShopDashboard($user);
-    }
+
 
     public function artisanDashboard()
     {

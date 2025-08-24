@@ -150,13 +150,6 @@
                         
                         @auth
                             @if(auth()->user()->isShop())
-                            <a href="{{ route('shop.dashboard') }}" class="@if(Request::is('shop/*')){{ 'text-zinc-900 border-zinc-200 dark:border-zinc-700 shadow-sm bg-white font-medium dark:border-white dark:bg-zinc-700/60 dark:text-zinc-100' }}@else{{ 'border-transparent' }}@endif transition-colors border px-2.5 py-2 flex rounded-lg w-full h-auto text-sm hover:bg-zinc-100 dark:hover:bg-zinc-700/60 justify-start items-center hover:text-zinc-900 dark:hover:text-zinc-100 space-x-2 overflow-hidden group-hover:autoflow-auto items">
-                                <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                                </svg>
-                                <span class="flex-shrink-0 ease-out duration-50">Boutique</span>
-                            </a>
-                            
                             <!-- Lien Caisse pour les boutiques -->
                             <a href="#" class="border-transparent transition-colors border px-2.5 py-2 flex rounded-lg w-full h-auto text-sm hover:bg-green-100 dark:hover:bg-green-900/30 justify-start items-center hover:text-green-700 dark:hover:text-green-300 space-x-2 overflow-hidden group-hover:autoflow-auto items bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300">
                                 <svg class="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

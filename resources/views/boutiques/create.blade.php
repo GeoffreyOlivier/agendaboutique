@@ -308,7 +308,7 @@
 
                 <!-- Boutons d'action -->
                 <div class="flex justify-end space-x-4 pt-6">
-                    <a href="{{ route('shop.dashboard') }}" 
+                    <a href="{{ route('dashboard') }}" 
                         class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors duration-200">
                         Annuler
                     </a>

@@ -30,7 +30,7 @@ class BoutiqueController extends Controller
 
         // Vérifier que l'utilisateur n'a pas déjà une boutique
         if (Auth::user()->boutique) {
-            return redirect()->route('shop.dashboard')->with('warning', 'Vous avez déjà une boutique.');
+            return redirect()->route('dashboard')->with('warning', 'Vous avez déjà une boutique.');
         }
 
         return view('boutiques.create');
@@ -48,7 +48,7 @@ class BoutiqueController extends Controller
         }
         
         if ($user->boutique) {
-            return redirect()->route('shop.dashboard')->with('error', 'Vous avez déjà une boutique.');
+            return redirect()->route('dashboard')->with('error', 'Vous avez déjà une boutique.');
         }
         
         $validated = $request->validate([
@@ -102,7 +102,7 @@ class BoutiqueController extends Controller
             'actif' => true,
         ]);
         
-        return redirect()->route('shop.dashboard')->with('success', 'Votre boutique a été créée avec succès !');
+        return redirect()->route('dashboard')->with('success', 'Votre boutique a été créée avec succès !');
     }
 
     /**
@@ -185,7 +185,7 @@ class BoutiqueController extends Controller
         
         $boutique->update($validated);
         
-        return redirect()->route('shop.dashboard')->with('success', 'Votre boutique a été mise à jour avec succès !');
+        return redirect()->route('dashboard')->with('success', 'Votre boutique a été mise à jour avec succès !');
     }
 
     /**

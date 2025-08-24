@@ -31,8 +31,8 @@ class CheckUserRole
         }
 
         if (!$hasRole) {
-            // Rediriger vers une page d'erreur ou la page d'accueil
-            return redirect()->route('home')->with('error', 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page.');
+            // Rediriger vers le dashboard avec un message d'erreur
+            return redirect()->route('dashboard')->with('error', 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page. Rôles requis : ' . implode(', ', $roles));
         }
 
         return $next($request);

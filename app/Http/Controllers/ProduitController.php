@@ -13,13 +13,7 @@ class ProduitController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware(function ($request, $next) {
-            if (!Auth::user()->isArtisan()) {
-                return redirect()->route('dashboard')->with('error', 'Accès réservé aux artisans.');
-            }
-            return $next($request);
-        });
+        // Le middleware 'role:artisan' est maintenant appliqué au niveau des routes
     }
 
     public function create()
@@ -108,30 +102,19 @@ class ProduitController extends Controller
 
     public function show(Produit $produit)
     {
-        // Vérifier que l'artisan peut voir ce produit
-        if ($produit->artisan_id !== Auth::user()->artisan->id) {
-            return redirect()->route('produits.index')->with('error', 'Accès non autorisé.');
-        }
-
+        // La vérification de propriété est maintenant gérée par le middleware resource.owner
         return view('produits.show', compact('produit'));
     }
 
     public function edit(Produit $produit)
     {
-        // Vérifier que l'artisan peut modifier ce produit
-        if ($produit->artisan_id !== Auth::user()->artisan->id) {
-            return redirect()->route('produits.index')->with('error', 'Accès non autorisé.');
-        }
-
+        // La vérification de propriété est maintenant gérée par le middleware resource.owner
         return view('produits.edit', compact('produit'));
     }
 
     public function update(Request $request, Produit $produit)
     {
-        // Vérifier que l'artisan peut modifier ce produit
-        if ($produit->artisan_id !== Auth::user()->artisan->id) {
-            return redirect()->route('produits.index')->with('error', 'Accès non autorisé.');
-        }
+        // La vérification de propriété est maintenant gérée par le middleware resource.owner
 
         $request->validate([
             'nom' => 'required|string|max:255',
@@ -192,10 +175,7 @@ class ProduitController extends Controller
 
     public function destroy(Produit $produit)
     {
-        // Vérifier que l'artisan peut supprimer ce produit
-        if ($produit->artisan_id !== Auth::user()->artisan->id) {
-            return redirect()->route('produits.index')->with('error', 'Accès non autorisé.');
-        }
+        // La vérification de propriété est maintenant gérée par le middleware resource.owner
 
         // Supprimer les images du stockage
         if ($produit->images) {

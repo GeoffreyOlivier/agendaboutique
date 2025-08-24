@@ -39,10 +39,6 @@ class InterfaceController extends Controller
     {
         $user = Auth::user();
         
-        if (!$user->isArtisan()) {
-            return redirect()->route('dashboard')->with('error', 'Vous n\'avez pas les permissions nécessaires.');
-        }
-        
         // Sauvegarder l'interface actuelle pour les utilisateurs avec les deux rôles
         if ($user->isShopAndArtisan()) {
             Session::put('current_interface', 'artisan');
@@ -89,10 +85,6 @@ class InterfaceController extends Controller
     {
         $user = Auth::user();
         
-        if (!$user->isShop()) {
-            return redirect()->route('dashboard')->with('error', 'Vous n\'avez pas les permissions nécessaires.');
-        }
-        
         $boutique = $user->boutique;
         
         // Récupérer tous les artisans approuvés avec leurs informations
@@ -106,10 +98,6 @@ class InterfaceController extends Controller
     public function shopArtisanProfile($artisanId)
     {
         $user = Auth::user();
-    
-        if (!$user->isShop()) {
-            return redirect()->route('dashboard')->with('error', 'Vous n\'avez pas les permissions nécessaires.');
-        }
     
         $boutique = $user->boutique;
     

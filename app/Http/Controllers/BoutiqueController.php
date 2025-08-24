@@ -23,11 +23,6 @@ class BoutiqueController extends Controller
      */
     public function create()
     {
-        // Vérifier que l'utilisateur a le rôle shop
-        if (!Auth::user()->hasRole('shop')) {
-            abort(403, 'Accès non autorisé');
-        }
-
         // Vérifier que l'utilisateur n'a pas déjà une boutique
         if (Auth::user()->boutique) {
             return redirect()->route('dashboard')->with('warning', 'Vous avez déjà une boutique.');
@@ -42,10 +37,6 @@ class BoutiqueController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        
-        if (!$user->isShop()) {
-            return redirect()->route('dashboard')->with('error', 'Vous n\'avez pas les permissions nécessaires.');
-        }
         
         if ($user->boutique) {
             return redirect()->route('dashboard')->with('error', 'Vous avez déjà une boutique.');
@@ -118,16 +109,7 @@ class BoutiqueController extends Controller
      */
     public function edit(Boutique $boutique)
     {
-        $user = Auth::user();
-        
-        if (!$user->isShop()) {
-            return redirect()->route('dashboard')->with('error', 'Vous n\'avez pas les permissions nécessaires.');
-        }
-        
-        if ($boutique->user_id !== $user->id) {
-            return redirect()->route('dashboard')->with('error', 'Vous ne pouvez pas modifier cette boutique.');
-        }
-        
+        // La vérification de propriété est maintenant gérée par le middleware resource.owner
         return view('boutiques.edit', compact('boutique'));
     }
 
@@ -136,15 +118,7 @@ class BoutiqueController extends Controller
      */
     public function update(Request $request, Boutique $boutique)
     {
-        $user = Auth::user();
-        
-        if (!$user->isShop()) {
-            return redirect()->route('dashboard')->with('error', 'Vous n\'avez pas les permissions nécessaires.');
-        }
-        
-        if ($boutique->user_id !== $user->id) {
-            return redirect()->route('dashboard')->with('error', 'Vous ne pouvez pas modifier cette boutique.');
-        }
+        // La vérification de propriété est maintenant gérée par le middleware resource.owner
         
         $validated = $request->validate([
             'nom' => 'required|string|max:255',

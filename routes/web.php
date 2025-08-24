@@ -6,15 +6,14 @@ use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProduitPublicController;
 use App\Http\Controllers\BoutiqueController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| Routes publiques et protégées de l'application
 |
 */
 
@@ -25,71 +24,53 @@ Route::get('/', function () {
 // Route publique pour afficher les produits
 Route::get('/catalogue', [ProduitPublicController::class, 'index'])->name('produits.public');
 
-
-
-
-
 // Routes pour les interfaces selon les rôles
 Route::middleware(['auth'])->group(function () {
     // Dashboard principal qui redirige selon le rôle
     Route::get('/dashboard', [InterfaceController::class, 'dashboard'])->name('dashboard');
     
-    // Interface boutique - routes protégées par le rôle 'shop'
-    Route::middleware(['role:shop'])->group(function () {
-        Route::get('/shop/artisans', [InterfaceController::class, 'shopArtisans'])->name('shop.artisans');
-        Route::get('/shop/artisans/{artisan}', [InterfaceController::class, 'shopArtisanProfile'])->name('shop.artisan.profile');
-        
-        // Route pour démarrer une conversation avec un artisan
-        Route::get('/chat/artisan/{artisan}', [ChatController::class, 'startConversationWithArtisan'])->name('chat.artisan.start');
-        
-        // Routes pour la création et gestion des boutiques
-        Route::get('/shop/create', [BoutiqueController::class, 'create'])->name('boutiques.create');
-        Route::post('/shop/store', [BoutiqueController::class, 'store'])->name('boutiques.store');
-        Route::get('/shop/{boutique}/edit', [BoutiqueController::class, 'edit'])->name('boutiques.edit')->middleware('resource.owner:boutique');
-        Route::put('/shop/{boutique}', [BoutiqueController::class, 'update'])->name('boutiques.update')->middleware('resource.owner:boutique');
+    // Routes boutique (rôle 'shop')
+    Route::middleware(['role:shop'])->prefix('shop')->name('shop.')->group(function () {
+        Route::get('/artisans', [InterfaceController::class, 'shopArtisans'])->name('artisans');
+        Route::get('/artisans/{artisan}', [InterfaceController::class, 'shopArtisanProfile'])->name('artisan.profile');
+        Route::get('/create', [BoutiqueController::class, 'create'])->name('create');
+        Route::post('/store', [BoutiqueController::class, 'store'])->name('store');
+        Route::get('/{boutique}/edit', [BoutiqueController::class, 'edit'])->name('edit')->middleware('resource.owner:boutique');
+        Route::put('/{boutique}', [BoutiqueController::class, 'update'])->name('update')->middleware('resource.owner:boutique');
     });
     
-    // Interface artisan - routes protégées par le rôle 'artisan'
-    Route::middleware(['role:artisan'])->group(function () {
-        Route::get('/artisan/dashboard', [InterfaceController::class, 'artisanDashboard'])->name('artisan.dashboard');
+    // Routes artisan (rôle 'artisan')
+    Route::middleware(['role:artisan'])->prefix('artisan')->name('artisan.')->group(function () {
+        Route::get('/dashboard', [InterfaceController::class, 'artisanDashboard'])->name('dashboard');
     });
     
     // Interface par défaut
     Route::get('/default/dashboard', [InterfaceController::class, 'defaultDashboard'])->name('default.dashboard');
     
     // Routes pour assigner les rôles
-    Route::post('/assign/shop-role', function () {
-        $user = auth()->user();
-        $user->assignShopRole();
-        return redirect()->route('dashboard')->with('success', 'Rôle boutique assigné avec succès !');
-    })->name('assign.shop.role');
-
-    Route::post('/assign/artisan-role', function () {
-        $user = auth()->user();
-        $user->assignArtisanRole();
-        return redirect()->route('dashboard')->with('success', 'Rôle artisan assigné avec succès !');
-    })->name('assign.artisan.role');
-
-    Route::post('/assign/both-roles', function () {
-        $user = auth()->user();
-        $user->assignShopAndArtisanRoles();
-        return redirect()->route('dashboard')->with('success', 'Rôles boutique et artisan assignés avec succès !');
-    })->name('assign.both.roles');
+    Route::post('/assign/shop-role', [RoleController::class, 'assignShopRole'])->name('assign.shop.role');
+    Route::post('/assign/artisan-role', [RoleController::class, 'assignArtisanRole'])->name('assign.artisan.role');
+    Route::post('/assign/both-roles', [RoleController::class, 'assignBothRoles'])->name('assign.both.roles');
     
     // Route pour switcher entre les interfaces
     Route::post('/switch-interface', [InterfaceController::class, 'switchInterface'])->name('switch.interface');
     
-    // Routes pour la gestion des produits (artisans uniquement)
-    Route::resource('produits', ProduitController::class)
-        ->middleware('role:artisan')
-        ->except(['show', 'edit', 'update', 'destroy']);
+    // Routes chat
+    Route::get('/chat/artisan/{artisan}', [ChatController::class, 'startConversationWithArtisan'])
+        ->name('chat.artisan.start')
+        ->middleware('role:shop');
     
-    // Routes protégées par la propriété des ressources
-    Route::middleware(['role:artisan', 'resource.owner:produit'])->group(function () {
-        Route::get('/produits/{produit}', [ProduitController::class, 'show'])->name('produits.show');
-        Route::get('/produits/{produit}/edit', [ProduitController::class, 'edit'])->name('produits.edit');
-        Route::put('/produits/{produit}', [ProduitController::class, 'update'])->name('produits.update');
-        Route::delete('/produits/{produit}', [ProduitController::class, 'destroy'])->name('produits.destroy');
+    // Routes produits (rôle 'artisan' + propriété)
+    Route::middleware(['role:artisan'])->group(function () {
+        Route::resource('produits', ProduitController::class)
+            ->except(['show', 'edit', 'update', 'destroy']);
+        
+        Route::middleware(['resource.owner:produit'])->group(function () {
+            Route::get('/produits/{produit}', [ProduitController::class, 'show'])->name('produits.show');
+            Route::get('/produits/{produit}/edit', [ProduitController::class, 'edit'])->name('produits.edit');
+            Route::put('/produits/{produit}', [ProduitController::class, 'update'])->name('produits.update');
+            Route::delete('/produits/{produit}', [ProduitController::class, 'destroy'])->name('produits.destroy');
+        });
     });
 });
 

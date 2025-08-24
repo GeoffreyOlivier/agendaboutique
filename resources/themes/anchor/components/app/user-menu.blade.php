@@ -31,7 +31,7 @@
                 <x-app.sidebar-link :hideUntilGroupHover="false" href="{{ '/profile/' . auth()->user()->username }}" icon="phosphor-planet-duotone" active="false">Public Profile</x-app.sidebar-link>
 
                 @if(auth()->user()->isShop() && auth()->user()->boutique)
-                    <x-app.sidebar-link :hideUntilGroupHover="false" href="{{ route('boutiques.edit', auth()->user()->boutique->id) }}" icon="phosphor-store-duotone" active="false">Paramètres Boutique</x-app.sidebar-link>
+                    <x-app.sidebar-link :hideUntilGroupHover="false" href="{{ route('shop.edit', auth()->user()->boutique->id) }}" icon="phosphor-store-duotone" active="false">Paramètres Boutique</x-app.sidebar-link>
                 @endif
 
                 {{-- @subscriber

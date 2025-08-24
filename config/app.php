@@ -200,6 +200,7 @@ return [
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FolioServiceProvider::class,
+        App\Providers\ImageServiceProvider::class,
 
         \DevDojo\Themes\ThemesServiceProvider::class,
         App\Providers\VoltServiceProvider::class,

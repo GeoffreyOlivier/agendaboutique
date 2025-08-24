@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBoutiqueRequest;
 use App\Http\Requests\UpdateBoutiqueRequest;
 use App\Models\Boutique;
+use App\Services\BoutiqueImageService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class BoutiqueController extends Controller
 {
+    protected BoutiqueImageService $imageService;
+
+    public function __construct(BoutiqueImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -102,14 +109,12 @@ class BoutiqueController extends Controller
         
         // Gestion de la photo
         if ($request->hasFile('photo')) {
-            // Supprimer l'ancienne photo si elle existe
-            if ($boutique->photo && Storage::disk('public')->exists($boutique->photo)) {
-                Storage::disk('public')->delete($boutique->photo);
-            }
-            
-            // Stocker la nouvelle photo
-            $photoPath = $request->file('photo')->store('boutiques/photos', 'public');
-            $validated['photo'] = $photoPath;
+            $photoResult = $this->imageService->updatePhoto(
+                $request->file('photo'),
+                $boutique->id,
+                $boutique->photo
+            );
+            $validated['photo'] = $photoResult['path'];
         }
         
         $boutique->update($validated);

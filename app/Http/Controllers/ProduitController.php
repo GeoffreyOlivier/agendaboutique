@@ -6,14 +6,16 @@ use App\Http\Requests\StoreProduitRequest;
 use App\Http\Requests\UpdateProduitRequest;
 use App\Models\Produit;
 use App\Models\Artisan;
+use App\Services\ProduitImageService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ProduitController extends Controller
 {
-    public function __construct()
+    protected ProduitImageService $imageService;
+
+    public function __construct(ProduitImageService $imageService)
     {
+        $this->imageService = $imageService;
         // Le middleware 'role:artisan' est maintenant appliqué au niveau des routes
     }
 
@@ -52,15 +54,12 @@ class ProduitController extends Controller
         $produit->disponible = true; // Utilise disponible au lieu de actif
 
         // Gestion des images
-        $images = [];
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-                $path = $image->storeAs('produits', $filename, 'public');
-                $images[] = $path;
-            }
+            $imageResults = $this->imageService->storeImages($request->file('images'), $artisan->id);
+            $produit->images = array_column($imageResults, 'path');
+        } else {
+            $produit->images = [];
         }
-        $produit->images = $images;
 
         $produit->save();
 
@@ -114,33 +113,16 @@ class ProduitController extends Controller
         $produit->matiere = $validated['couleur'];
         $produit->instructions_entretien = $validated['instructions_entretien'];
 
-        // Gestion des images existantes et suppression
+        // Gestion des images avec le service
         $images = $produit->images ?? [];
-        if ($request->has('delete_images') && is_array($request->delete_images)) {
-            foreach ($request->delete_images as $imageToDelete) {
-                // Trouver l'index de l'image à supprimer
-                $index = array_search($imageToDelete, $images);
-                if ($index !== false) {
-                    // Supprimer l'image du stockage
-                    Storage::disk('public')->delete($imageToDelete);
-                    // Retirer l'image du tableau
-                    unset($images[$index]);
-                }
-            }
-            // Réindexer le tableau
-            $images = array_values($images);
-        }
-
-        // Ajouter de nouvelles images
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-                $path = $image->storeAs('produits', $filename, 'public');
-                $images[] = $path;
-            }
-        }
-
-        $produit->images = $images;
+        $imagesToDelete = $request->input('delete_images', []);
+        
+        $produit->images = $this->imageService->updateImages(
+            $request->file('images', []),
+            $artisan->id,
+            $images,
+            $imagesToDelete
+        );
         $produit->save();
 
         return redirect()->route('produits.index')->with('success', 'Produit mis à jour avec succès !');
@@ -150,11 +132,9 @@ class ProduitController extends Controller
     {
         // La vérification de propriété est maintenant gérée par le middleware resource.owner
 
-        // Supprimer les images du stockage
+        // Supprimer toutes les images du produit
         if ($produit->images) {
-            foreach ($produit->images as $image) {
-                Storage::disk('public')->delete($image);
-            }
+            $this->imageService->deleteAllImages($produit->artisan_id);
         }
 
         $produit->delete();

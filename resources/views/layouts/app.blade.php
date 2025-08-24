@@ -397,5 +397,8 @@
     
     @livewireScripts
     @filamentScripts
+    
+    <!-- Script de validation des images -->
+    <script src="{{ asset('js/image-upload-validation.js') }}"></script>
 </body>
 </html>

@@ -35,7 +35,7 @@ class UpdateProduitRequest extends FormRequest
             'dimensions.profondeur' => 'nullable|numeric|min:0',
             'couleur' => 'nullable|string|max:100',
             'instructions_entretien' => 'nullable|string|max:500',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'delete_images' => 'nullable|array',
             'delete_images.*' => 'string',
         ];
@@ -68,9 +68,9 @@ class UpdateProduitRequest extends FormRequest
             'dimensions.profondeur.min' => 'La profondeur ne peut pas être négative.',
             'couleur.max' => 'La couleur ne peut pas dépasser 100 caractères.',
             'instructions_entretien.max' => 'Les instructions d\'entretien ne peuvent pas dépasser 500 caractères.',
-            'images.*.image' => 'Chaque fichier doit être une image.',
-            'images.*.mimes' => 'Chaque image doit être au format JPEG, PNG, JPG ou GIF.',
-            'images.*.max' => 'Chaque image ne peut pas dépasser 2 Mo.',
+            'images.*.image' => 'Chaque fichier doit être une image valide.',
+            'images.*.mimes' => 'Chaque image doit être au format JPEG, PNG, JPG, GIF ou WebP.',
+            'images.*.max' => 'Chaque image ne peut pas dépasser 2 Mo. Veuillez compresser vos images ou choisir des fichiers plus légers.',
             'delete_images.array' => 'La liste des images à supprimer doit être une liste.',
         ];
     }

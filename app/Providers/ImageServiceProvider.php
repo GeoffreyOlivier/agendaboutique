@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Contracts\Services\ImageServiceInterface;
 use App\Services\LocalImageService;
+use App\Services\ImageValidationService;
 use Illuminate\Support\ServiceProvider;
 
 class ImageServiceProvider extends ServiceProvider
@@ -14,7 +15,7 @@ class ImageServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(ImageServiceInterface::class, function ($app) {
-            return new LocalImageService();
+            return new LocalImageService($app->make(ImageValidationService::class));
         });
 
         // Alias pour faciliter l'utilisation

@@ -1,0 +1,22 @@
+# Configuration Nginx pour les uploads de fichiers
+# Ajoutez ces lignes dans votre configuration de site
+
+server {
+    # ... autres configurations ...
+
+    # Configuration pour les uploads
+    client_max_body_size 10M;
+    
+    # Configuration PHP-FPM
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        
+        # Timeouts pour les uploads
+        fastcgi_read_timeout 300;
+        fastcgi_connect_timeout 300;
+        fastcgi_send_timeout 300;
+    }
+}

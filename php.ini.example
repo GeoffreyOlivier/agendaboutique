@@ -1,0 +1,20 @@
+; Configuration pour les uploads de fichiers
+; Copiez ce fichier vers php.ini et ajustez les valeurs selon vos besoins
+
+; Taille maximale des données POST (doit être >= upload_max_filesize)
+post_max_size = 10M
+
+; Taille maximale d'un fichier uploadé
+upload_max_filesize = 2M
+
+; Nombre maximum de fichiers uploadés simultanément
+max_file_uploads = 20
+
+; Taille maximale de la mémoire pour traiter les uploads
+memory_limit = 256M
+
+; Temps maximum d'exécution pour les uploads
+max_execution_time = 300
+
+; Temps maximum d'input pour les uploads
+max_input_time = 300

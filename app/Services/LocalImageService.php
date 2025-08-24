@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Services\ImageServiceInterface;
+use App\Services\ImageValidationService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -20,7 +21,12 @@ class LocalImageService implements ImageServiceInterface
      */
     protected array $defaultOptions;
 
-    public function __construct()
+    /**
+     * Service de validation des images
+     */
+    protected ImageValidationService $validationService;
+
+    public function __construct(ImageValidationService $validationService)
     {
         $this->disk = config('filesystems.default', 'public');
         $this->defaultOptions = [
@@ -29,6 +35,7 @@ class LocalImageService implements ImageServiceInterface
             'quality' => 85,
             'format' => 'jpg',
         ];
+        $this->validationService = $validationService;
     }
 
     /**
@@ -36,6 +43,13 @@ class LocalImageService implements ImageServiceInterface
      */
     public function store(UploadedFile $file, string $path, ?array $options = null): array
     {
+        // Valider l'image avant de la stocker
+        try {
+            $imageInfo = $this->validationService->validate($file);
+        } catch (\Exception $e) {
+            throw new \Exception('Erreur de validation de l\'image : ' . $e->getMessage());
+        }
+        
         $options = array_merge($this->defaultOptions, $options ?? []);
         
         // Générer un nom de fichier unique

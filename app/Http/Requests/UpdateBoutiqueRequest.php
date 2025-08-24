@@ -44,7 +44,7 @@ class UpdateBoutiqueRequest extends FormRequest
             'tiktok_url' => 'nullable|url|max:255',
             'facebook_url' => 'nullable|url|max:255',
             'horaires_ouverture' => 'nullable|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ];
     }
 
@@ -81,9 +81,9 @@ class UpdateBoutiqueRequest extends FormRequest
             'instagram_url.url' => 'L\'URL Instagram doit être valide.',
             'tiktok_url.url' => 'L\'URL TikTok doit être valide.',
             'facebook_url.url' => 'L\'URL Facebook doit être valide.',
-            'photo.image' => 'Le fichier doit être une image.',
-            'photo.mimes' => 'L\'image doit être au format JPEG, PNG, JPG ou GIF.',
-            'photo.max' => 'L\'image ne peut pas dépasser 2 Mo.',
+            'photo.image' => 'Le fichier doit être une image valide.',
+            'photo.mimes' => 'L\'image doit être au format JPEG, PNG, JPG, GIF ou WebP.',
+            'photo.max' => 'L\'image ne peut pas dépasser 2 Mo. Veuillez compresser votre image ou choisir un fichier plus léger.',
         ];
     }
 

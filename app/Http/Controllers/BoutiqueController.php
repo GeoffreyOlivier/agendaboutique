@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBoutiqueRequest;
 use App\Http\Requests\UpdateBoutiqueRequest;
 use App\Models\Boutique;
-use App\Services\BoutiqueImageService;
+use App\Services\Boutique\BoutiqueService;
+use App\Services\Boutique\BoutiqueImageService;
 use Illuminate\Support\Facades\Auth;
 
 class BoutiqueController extends Controller
 {
+    protected BoutiqueService $boutiqueService;
     protected BoutiqueImageService $imageService;
 
-    public function __construct(BoutiqueImageService $imageService)
+    public function __construct(BoutiqueService $boutiqueService, BoutiqueImageService $imageService)
     {
+        $this->boutiqueService = $boutiqueService;
         $this->imageService = $imageService;
     }
 
@@ -49,36 +52,12 @@ class BoutiqueController extends Controller
             return redirect()->route('dashboard')->with('error', 'Vous avez déjà une boutique.');
         }
         
-        $validated = $request->validated();
-        
-        $boutique = Boutique::create([
-            'user_id' => $user->id,
-            'nom' => $validated['nom'],
-            'description' => $validated['description'],
-            'adresse' => $validated['adresse'],
-            'ville' => $validated['ville'],
-            'code_postal' => $validated['code_postal'],
-            'pays' => $validated['pays'],
-            'telephone' => $validated['telephone'],
-            'email' => $validated['email'],
-            'taille' => $validated['taille'],
-            'siret' => $validated['siret'],
-            'tva' => $validated['tva'],
-            'loyer_depot_vente' => $validated['loyer_depot_vente'],
-            'loyer_permanence' => $validated['loyer_permanence'],
-            'commission_depot_vente' => $validated['commission_depot_vente'],
-            'commission_permanence' => $validated['commission_permanence'],
-            'nb_permanences_mois_indicatif' => $validated['nb_permanences_mois_indicatif'],
-            'site_web' => $validated['site_web'],
-            'instagram_url' => $validated['instagram_url'],
-            'tiktok_url' => $validated['tiktok_url'],
-            'facebook_url' => $validated['facebook_url'],
-            'horaires_ouverture' => $validated['horaires_ouverture'],
-            'statut' => 'en_attente',
-            'actif' => true,
-        ]);
-        
-        return redirect()->route('dashboard')->with('success', 'Votre boutique a été créée avec succès !');
+        try {
+            $boutique = $this->boutiqueService->createBoutique($request->validated(), $user);
+            return redirect()->route('dashboard')->with('success', 'Votre boutique a été créée avec succès !');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Erreur lors de la création de la boutique. Veuillez réessayer.');
+        }
     }
 
     /**
@@ -105,21 +84,12 @@ class BoutiqueController extends Controller
     {
         // La vérification de propriété est maintenant gérée par le middleware resource.owner
         
-        $validated = $request->validated();
-        
-        // Gestion de la photo
-        if ($request->hasFile('photo')) {
-            $photoResult = $this->imageService->updatePhoto(
-                $request->file('photo'),
-                $boutique->id,
-                $boutique->photo
-            );
-            $validated['photo'] = $photoResult['path'];
+        try {
+            $this->boutiqueService->updateBoutique($boutique, $request->validated());
+            return redirect()->route('dashboard')->with('success', 'Votre boutique a été mise à jour avec succès !');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Erreur lors de la mise à jour de la boutique. Veuillez réessayer.');
         }
-        
-        $boutique->update($validated);
-        
-        return redirect()->route('dashboard')->with('success', 'Votre boutique a été mise à jour avec succès !');
     }
 
     /**

@@ -201,6 +201,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FolioServiceProvider::class,
         App\Providers\ImageServiceProvider::class,
+        App\Providers\ServiceServiceProvider::class,
 
         \DevDojo\Themes\ThemesServiceProvider::class,
         App\Providers\VoltServiceProvider::class,

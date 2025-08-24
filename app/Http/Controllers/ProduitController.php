@@ -6,15 +6,18 @@ use App\Http\Requests\StoreProduitRequest;
 use App\Http\Requests\UpdateProduitRequest;
 use App\Models\Produit;
 use App\Models\Artisan;
-use App\Services\ProduitImageService;
+use App\Services\Produit\ProduitService;
+use App\Services\Produit\ProduitImageService;
 use Illuminate\Support\Facades\Auth;
 
 class ProduitController extends Controller
 {
+    protected ProduitService $produitService;
     protected ProduitImageService $imageService;
 
-    public function __construct(ProduitImageService $imageService)
+    public function __construct(ProduitService $produitService, ProduitImageService $imageService)
     {
+        $this->produitService = $produitService;
         $this->imageService = $imageService;
         // Le middleware 'role:artisan' est maintenant appliqué au niveau des routes
     }
@@ -38,32 +41,19 @@ class ProduitController extends Controller
             return redirect()->route('dashboard')->with('error', 'Vous devez avoir un profil artisan pour ajouter des produits.');
         }
 
-        $validated = $request->validated();
-
-        $produit = new Produit();
-        $produit->artisan_id = $artisan->id;
-        $produit->nom = $validated['nom'];
-        $produit->description = $validated['description'];
-        $produit->prix_base = $validated['prix']; // Utilise prix_base au lieu de prix
-        $produit->categorie = $validated['categorie'];
-        $produit->tags = $validated['materiaux'] ?? []; // Utilise tags au lieu de materiaux
-        $produit->dimensions = $validated['dimensions'] ?? [];
-        $produit->matiere = $validated['couleur']; // Utilise matiere au lieu de couleur
-        $produit->instructions_entretien = $validated['instructions_entretien'];
-        $produit->statut = 'publie'; // Utilise 'publie' au lieu de 'disponible'
-        $produit->disponible = true; // Utilise disponible au lieu de actif
-
-        // Gestion des images
-        if ($request->hasFile('images')) {
-            $imageResults = $this->imageService->storeImages($request->file('images'), $artisan->id);
-            $produit->images = array_column($imageResults, 'path');
-        } else {
-            $produit->images = [];
+        try {
+            // Adapter les données pour le service
+            $data = $request->validated();
+            $data['prix_base'] = $data['prix'] ?? null;
+            $data['tags'] = $data['materiaux'] ?? [];
+            $data['matiere'] = $data['couleur'] ?? null;
+            $data['images'] = $request->file('images');
+            
+            $produit = $this->produitService->createProduit($data, $artisan);
+            return redirect()->route('artisan.dashboard')->with('success', 'Produit ajouté avec succès !');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Erreur lors de la création du produit. Veuillez réessayer.');
         }
-
-        $produit->save();
-
-        return redirect()->route('artisan.dashboard')->with('success', 'Produit ajouté avec succès !');
     }
 
     public function index()

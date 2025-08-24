@@ -4,17 +4,20 @@ namespace App\Services\Produit;
 
 use App\Models\Produit;
 use App\Models\Artisan;
-use App\Services\Produit\ProduitImageService;
+use App\Services\ProduitImageService;
+use App\Repositories\ProduitRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ProduitService
 {
     protected ProduitImageService $imageService;
+    protected ProduitRepository $produitRepository;
 
-    public function __construct(ProduitImageService $imageService)
+    public function __construct(ProduitImageService $imageService, ProduitRepository $produitRepository)
     {
         $this->imageService = $imageService;
+        $this->produitRepository = $produitRepository;
     }
 
     /**
@@ -43,7 +46,7 @@ class ProduitService
                 $imagePrincipale = $images[0];
             }
 
-            $produit = Produit::create([
+            $produitData = [
                 'artisan_id' => $artisan->id,
                 'nom' => $data['nom'],
                 'description' => $data['description'] ?? null,
@@ -63,7 +66,9 @@ class ProduitService
                 'stock' => $data['stock'] ?? null,
                 'reference' => $data['reference'] ?? $this->generateReference($artisan),
                 'duree_fabrication' => $data['duree_fabrication'] ?? null,
-            ]);
+            ];
+
+            $produit = $this->produitRepository->create($produitData);
 
             DB::commit();
             Log::info("Produit créé avec succès pour l'artisan {$artisan->id}");
@@ -112,7 +117,7 @@ class ProduitService
                 $data['image_principale'] = $imageData['path'];
             }
 
-            $produit->update($data);
+            $this->produitRepository->update($produit, $data);
 
             DB::commit();
             Log::info("Produit {$produit->id} mis à jour avec succès");
@@ -144,7 +149,7 @@ class ProduitService
                 $this->imageService->deleteImage($produit->image_principale);
             }
 
-            $produit->delete();
+            $this->produitRepository->delete($produit);
 
             DB::commit();
             Log::info("Produit {$produit->id} supprimé avec succès");
@@ -163,7 +168,7 @@ class ProduitService
     public function publishProduit(Produit $produit): bool
     {
         try {
-            $produit->update(['statut' => 'publie']);
+            $this->produitRepository->update($produit, ['statut' => 'publie']);
             Log::info("Produit {$produit->id} publié");
             return true;
         } catch (\Exception $e) {
@@ -178,7 +183,7 @@ class ProduitService
     public function draftProduit(Produit $produit): bool
     {
         try {
-            $produit->update(['statut' => 'brouillon']);
+            $this->produitRepository->update($produit, ['statut' => 'brouillon']);
             Log::info("Produit {$produit->id} mis en brouillon");
             return true;
         } catch (\Exception $e) {
@@ -192,7 +197,7 @@ class ProduitService
      */
     public function getAvailableProduits()
     {
-        return Produit::disponibles()->actifs()->with('artisan')->get();
+        return $this->produitRepository->getAvailableProduits();
     }
 
     /**
@@ -200,7 +205,7 @@ class ProduitService
      */
     public function getProduitsByCategory(string $category)
     {
-        return Produit::parCategorie($category)->disponibles()->actifs()->with('artisan')->get();
+        return $this->produitRepository->getProduitsByCategory($category);
     }
 
     /**
@@ -208,7 +213,7 @@ class ProduitService
      */
     public function getProduitsByArtisan(Artisan $artisan)
     {
-        return $artisan->produits()->with('artisan')->get();
+        return $this->produitRepository->getProduitsByArtisan($artisan);
     }
 
     /**

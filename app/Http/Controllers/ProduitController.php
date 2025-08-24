@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateProduitRequest;
 use App\Models\Produit;
 use App\Models\Artisan;
 use App\Services\Produit\ProduitService;
-use App\Services\Produit\ProduitImageService;
+use App\Services\ProduitImageService;
 use Illuminate\Support\Facades\Auth;
 
 class ProduitController extends Controller

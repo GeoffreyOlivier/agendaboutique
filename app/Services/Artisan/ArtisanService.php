@@ -4,17 +4,20 @@ namespace App\Services\Artisan;
 
 use App\Models\Artisan;
 use App\Models\User;
-use App\Services\Artisan\ArtisanImageService;
+use App\Services\ArtisanImageService;
+use App\Repositories\ArtisanRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ArtisanService
 {
     protected ArtisanImageService $imageService;
+    protected ArtisanRepository $artisanRepository;
 
-    public function __construct(ArtisanImageService $imageService)
+    public function __construct(ArtisanImageService $imageService, ArtisanRepository $artisanRepository)
     {
         $this->imageService = $imageService;
+        $this->artisanRepository = $artisanRepository;
     }
 
     /**
@@ -32,7 +35,7 @@ class ArtisanService
                 $avatar = $avatarData['path'];
             }
 
-            $artisan = Artisan::create([
+            $artisanData = [
                 'user_id' => $user->id,
                 'nom' => $data['nom'],
                 'prenom' => $data['prenom'] ?? null,
@@ -59,7 +62,9 @@ class ArtisanService
                 'statut' => 'en_attente',
                 'actif' => true,
                 'avatar' => $avatar,
-            ]);
+            ];
+
+            $artisan = $this->artisanRepository->create($artisanData);
 
             DB::commit();
             Log::info("Profil artisan créé avec succès pour l'utilisateur {$user->id}");
@@ -90,7 +95,7 @@ class ArtisanService
                 $data['avatar'] = $avatarData['path'];
             }
 
-            $artisan->update($data);
+            $this->artisanRepository->update($artisan, $data);
 
             DB::commit();
             Log::info("Profil artisan {$artisan->id} mis à jour avec succès");
@@ -124,8 +129,8 @@ class ArtisanService
                 $produit->delete();
             }
 
-            // Supprimer le profil artisan
-            $artisan->delete();
+            // Supprimer le profil artisan via le repository
+            $this->artisanRepository->delete($artisan);
 
             DB::commit();
             Log::info("Profil artisan {$artisan->id} supprimé avec succès");
@@ -144,7 +149,7 @@ class ArtisanService
     public function approveArtisan(Artisan $artisan): bool
     {
         try {
-            $artisan->update(['statut' => 'approuve']);
+            $this->artisanRepository->update($artisan, ['statut' => 'approuve']);
             Log::info("Artisan {$artisan->id} approuvé");
             return true;
         } catch (\Exception $e) {
@@ -159,7 +164,7 @@ class ArtisanService
     public function rejectArtisan(Artisan $artisan, string $raison = null): bool
     {
         try {
-            $artisan->update([
+            $this->artisanRepository->update($artisan, [
                 'statut' => 'rejete',
                 'raison_rejet' => $raison
             ]);
@@ -177,7 +182,7 @@ class ArtisanService
     public function toggleArtisanStatus(Artisan $artisan): bool
     {
         try {
-            $artisan->update(['actif' => !$artisan->actif]);
+            $this->artisanRepository->update($artisan, ['actif' => !$artisan->actif]);
             $status = $artisan->actif ? 'activé' : 'désactivé';
             Log::info("Artisan {$artisan->id} {$status}");
             return true;
@@ -192,19 +197,15 @@ class ArtisanService
      */
     public function getApprovedArtisans()
     {
-        return Artisan::where('statut', 'approuve')->actifs()->with('user')->get();
+        return $this->artisanRepository->getApprovedArtisans();
     }
 
     /**
      * Obtenir les artisans par spécialité
      */
-    public function getArtisansBySpeciality(string $speciality)
+    public function getArtisanBySpeciality(string $speciality)
     {
-        return Artisan::where('specialite', $speciality)
-                     ->where('statut', 'approuve')
-                     ->actifs()
-                     ->with('user')
-                     ->get();
+        return $this->artisanRepository->getArtisansBySpeciality($speciality);
     }
 
     /**
@@ -212,7 +213,7 @@ class ArtisanService
      */
     public function getPendingArtisans()
     {
-        return Artisan::where('statut', 'en_attente')->with('user')->get();
+        return $this->artisanRepository->getPendingArtisans();
     }
 
     /**
@@ -242,24 +243,6 @@ class ArtisanService
      */
     public function searchArtisans(array $criteria)
     {
-        $query = Artisan::where('statut', 'approuve')->actifs();
-
-        if (isset($criteria['specialite'])) {
-            $query->where('specialite', 'like', '%' . $criteria['specialite'] . '%');
-        }
-
-        if (isset($criteria['ville'])) {
-            $query->where('ville', 'like', '%' . $criteria['ville'] . '%');
-        }
-
-        if (isset($criteria['disponibilite'])) {
-            $query->where('disponibilite', $criteria['disponibilite']);
-        }
-
-        if (isset($criteria['tarif_max'])) {
-            $query->where('tarif_horaire', '<=', $criteria['tarif_max']);
-        }
-
-        return $query->with('user')->get();
+        return $this->artisanRepository->searchArtisans($criteria);
     }
 }

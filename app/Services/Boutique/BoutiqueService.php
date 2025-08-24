@@ -4,8 +4,9 @@ namespace App\Services\Boutique;
 
 use App\Models\Boutique;
 use App\Models\User;
-use App\Services\Boutique\BoutiqueImageService;
+use App\Services\BoutiqueImageService;
 use App\Services\ValidationService;
+use App\Repositories\BoutiqueRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -14,11 +15,16 @@ class BoutiqueService
 {
     protected BoutiqueImageService $imageService;
     protected ValidationService $validationService;
+    protected BoutiqueRepository $boutiqueRepository;
 
-    public function __construct(BoutiqueImageService $imageService, ValidationService $validationService)
-    {
+    public function __construct(
+        BoutiqueImageService $imageService, 
+        ValidationService $validationService,
+        BoutiqueRepository $boutiqueRepository
+    ) {
         $this->imageService = $imageService;
         $this->validationService = $validationService;
+        $this->boutiqueRepository = $boutiqueRepository;
     }
 
     /**
@@ -35,7 +41,7 @@ class BoutiqueService
             $data = $this->validationService->validateContactInfo($data);
             $data = $this->validationService->validateFinancialInfo($data);
 
-            $boutique = Boutique::create([
+            $boutiqueData = [
                 'user_id' => $user->id,
                 'nom' => $data['nom'],
                 'description' => $data['description'] ?? null,
@@ -60,7 +66,9 @@ class BoutiqueService
                 'horaires_ouverture' => $data['horaires_ouverture'] ?? null,
                 'statut' => 'en_attente',
                 'actif' => true,
-            ]);
+            ];
+
+            $boutique = $this->boutiqueRepository->create($boutiqueData);
 
             DB::commit();
             Log::info("Boutique créée avec succès pour l'utilisateur {$user->id}");
@@ -91,7 +99,7 @@ class BoutiqueService
                 $data['photo'] = $photoData['path'];
             }
 
-            $boutique->update($data);
+            $this->boutiqueRepository->update($boutique, $data);
 
             DB::commit();
             Log::info("Boutique {$boutique->id} mise à jour avec succès");
@@ -120,8 +128,8 @@ class BoutiqueService
             // Supprimer les relations avec les artisans
             $boutique->artisans()->detach();
 
-            // Supprimer la boutique
-            $boutique->delete();
+            // Supprimer la boutique via le repository
+            $this->boutiqueRepository->delete($boutique);
 
             DB::commit();
             Log::info("Boutique {$boutique->id} supprimée avec succès");
@@ -140,7 +148,7 @@ class BoutiqueService
     public function approveBoutique(Boutique $boutique): bool
     {
         try {
-            $boutique->update(['statut' => 'approuve']);
+            $this->boutiqueRepository->update($boutique, ['statut' => 'approuve']);
             Log::info("Boutique {$boutique->id} approuvée");
             return true;
         } catch (\Exception $e) {
@@ -155,7 +163,7 @@ class BoutiqueService
     public function rejectBoutique(Boutique $boutique, string $raison = null): bool
     {
         try {
-            $boutique->update([
+            $this->boutiqueRepository->update($boutique, [
                 'statut' => 'rejete',
                 'raison_rejet' => $raison
             ]);
@@ -173,7 +181,7 @@ class BoutiqueService
     public function toggleBoutiqueStatus(Boutique $boutique): bool
     {
         try {
-            $boutique->update(['actif' => !$boutique->actif]);
+            $this->boutiqueRepository->update($boutique, ['actif' => !$boutique->actif]);
             $status = $boutique->actif ? 'activée' : 'désactivée';
             Log::info("Boutique {$boutique->id} {$status}");
             return true;
@@ -188,7 +196,7 @@ class BoutiqueService
      */
     public function getApprovedBoutiques()
     {
-        return Boutique::approuvees()->actives()->with('user')->get();
+        return $this->boutiqueRepository->getApprovedBoutiques();
     }
 
     /**
@@ -196,7 +204,7 @@ class BoutiqueService
      */
     public function getPendingBoutiques()
     {
-        return Boutique::where('statut', 'en_attente')->with('user')->get();
+        return $this->boutiqueRepository->getPendingBoutiques();
     }
 
     /**
@@ -225,23 +233,7 @@ class BoutiqueService
      */
     public function searchBoutiques(array $criteria)
     {
-        $query = Boutique::approuvees()->actives();
-
-        if (isset($criteria['ville'])) {
-            $query->where('ville', 'like', '%' . $criteria['ville'] . '%');
-        }
-
-        if (isset($criteria['taille'])) {
-            $query->where('taille', $criteria['taille']);
-        }
-
-        if (isset($criteria['specialite'])) {
-            $query->whereHas('artisans', function ($q) use ($criteria) {
-                $q->where('specialite', 'like', '%' . $criteria['specialite'] . '%');
-            });
-        }
-
-        return $query->with('user', 'artisans')->get();
+        return $this->boutiqueRepository->searchBoutiques($criteria);
     }
 
     /**
@@ -249,11 +241,7 @@ class BoutiqueService
      */
     public function getBoutiquesByCity(string $city)
     {
-        return Boutique::approuvees()
-            ->actives()
-            ->where('ville', 'like', '%' . $city . '%')
-            ->with('user', 'artisans')
-            ->get();
+        return $this->boutiqueRepository->getBoutiquesByCity($city);
     }
 
     /**
@@ -261,10 +249,6 @@ class BoutiqueService
      */
     public function getBoutiquesBySize(string $size)
     {
-        return Boutique::approuvees()
-            ->actives()
-            ->where('taille', $size)
-            ->with('user', 'artisans')
-            ->get();
+        return $this->boutiqueRepository->getBoutiquesBySize($size);
     }
 }

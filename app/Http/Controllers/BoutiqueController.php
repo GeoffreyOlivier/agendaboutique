@@ -6,7 +6,7 @@ use App\Http\Requests\StoreBoutiqueRequest;
 use App\Http\Requests\UpdateBoutiqueRequest;
 use App\Models\Boutique;
 use App\Services\Boutique\BoutiqueService;
-use App\Services\Boutique\BoutiqueImageService;
+use App\Services\BoutiqueImageService;
 use Illuminate\Support\Facades\Auth;
 
 class BoutiqueController extends Controller

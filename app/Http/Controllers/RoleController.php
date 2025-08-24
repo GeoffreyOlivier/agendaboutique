@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\AssignRoleRequest;
 use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
@@ -10,7 +10,7 @@ class RoleController extends Controller
     /**
      * Assigner le rôle boutique à l'utilisateur
      */
-    public function assignShopRole()
+    public function assignShopRole(AssignRoleRequest $request)
     {
         $user = Auth::user();
         $user->assignShopRole();
@@ -22,7 +22,7 @@ class RoleController extends Controller
     /**
      * Assigner le rôle artisan à l'utilisateur
      */
-    public function assignArtisanRole()
+    public function assignArtisanRole(AssignRoleRequest $request)
     {
         $user = Auth::user();
         $user->assignArtisanRole();
@@ -34,7 +34,7 @@ class RoleController extends Controller
     /**
      * Assigner les deux rôles à l'utilisateur
      */
-    public function assignBothRoles()
+    public function assignBothRoles(AssignRoleRequest $request)
     {
         $user = Auth::user();
         $user->assignShopAndArtisanRoles();

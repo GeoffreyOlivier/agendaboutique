@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreBoutiqueRequest;
+use App\Http\Requests\UpdateBoutiqueRequest;
 use App\Models\Boutique;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 
 class BoutiqueController extends Controller
@@ -34,7 +34,7 @@ class BoutiqueController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBoutiqueRequest $request)
     {
         $user = Auth::user();
         
@@ -42,29 +42,7 @@ class BoutiqueController extends Controller
             return redirect()->route('dashboard')->with('error', 'Vous avez déjà une boutique.');
         }
         
-        $validated = $request->validate([
-            'nom' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'adresse' => 'required|string|max:255',
-            'ville' => 'required|string|max:255',
-            'code_postal' => 'required|string|max:10',
-            'pays' => 'required|string|max:255',
-            'telephone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
-            'taille' => 'required|in:petite,moyenne,grande',
-            'siret' => 'nullable|string|max:14',
-            'tva' => 'nullable|string|max:20',
-            'loyer_depot_vente' => 'nullable|numeric|min:0',
-            'loyer_permanence' => 'nullable|numeric|min:0',
-            'commission_depot_vente' => 'nullable|numeric|min:0|max:100',
-            'commission_permanence' => 'nullable|numeric|min:0|max:100',
-            'nb_permanences_mois_indicatif' => 'nullable|integer|min:0',
-            'site_web' => 'nullable|url|max:255',
-            'instagram_url' => 'nullable|url|max:255',
-            'tiktok_url' => 'nullable|url|max:255',
-            'facebook_url' => 'nullable|url|max:255',
-            'horaires_ouverture' => 'nullable|string',
-        ]);
+        $validated = $request->validated();
         
         $boutique = Boutique::create([
             'user_id' => $user->id,
@@ -116,34 +94,11 @@ class BoutiqueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Boutique $boutique)
+    public function update(UpdateBoutiqueRequest $request, Boutique $boutique)
     {
         // La vérification de propriété est maintenant gérée par le middleware resource.owner
         
-        $validated = $request->validate([
-            'nom' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'adresse' => 'required|string|max:255',
-            'ville' => 'required|string|max:255',
-            'code_postal' => 'required|string|max:10',
-            'pays' => 'required|string|max:255',
-            'telephone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
-            'taille' => 'required|in:petite,moyenne,grande',
-            'siret' => 'nullable|string|max:14',
-            'tva' => 'nullable|string|max:20',
-            'loyer_depot_vente' => 'nullable|numeric|min:0',
-            'loyer_permanence' => 'nullable|numeric|min:0',
-            'commission_depot_vente' => 'nullable|numeric|min:0|max:100',
-            'commission_permanence' => 'nullable|numeric|min:0|max:100',
-            'nb_permanences_mois_indicatif' => 'nullable|integer|min:0',
-            'site_web' => 'nullable|url|max:255',
-            'instagram_url' => 'nullable|url|max:255',
-            'tiktok_url' => 'nullable|url|max:255',
-            'facebook_url' => 'nullable|url|max:255',
-            'horaires_ouverture' => 'nullable|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $validated = $request->validated();
         
         // Gestion de la photo
         if ($request->hasFile('photo')) {

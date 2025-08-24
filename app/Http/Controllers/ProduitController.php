@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProduitRequest;
+use App\Http\Requests\UpdateProduitRequest;
 use App\Models\Produit;
 use App\Models\Artisan;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -27,40 +28,26 @@ class ProduitController extends Controller
         return view('produits.create', compact('artisan'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProduitRequest $request)
     {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'prix' => 'required|numeric|min:0',
-            'categorie' => 'required|string|max:100',
-            'materiaux' => 'nullable|array',
-            'materiaux.*' => 'string|max:100',
-            'dimensions' => 'nullable|array',
-            'dimensions.largeur' => 'nullable|numeric|min:0',
-            'dimensions.hauteur' => 'nullable|numeric|min:0',
-            'dimensions.profondeur' => 'nullable|numeric|min:0',
-            'couleur' => 'nullable|string|max:100',
-            'instructions_entretien' => 'nullable|string|max:500',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
         $artisan = Auth::user()->artisan;
         
         if (!$artisan) {
             return redirect()->route('dashboard')->with('error', 'Vous devez avoir un profil artisan pour ajouter des produits.');
         }
 
+        $validated = $request->validated();
+
         $produit = new Produit();
         $produit->artisan_id = $artisan->id;
-        $produit->nom = $request->nom;
-        $produit->description = $request->description;
-        $produit->prix_base = $request->prix; // Utilise prix_base au lieu de prix
-        $produit->categorie = $request->categorie;
-        $produit->tags = $request->materiaux ?? []; // Utilise tags au lieu de materiaux
-        $produit->dimensions = $request->dimensions ?? [];
-        $produit->matiere = $request->couleur; // Utilise matiere au lieu de couleur
-        $produit->instructions_entretien = $request->instructions_entretien;
+        $produit->nom = $validated['nom'];
+        $produit->description = $validated['description'];
+        $produit->prix_base = $validated['prix']; // Utilise prix_base au lieu de prix
+        $produit->categorie = $validated['categorie'];
+        $produit->tags = $validated['materiaux'] ?? []; // Utilise tags au lieu de materiaux
+        $produit->dimensions = $validated['dimensions'] ?? [];
+        $produit->matiere = $validated['couleur']; // Utilise matiere au lieu de couleur
+        $produit->instructions_entretien = $validated['instructions_entretien'];
         $produit->statut = 'publie'; // Utilise 'publie' au lieu de 'disponible'
         $produit->disponible = true; // Utilise disponible au lieu de actif
 
@@ -112,34 +99,20 @@ class ProduitController extends Controller
         return view('produits.edit', compact('produit'));
     }
 
-    public function update(Request $request, Produit $produit)
+    public function update(UpdateProduitRequest $request, Produit $produit)
     {
         // La vérification de propriété est maintenant gérée par le middleware resource.owner
 
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'prix' => 'required|numeric|min:0',
-            'categorie' => 'required|string|max:100',
-            'materiaux' => 'nullable|array',
-            'materiaux.*' => 'string|max:100',
-            'dimensions' => 'nullable|array',
-            'dimensions.largeur' => 'nullable|numeric|min:0',
-            'dimensions.hauteur' => 'nullable|numeric|min:0',
-            'dimensions.profondeur' => 'nullable|numeric|min:0',
-            'couleur' => 'nullable|string|max:100',
-            'instructions_entretien' => 'nullable|string|max:500',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $validated = $request->validated();
 
-        $produit->nom = $request->nom;
-        $produit->description = $request->description;
-        $produit->prix_base = $request->prix;
-        $produit->categorie = $request->categorie;
-        $produit->tags = $request->materiaux ?? [];
-        $produit->dimensions = $request->dimensions ?? [];
-        $produit->matiere = $request->couleur;
-        $produit->instructions_entretien = $request->instructions_entretien;
+        $produit->nom = $validated['nom'];
+        $produit->description = $validated['description'];
+        $produit->prix_base = $validated['prix'];
+        $produit->categorie = $validated['categorie'];
+        $produit->tags = $validated['materiaux'] ?? [];
+        $produit->dimensions = $validated['dimensions'] ?? [];
+        $produit->matiere = $validated['couleur'];
+        $produit->instructions_entretien = $validated['instructions_entretien'];
 
         // Gestion des images existantes et suppression
         $images = $produit->images ?? [];

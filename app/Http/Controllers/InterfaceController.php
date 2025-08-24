@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\SwitchInterfaceRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -53,13 +53,9 @@ class InterfaceController extends Controller
         return $this->showDefaultDashboard($user);
     }
 
-    public function switchInterface(Request $request)
+    public function switchInterface(SwitchInterfaceRequest $request)
     {
         $user = Auth::user();
-        
-        if (!$user->isShopAndArtisan()) {
-            return redirect()->route('dashboard')->with('error', 'Vous devez avoir les deux rôles pour changer d\'interface.');
-        }
         
         $currentInterface = Session::get('current_interface', 'shop');
         $newInterface = $currentInterface === 'shop' ? 'artisan' : 'shop';

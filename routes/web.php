@@ -5,6 +5,7 @@ use App\Http\Controllers\InterfaceController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProduitPublicController;
 use App\Http\Controllers\BoutiqueController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,8 @@ Route::get('/catalogue', [ProduitPublicController::class, 'index'])->name('produ
 
 
 
+
+
 // Routes pour les interfaces selon les rôles
 Route::middleware(['auth'])->group(function () {
     // Dashboard principal qui redirige selon le rôle
@@ -36,6 +39,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/shop/dashboard', [InterfaceController::class, 'shopDashboard'])->name('shop.dashboard');
         Route::get('/shop/artisans', [InterfaceController::class, 'shopArtisans'])->name('shop.artisans');
         Route::get('/shop/artisans/{artisan}', [InterfaceController::class, 'shopArtisanProfile'])->name('shop.artisan.profile');
+        
+        // Route pour démarrer une conversation avec un artisan
+        Route::get('/chat/artisan/{artisan}', [ChatController::class, 'startConversationWithArtisan'])->name('chat.artisan.start');
         
         // Routes pour la création et gestion des boutiques
         Route::get('/shop/create', [BoutiqueController::class, 'create'])->name('boutiques.create');

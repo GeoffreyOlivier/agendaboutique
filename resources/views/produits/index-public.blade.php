@@ -110,9 +110,9 @@
                                 {{ $produit->created_at->format('d/m/Y') }}
                             </div>
                             <div class="flex items-center space-x-2">
-                                <button class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors">
+                                <a href="{{ route('shop.artisan.profile', $produit->artisan->id) }}" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors inline-block">
                                     Contacter
-                                </button>
+                                </a>
                                 <button class="px-3 py-1 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                     Détails
                                 </button>

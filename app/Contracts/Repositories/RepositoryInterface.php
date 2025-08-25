@@ -6,45 +6,45 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-interface BaseRepositoryInterface
+interface RepositoryInterface
 {
     /**
-     * Créer un nouveau modèle
+     * Create a new model
      */
     public function create(array $data): Model;
 
     /**
-     * Mettre à jour un modèle
+     * Update a model
      */
     public function update(Model $model, array $data): bool;
 
     /**
-     * Supprimer un modèle
+     * Delete a model
      */
     public function delete(Model $model): bool;
 
     /**
-     * Trouver un modèle par ID
+     * Find a model by ID
      */
     public function find(int $id): ?Model;
 
     /**
-     * Obtenir tous les modèles
+     * Get all models
      */
     public function all(): Collection;
 
     /**
-     * Paginer les résultats
+     * Paginate results
      */
     public function paginate(int $perPage = 15): LengthAwarePaginator;
 
     /**
-     * Compter le nombre total d'enregistrements
+     * Count total records
      */
     public function count(): int;
 
     /**
-     * Vérifier si un enregistrement existe
+     * Check if a record exists
      */
     public function exists(int $id): bool;
 }

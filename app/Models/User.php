@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Wave\User as WaveUser;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wave\Traits\HasProfileKeyValues;
 use Namu\WireChat\Traits\Chatable;
 
 class User extends WaveUser
 {
-    use Notifiable, HasProfileKeyValues;
+    use Notifiable, HasProfileKeyValues, HasFactory;
     use Chatable;
 
     public $guard_name = 'web';

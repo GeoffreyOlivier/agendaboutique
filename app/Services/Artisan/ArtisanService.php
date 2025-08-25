@@ -6,15 +6,17 @@ use App\Models\Artisan;
 use App\Models\User;
 use App\Services\ArtisanImageService;
 use App\Repositories\ArtisanRepository;
+use App\Contracts\Services\ArtisanServiceInterface;
+use App\Contracts\Repositories\ArtisanRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ArtisanService
+class ArtisanService implements ArtisanServiceInterface
 {
     protected ArtisanImageService $imageService;
-    protected ArtisanRepository $artisanRepository;
+    protected ArtisanRepositoryInterface $artisanRepository;
 
-    public function __construct(ArtisanImageService $imageService, ArtisanRepository $artisanRepository)
+    public function __construct(ArtisanImageService $imageService, ArtisanRepositoryInterface $artisanRepository)
     {
         $this->imageService = $imageService;
         $this->artisanRepository = $artisanRepository;

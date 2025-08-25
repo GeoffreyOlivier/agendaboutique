@@ -4,9 +4,10 @@ namespace App\Repositories;
 
 use App\Models\Artisan;
 use App\Models\User;
+use App\Contracts\Repositories\ArtisanRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-class ArtisanRepository extends BaseRepository
+class ArtisanRepository extends BaseRepository implements ArtisanRepositoryInterface
 {
     public function __construct(Artisan $model)
     {
@@ -27,6 +28,14 @@ class ArtisanRepository extends BaseRepository
     public function findByUserOrFail(User $user): Artisan
     {
         return $this->model->where('user_id', $user->id)->firstOrFail();
+    }
+
+    /**
+     * Trouver un artisan par ID utilisateur
+     */
+    public function findByUserId(int $userId): ?Artisan
+    {
+        return $this->model->where('user_id', $userId)->first();
     }
 
     /**

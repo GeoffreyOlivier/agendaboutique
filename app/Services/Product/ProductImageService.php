@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Services\Produit;
+namespace App\Services\Product;
 
 use App\Contracts\Services\ImageServiceInterface;
 use Illuminate\Http\UploadedFile;
 
-class ProduitImageService
+class ProductImageService
 {
     protected ImageServiceInterface $imageService;
-    protected string $basePath = 'produits/images';
+    protected string $basePath = 'products/images';
 
     public function __construct(ImageServiceInterface $imageService)
     {
@@ -18,9 +18,9 @@ class ProduitImageService
     /**
      * Stocker une image de produit
      */
-    public function storeImage(UploadedFile $file, int $artisanId): array
+    public function storeImage(UploadedFile $file, int $craftsmanId): array
     {
-        $path = "{$this->basePath}/{$artisanId}";
+        $path = "{$this->basePath}/{$craftsmanId}";
         $options = [
             'optimize' => true,
             'max_width' => 1200,
@@ -34,11 +34,11 @@ class ProduitImageService
     /**
      * Stocker plusieurs images de produit
      */
-    public function storeMultipleImages(array $files, int $artisanId): array
+    public function storeMultipleImages(array $files, int $craftsmanId): array
     {
         $paths = [];
         foreach ($files as $file) {
-            $imageData = $this->storeImage($file, $artisanId);
+            $imageData = $this->storeImage($file, $craftsmanId);
             $paths[] = $imageData['path'];
         }
         return $paths;
@@ -47,13 +47,13 @@ class ProduitImageService
     /**
      * Mettre à jour une image de produit
      */
-    public function updateImage(UploadedFile $file, int $artisanId, ?string $oldImagePath = null): array
+    public function updateImage(UploadedFile $file, int $craftsmanId, ?string $oldImagePath = null): array
     {
         if ($oldImagePath) {
             $this->imageService->delete($oldImagePath);
         }
 
-        return $this->storeImage($file, $artisanId);
+        return $this->storeImage($file, $craftsmanId);
     }
 
     /**

@@ -2,27 +2,28 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Services\ValidationService;
 use App\Services\CacheService;
 
 class ArchitectureTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function validation_service_can_be_instantiated()
     {
         $service = new ValidationService();
         $this->assertInstanceOf(ValidationService::class, $service);
     }
 
-    /** @test */
+    #[Test]
     public function cache_service_can_be_instantiated()
     {
         $service = new CacheService();
         $this->assertInstanceOf(CacheService::class, $service);
     }
 
-    /** @test */
+    #[Test]
     public function validation_service_has_expected_methods()
     {
         $service = new ValidationService();
@@ -33,7 +34,7 @@ class ArchitectureTest extends TestCase
         $this->assertTrue(method_exists($service, 'validateFinancialInfo'));
     }
 
-    /** @test */
+    #[Test]
     public function cache_service_has_expected_methods()
     {
         $service = new CacheService();
@@ -44,7 +45,7 @@ class ArchitectureTest extends TestCase
         $this->assertTrue(method_exists($service, 'forget'));
     }
 
-    /** @test */
+    #[Test]
     public function can_validate_social_urls()
     {
         $service = new ValidationService();
@@ -59,7 +60,7 @@ class ArchitectureTest extends TestCase
         $this->assertEquals($data, $result);
     }
 
-    /** @test */
+    #[Test]
     public function can_validate_geographic_info()
     {
         $service = new ValidationService();
@@ -75,7 +76,7 @@ class ArchitectureTest extends TestCase
         $this->assertEquals($data, $result);
     }
 
-    /** @test */
+    #[Test]
     public function can_use_cache_service()
     {
         $service = new CacheService();

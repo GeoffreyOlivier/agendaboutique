@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBoutiqueRequest;
-use App\Http\Requests\UpdateBoutiqueRequest;
-use App\Models\Boutique;
-use App\Services\Boutique\BoutiqueService;
-use App\Services\BoutiqueImageService;
+use App\Http\Requests\StoreShopRequest;
+use App\Http\Requests\UpdateShopRequest;
+use App\Models\Shop;
+use App\Services\Shop\ShopService;
+use App\Services\ShopImageService;
 use Illuminate\Support\Facades\Auth;
 
-class BoutiqueController extends Controller
+class ShopController extends Controller
 {
-    protected BoutiqueService $boutiqueService;
-    protected BoutiqueImageService $imageService;
+    protected ShopService $shopService;
+    protected ShopImageService $imageService;
 
-    public function __construct(BoutiqueService $boutiqueService, BoutiqueImageService $imageService)
+    public function __construct(ShopService $shopService, ShopImageService $imageService)
     {
-        $this->boutiqueService = $boutiqueService;
+        $this->shopService = $shopService;
         $this->imageService = $imageService;
     }
 
@@ -34,26 +34,26 @@ class BoutiqueController extends Controller
     public function create()
     {
         // Vérifier que l'utilisateur n'a pas déjà une boutique
-        if (Auth::user()->boutique) {
+        if (Auth::user()->shop) {
             return redirect()->route('dashboard')->with('warning', 'Vous avez déjà une boutique.');
         }
 
-        return view('boutiques.create');
+        return view('shops.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBoutiqueRequest $request)
+    public function store(StoreShopRequest $request)
     {
         $user = Auth::user();
         
-        if ($user->boutique) {
+        if ($user->shop) {
             return redirect()->route('dashboard')->with('error', 'Vous avez déjà une boutique.');
         }
         
         try {
-            $boutique = $this->boutiqueService->createBoutique($request->validated(), $user);
+            $shop = $this->shopService->createShop($request->validated(), $user);
             return redirect()->route('dashboard')->with('success', 'Votre boutique a été créée avec succès !');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erreur lors de la création de la boutique. Veuillez réessayer.');
@@ -71,21 +71,21 @@ class BoutiqueController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Boutique $boutique)
+    public function edit(Shop $shop)
     {
         // La vérification de propriété est maintenant gérée par le middleware resource.owner
-        return view('boutiques.edit', compact('boutique'));
+        return view('shops.edit', compact('shop'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBoutiqueRequest $request, Boutique $boutique)
+    public function update(UpdateShopRequest $request, Shop $shop)
     {
         // La vérification de propriété est maintenant gérée par le middleware resource.owner
         
         try {
-            $this->boutiqueService->updateBoutique($boutique, $request->validated());
+            $this->shopService->updateShop($shop, $request->validated());
             return redirect()->route('dashboard')->with('success', 'Votre boutique a été mise à jour avec succès !');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erreur lors de la mise à jour de la boutique. Veuillez réessayer.');

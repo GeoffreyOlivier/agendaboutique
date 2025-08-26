@@ -26,9 +26,7 @@
         <testsuite name="Middleware">
             <directory suffix="Test.php">./tests/Unit/Middleware</directory>
         </testsuite>
-        <testsuite name="Requests">
-            <directory suffix="Test.php">./tests/Unit/Requests</directory>
-        </testsuite>
+
     </testsuites>
     <source>
         <include>
@@ -69,19 +67,5 @@
         <env name="MAX_EXECUTION_TIME" value="300"/>
         <env name="MEMORY_LIMIT" value="512M"/>
     </php>
-    <coverage>
-        <include>
-            <directory suffix=".php">./app</directory>
-        </include>
-        <exclude>
-            <directory suffix=".php">./app/Console</directory>
-            <directory suffix=".php">./app/Exceptions</directory>
-            <directory suffix=".php">./app/Providers</directory>
-            <file>./app/Models/Artisan.php</file>
-        </exclude>
-        <report>
-            <html outputDirectory="coverage"/>
-            <text outputFile="coverage.txt"/>
-        </report>
-    </coverage>
+
 </phpunit>

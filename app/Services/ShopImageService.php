@@ -5,10 +5,10 @@ namespace App\Services;
 use App\Contracts\Services\ImageServiceInterface;
 use Illuminate\Http\UploadedFile;
 
-class BoutiqueImageService
+class ShopImageService
 {
     protected ImageServiceInterface $imageService;
-    protected string $basePath = 'boutiques/photos';
+    protected string $basePath = 'shops/photos';
 
     public function __construct(ImageServiceInterface $imageService)
     {
@@ -18,9 +18,9 @@ class BoutiqueImageService
     /**
      * Stocker la photo principale d'une boutique
      */
-    public function storePhoto(UploadedFile $file, int $boutiqueId): array
+    public function storePhoto(UploadedFile $file, int $shopId): array
     {
-        $path = "{$this->basePath}/{$boutiqueId}";
+        $path = "{$this->basePath}/{$shopId}";
         
         $options = [
             'optimize' => true,
@@ -35,7 +35,7 @@ class BoutiqueImageService
     /**
      * Mettre à jour la photo d'une boutique
      */
-    public function updatePhoto(UploadedFile $file, int $boutiqueId, ?string $oldPhotoPath = null): array
+    public function updatePhoto(UploadedFile $file, int $shopId, ?string $oldPhotoPath = null): array
     {
         // Supprimer l'ancienne photo si elle existe
         if ($oldPhotoPath) {
@@ -43,7 +43,7 @@ class BoutiqueImageService
         }
         
         // Stocker la nouvelle photo
-        return $this->storePhoto($file, $boutiqueId);
+        return $this->storePhoto($file, $shopId);
     }
 
     /**

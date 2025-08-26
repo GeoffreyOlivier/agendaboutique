@@ -5,10 +5,10 @@ namespace App\Services;
 use App\Contracts\Services\ImageServiceInterface;
 use Illuminate\Http\UploadedFile;
 
-class ProduitImageService
+class ProductImageService
 {
     protected ImageServiceInterface $imageService;
-    protected string $basePath = 'produits';
+    protected string $basePath = 'products';
 
     public function __construct(ImageServiceInterface $imageService)
     {
@@ -18,9 +18,9 @@ class ProduitImageService
     /**
      * Stocker les images d'un produit
      */
-    public function storeImages(array $files, int $produitId): array
+    public function storeImages(array $files, int $productId): array
     {
-        $path = "{$this->basePath}/{$produitId}";
+        $path = "{$this->basePath}/{$productId}";
         
         $options = [
             'optimize' => true,
@@ -35,9 +35,9 @@ class ProduitImageService
     /**
      * Ajouter de nouvelles images à un produit
      */
-    public function addImages(array $files, int $produitId, array $existingImages = []): array
+    public function addImages(array $files, int $productId, array $existingImages = []): array
     {
-        $newImages = $this->storeImages($files, $produitId);
+        $newImages = $this->storeImages($files, $productId);
         
         // Combiner avec les images existantes
         return array_merge($existingImages, array_column($newImages, 'path'));
@@ -48,7 +48,7 @@ class ProduitImageService
      */
     public function updateImages(
         array $files, 
-        int $produitId, 
+        int $productId, 
         array $existingImages = [], 
         array $imagesToDelete = []
     ): array {
@@ -60,7 +60,7 @@ class ProduitImageService
         
         // Ajouter les nouvelles images
         if (!empty($files)) {
-            $newImages = $this->storeImages($files, $produitId);
+            $newImages = $this->storeImages($files, $productId);
             $existingImages = array_merge($existingImages, array_column($newImages, 'path'));
         }
         
@@ -70,9 +70,9 @@ class ProduitImageService
     /**
      * Supprimer toutes les images d'un produit
      */
-    public function deleteAllImages(int $produitId): bool
+    public function deleteAllImages(int $productId): bool
     {
-        $path = "{$this->basePath}/{$produitId}";
+        $path = "{$this->basePath}/{$productId}";
         
         // Supprimer le dossier entier
         return $this->imageService->delete($path);

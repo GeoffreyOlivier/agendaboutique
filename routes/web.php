@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InterfaceController;
-use App\Http\Controllers\ProduitController;
-use App\Http\Controllers\ProduitPublicController;
-use App\Http\Controllers\BoutiqueController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductPublicController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RoleController;
 
@@ -22,7 +22,7 @@ Route::get('/', function () {
 });
 
 // Route publique pour afficher les produits
-Route::get('/catalogue', [ProduitPublicController::class, 'index'])->name('produits.public');
+Route::get('/catalogue', [ProductPublicController::class, 'index'])->name('produits.public');
 
 // Routes pour les interfaces selon les rôles
 Route::middleware(['auth'])->group(function () {
@@ -33,10 +33,10 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:shop'])->prefix('shop')->name('shop.')->group(function () {
         Route::get('/artisans', [InterfaceController::class, 'shopArtisans'])->name('artisans');
         Route::get('/artisans/{artisan}', [InterfaceController::class, 'shopArtisanProfile'])->name('artisan.profile');
-        Route::get('/create', [BoutiqueController::class, 'create'])->name('create');
-        Route::post('/store', [BoutiqueController::class, 'store'])->name('store');
-        Route::get('/{boutique}/edit', [BoutiqueController::class, 'edit'])->name('edit')->middleware('resource.owner:boutique');
-        Route::put('/{boutique}', [BoutiqueController::class, 'update'])->name('update')->middleware('resource.owner:boutique');
+        Route::get('/create', [ShopController::class, 'create'])->name('create');
+        Route::post('/store', [ShopController::class, 'store'])->name('store');
+        Route::get('/{shop}/edit', [ShopController::class, 'edit'])->name('edit')->middleware('resource.owner:shop');
+        Route::put('/{shop}', [ShopController::class, 'update'])->name('update')->middleware('resource.owner:shop');
     });
     
     // Routes artisan (rôle 'artisan')
@@ -62,14 +62,14 @@ Route::middleware(['auth'])->group(function () {
     
     // Routes produits (rôle 'artisan' + propriété)
     Route::middleware(['role:artisan'])->group(function () {
-        Route::resource('produits', ProduitController::class)
+        Route::resource('products', ProductController::class)
             ->except(['show', 'edit', 'update', 'destroy']);
         
-        Route::middleware(['resource.owner:produit'])->group(function () {
-            Route::get('/produits/{produit}', [ProduitController::class, 'show'])->name('produits.show');
-            Route::get('/produits/{produit}/edit', [ProduitController::class, 'edit'])->name('produits.edit');
-            Route::put('/produits/{produit}', [ProduitController::class, 'update'])->name('produits.update');
-            Route::delete('/produits/{produit}', [ProduitController::class, 'destroy'])->name('produits.destroy');
+        Route::middleware(['resource.owner:product'])->group(function () {
+            Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+            Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+            Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+            Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
         });
     });
 });

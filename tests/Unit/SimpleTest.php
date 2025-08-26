@@ -2,24 +2,25 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class SimpleTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function basic_test()
     {
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function can_use_math()
     {
         $result = 2 + 2;
         $this->assertEquals(4, $result);
     }
 
-    /** @test */
+    #[Test]
     public function can_use_strings()
     {
         $text = "Hello World";

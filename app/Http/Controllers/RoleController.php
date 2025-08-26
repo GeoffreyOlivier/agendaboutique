@@ -32,6 +32,14 @@ class RoleController extends Controller
     }
 
     /**
+     * Assigner le rôle craftsman à l'utilisateur (alias pour artisan)
+     */
+    public function assignCraftsmanRole(AssignRoleRequest $request)
+    {
+        return $this->assignArtisanRole($request);
+    }
+
+    /**
      * Assigner les deux rôles à l'utilisateur
      */
     public function assignBothRoles(AssignRoleRequest $request)

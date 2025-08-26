@@ -48,7 +48,12 @@ class RolesTableSeeder extends Seeder
 
         Role::firstOrCreate(['name' => 'artisan'], [
             'guard_name' => 'web',
-            'description' => 'Artisan avec possibilité de gérer ses produits et expositions.',
+            'description' => 'Artisan avec possibilité de gérer ses products et expositions.',
+        ]);
+
+        Role::firstOrCreate(['name' => 'shop-artisan'], [
+            'guard_name' => 'web',
+            'description' => 'Utilisateur ayant à la fois un statut de propriétaire de boutique et d\'artisan.',
         ]);
     }
 }

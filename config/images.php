@@ -49,11 +49,11 @@ return [
     | Produit Images Configuration
     |--------------------------------------------------------------------------
     |
-    | Configuration spécifique pour les images de produits
+    | Configuration spécifique pour les images de products
     |
     */
     'produit' => [
-        'path' => 'produits',
+        'path' => 'products',
         'max_width' => 1600,
         'max_height' => 1200,
         'quality' => 90,

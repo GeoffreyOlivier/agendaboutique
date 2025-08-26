@@ -9,7 +9,7 @@ class ProductPublicController extends Controller
 {
     public function index()
     {
-        // Récupérer tous les produits publiés et disponibles
+        // Récupérer tous les products publiés et disponibles
         $products = Product::where('status', 'published')
                           ->where('available', true)
                           ->with('craftsman')

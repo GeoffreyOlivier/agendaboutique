@@ -57,7 +57,7 @@
                     Présentez vos créations et répondez aux demandes des boutiques.
                 </p>
                 @if(!$user->isArtisan())
-                    <form method="POST" action="{{ route('assign.artisan.role') }}" class="inline">
+                    <form method="POST" action="{{ route('assign.craftsman.role') }}" class="inline">
                         @csrf
                         <button type="submit" class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
                             Devenir Artisan

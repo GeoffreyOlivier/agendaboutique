@@ -12,7 +12,7 @@
                     <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Modifier le produit</h1>
                     <p class="text-gray-600 dark:text-gray-400 mt-2">Modifiez les informations de votre produit</p>
                 </div>
-                <a href="{{ route('produits.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
+                <a href="{{ route('products.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
@@ -23,7 +23,7 @@
 
         <!-- Formulaire -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <form action="{{ route('produits.update', $produit) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <form action="{{ route('products.update', $produit) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('PUT')
                 
@@ -222,7 +222,7 @@
 
                 <!-- Boutons d'action -->
                 <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
-                    <a href="{{ route('produits.index') }}" class="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <a href="{{ route('products.index') }}" class="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         Annuler
                     </a>
                     <button type="submit" class="px-6 py-2 bg-green-600 text-white rounded-md shadow-sm text-sm font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">

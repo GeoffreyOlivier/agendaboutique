@@ -126,7 +126,7 @@ Le fichier `resources/js/image-upload-validation.js` valide les images avant l'e
 - **Dimensions minimales** : 800 x 600 pixels
 - **Dimensions recommandées** :
   - Boutiques : 1200 x 800 pixels
-  - Produits : 1600 x 1200 pixels
+  - products : 1600 x 1200 pixels
 
 ## 🚀 Optimisation des images
 

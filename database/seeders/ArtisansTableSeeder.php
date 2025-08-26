@@ -106,7 +106,7 @@ class ArtisansTableSeeder extends Seeder
             // Créer l'artisan
             $artisan = $user->artisan()->create($artisanData['artisan']);
 
-            // Créer des produits pour chaque artisan
+            // Créer des products pour chaque artisan
             $this->createProductsForArtisan($artisan);
         }
     }
@@ -244,7 +244,7 @@ class ArtisansTableSeeder extends Seeder
         }
 
         foreach ($productsData as $productData) {
-            $artisan->produits()->create($productData);
+            $artisan->products()->create($productData);
         }
     }
 }

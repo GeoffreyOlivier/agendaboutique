@@ -27,7 +27,7 @@ class ProductController extends Controller
         $craftsman = Auth::user()->craftsman;
         
         if (!$craftsman) {
-            return redirect()->route('dashboard')->with('error', 'Vous devez avoir un profil artisan pour ajouter des produits.');
+            return redirect()->route('dashboard')->with('error', 'Vous devez avoir un profil artisan pour ajouter des products.');
         }
 
         return view('products.create', compact('craftsman'));
@@ -38,15 +38,12 @@ class ProductController extends Controller
         $craftsman = Auth::user()->craftsman;
         
         if (!$craftsman) {
-            return redirect()->route('dashboard')->with('error', 'Vous devez avoir un profil artisan pour ajouter des produits.');
+            return redirect()->route('dashboard')->with('error', 'Vous devez avoir un profil artisan pour ajouter des products.');
         }
 
         try {
             // Adapter les données pour le service
             $data = $request->validated();
-            $data['base_price'] = $data['price'] ?? null;
-            $data['tags'] = $data['materials'] ?? [];
-            $data['material'] = $data['color'] ?? null;
             $data['images'] = $request->file('images');
             
             $product = $this->productService->createProduct($data, $craftsman);
@@ -66,7 +63,7 @@ class ProductController extends Controller
 
     public function indexPublic()
     {
-        // Récupérer tous les produits publiés et disponibles
+        // Récupérer tous les products publiés et disponibles
         $products = Product::where('status', 'published')
                           ->where('available', true)
                           ->with('craftsman')

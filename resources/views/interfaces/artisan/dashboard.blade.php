@@ -7,7 +7,7 @@
             Tableau de bord Artisan
         </h1>
         <p class="text-gray-600">
-            Gérez vos produits et répondez aux demandes des boutiques.
+            Gérez vos products et répondez aux demandes des boutiques.
         </p>
     </div>
 
@@ -21,8 +21,8 @@
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Produits</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $produits->count() }}</p>
+                    <p class="text-sm font-medium text-gray-500">products</p>
+                    <p class="text-2xl font-semibold text-gray-900">{{ $products->count() }}</p>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500">Demandes reçues</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $demandes->where('statut', 'en_attente')->count() }}</p>
+                    <p class="text-2xl font-semibold text-gray-900">{{ $demandes->where('status', 'pending')->count() }}</p>
                 </div>
             </div>
         </div>
@@ -72,34 +72,34 @@
 
     <!-- Actions principales -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <!-- Gestion des produits -->
+        <!-- Gestion des products -->
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">Mes produits</h3>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Mes products</h3>
             
-            @if($produits->count() > 0)
+            @if($products->count() > 0)
                 <div class="space-y-4">
-                    @foreach($produits->take(5) as $produit)
+                    @foreach($products->take(5) as $produit)
                     <div class="border border-gray-200 rounded-lg p-4">
                         <div class="flex justify-between items-start mb-2">
-                            <h4 class="font-medium text-gray-900">{{ $produit->nom }}</h4>
+                            <h4 class="font-medium text-gray-900">{{ $produit->name }}</h4>
                             <span class="px-2 py-1 text-xs rounded-full 
-                                @if($produit->statut === 'disponible') bg-green-100 text-green-800
-                                @elseif($produit->statut === 'en_commande') bg-blue-100 text-blue-800
+                                @if($produit->status === 'available') bg-green-100 text-green-800
+                                @elseif($produit->status === 'ordered') bg-blue-100 text-blue-800
                                 @else bg-red-100 text-red-800 @endif">
-                                {{ ucfirst($produit->statut) }}
+                                {{ ucfirst($produit->status) }}
                             </span>
                         </div>
                         <p class="text-sm text-gray-600 mb-2">{{ Str::limit($produit->description, 100) }}</p>
                         <div class="flex justify-between items-center text-xs text-gray-500">
-                            <span>{{ $produit->prix_formate }}</span>
+                            <span>{{ number_format($produit->base_price, 2) }} €</span>
                             <span>{{ $produit->created_at->format('d/m/Y') }}</span>
                         </div>
                     </div>
                     @endforeach
                 </div>
                 <div class="mt-4">
-                    <a href="{{ route('produits.index') }}" class="text-green-600 hover:text-green-800 text-sm font-medium">
-                        Voir tous les produits →
+                    <a href="{{ route('products.index') }}" class="text-green-600 hover:text-green-800 text-sm font-medium">
+                        Voir tous les products →
                     </a>
                 </div>
             @else
@@ -107,7 +107,7 @@
             @endif
             
             <div class="mt-6">
-                <a href="{{ route('produits.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                <a href="{{ route('products.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
@@ -125,17 +125,17 @@
                     @foreach($demandes->take(5) as $demande)
                     <div class="border border-gray-200 rounded-lg p-4">
                         <div class="flex justify-between items-start mb-2">
-                            <h4 class="font-medium text-gray-900">{{ $demande->titre }}</h4>
+                            <h4 class="font-medium text-gray-900">{{ $demande->title }}</h4>
                             <span class="px-2 py-1 text-xs rounded-full 
-                                @if($demande->statut === 'en_attente') bg-yellow-100 text-yellow-800
-                                @elseif($demande->statut === 'acceptee') bg-green-100 text-green-800
+                                @if($demande->status === 'pending') bg-yellow-100 text-yellow-800
+                                @elseif($demande->status === 'accepted') bg-green-100 text-green-800
                                 @else bg-red-100 text-red-800 @endif">
-                                {{ ucfirst($demande->statut) }}
+                                {{ ucfirst($demande->status) }}
                             </span>
                         </div>
                         <p class="text-sm text-gray-600 mb-2">{{ Str::limit($demande->description, 80) }}</p>
                         <div class="flex justify-between items-center text-xs text-gray-500">
-                            <span>{{ $demande->boutique->nom }}</span>
+                            <span>{{ $demande->shop->name }}</span>
                             <span>{{ $demande->created_at->format('d/m/Y') }}</span>
                         </div>
                     </div>
@@ -167,7 +167,7 @@
     <div class="bg-white rounded-lg shadow-md p-6">
         <h3 class="text-xl font-semibold text-gray-900 mb-4">Actions rapides</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <a href="{{ route('produits.create') }}" class="block p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+            <a href="{{ route('products.create') }}" class="block p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
                 <div class="text-green-500 mb-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>

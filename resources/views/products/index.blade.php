@@ -1,6 +1,6 @@
 @extends('layouts.app-no-sidebar')
 
-@section('title', 'Mes produits')
+@section('title', 'Mes products')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
@@ -9,10 +9,10 @@
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Mes produits</h1>
-                    <p class="text-gray-600 dark:text-gray-400 mt-2">Gérez votre catalogue de produits</p>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Mes products</h1>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2">Gérez votre catalogue de products</p>
                 </div>
-                <a href="{{ route('produits.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                <a href="{{ route('products.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total</p>
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ $produits->total() }}</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ $products->total() }}</p>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">En boutique</p>
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ $produits->where('statut', 'disponible')->count() }}</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ $products->where('statut', 'disponible')->count() }}</p>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Valeur totale</p>
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ number_format($produits->sum('prix'), 2, ',', ' ') }} €</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ number_format($products->sum('prix'), 2, ',', ' ') }} €</p>
                     </div>
                 </div>
             </div>
@@ -74,29 +74,29 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Avec photos</p>
-                        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ $produits->filter(function($p) { return !empty($p->images); })->count() }}</p>
+                        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ $products->filter(function($p) { return !empty($p->images); })->count() }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Liste des produits -->
-        @if($produits->count() > 0)
+        <!-- Liste des products -->
+        @if($products->count() > 0)
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Tous mes produits</h3>
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Tous mes products</h3>
                 </div>
                 
-                <!-- Grille des produits -->
+                <!-- Grille des products -->
                 <div class="p-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($produits as $produit)
+                        @foreach($products as $produit)
                         <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                             <!-- Image du produit -->
                             <div class="aspect-w-16 aspect-h-9 bg-gray-200 dark:bg-gray-600">
                                 @if($produit->image_principale)
                                     <img src="{{ asset('storage/' . $produit->image_principale) }}" 
-                                         alt="{{ $produit->nom }}" 
+                                         alt="{{ $produit->name }}" 
                                          class="w-full h-48 object-cover">
                                 @else
                                     <div class="w-full h-48 flex items-center justify-center">
@@ -110,7 +110,7 @@
                             <!-- Informations du produit -->
                             <div class="p-4">
                                 <div class="flex items-center justify-between mb-2">
-                                    <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 truncate">{{ $produit->nom }}</h4>
+                                    <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 truncate">{{ $produit->name }}</h4>
                                     <span class="px-2 py-1 text-xs rounded-full 
                                         @if($produit->statut === 'publie') bg-green-100 text-green-800
                                         @elseif($produit->statut === 'brouillon') bg-blue-100 text-blue-800
@@ -125,10 +125,10 @@
                                 
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                                        {{ $produit->prix_formate }}
+                                        {{ number_format($produit->base_price, 2) }} €
                                     </span>
                                     <span class="text-xs text-gray-500 dark:text-gray-400">
-                                        {{ ucfirst($produit->categorie) }}
+                                        {{ ucfirst($produit->category) }}
                                     </span>
                                 </div>
                                 
@@ -155,11 +155,11 @@
                                         {{ $produit->created_at->format('d/m/Y') }}
                                     </div>
                                     <div class="flex items-center space-x-2">
-                                        <a href="{{ route('produits.edit', $produit) }}" 
+                                        <a href="{{ route('products.edit', $produit) }}" 
                                            class="text-green-600 hover:text-green-800 text-sm font-medium">
                                             Modifier
                                         </a>
-                                        <form action="{{ route('produits.destroy', $produit) }}" method="POST" class="inline">
+                                        <form action="{{ route('products.destroy', $produit) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" 
@@ -177,9 +177,9 @@
                 </div>
                 
                 <!-- Pagination -->
-                @if($produits->hasPages())
+                @if($products->hasPages())
                 <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
-                    {{ $produits->links() }}
+                    {{ $products->links() }}
                 </div>
                 @endif
             </div>
@@ -192,7 +192,7 @@
                 <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">Aucun produit</h3>
                 <p class="mt-2 text-gray-500 dark:text-gray-400">Commencez par ajouter votre premier produit.</p>
                 <div class="mt-6">
-                    <a href="{{ route('produits.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                    <a href="{{ route('products.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>

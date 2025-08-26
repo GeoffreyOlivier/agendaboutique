@@ -35,13 +35,13 @@ class InterfaceController extends Controller
 
 
 
-    public function artisanDashboard()
+    public function craftsmanDashboard()
     {
         $user = Auth::user();
         
         // Sauvegarder l'interface actuelle pour les utilisateurs avec les deux rôles
         if ($user->isShopAndArtisan()) {
-            Session::put('current_interface', 'artisan');
+            Session::put('current_interface', 'craftsman');
         }
         
         return $this->showArtisanDashboard($user);
@@ -69,50 +69,50 @@ class InterfaceController extends Controller
 
     private function showShopDashboard($user)
     {
-        $boutique = $user->boutique;
-        $hasBoutique = $boutique !== null;
-        $demandes = $boutique ? $boutique->demandes()->latest()->take(5)->get() : collect();
-        $artisans = $boutique ? $boutique->artisans()->take(5)->get() : collect();
+        $shop = $user->shop;
+        $hasShop = $shop !== null;
+        $demandes = $shop ? $shop->requests()->latest()->take(5)->get() : collect();
+        $craftsmen = $shop ? $shop->craftsmen()->take(5)->get() : collect();
         
-        return view('interfaces.shop.dashboard', compact('user', 'boutique', 'demandes', 'artisans', 'hasBoutique'));
+        return view('interfaces.shop.dashboard', compact('user', 'shop', 'demandes', 'craftsmen', 'hasShop'));
     }
 
-    public function shopArtisans()
+    public function shopCraftsmen()
     {
         $user = Auth::user();
         
-        $boutique = $user->boutique;
+        $shop = $user->shop;
         
         // Récupérer tous les artisans approuvés avec leurs informations
-        $artisans = \App\Models\Artisan::with(['user', 'produits'])
-            ->where('statut', 'approuve')
+        $craftsmen = \App\Models\Craftsman::with(['user', 'products'])
+            ->where('status', 'approved')
             ->get();
         
-        return view('interfaces.shop.artisans', compact('user', 'boutique', 'artisans'));
+        return view('interfaces.shop.craftsmen', compact('user', 'shop', 'craftsmen'));
     }
 
-    public function shopArtisanProfile($artisanId)
+    public function shopCraftsmanProfile($craftsmanId)
     {
         $user = Auth::user();
     
-        $boutique = $user->boutique;
+        $shop = $user->shop;
     
-        $artisan = \App\Models\Artisan::with(['user', 'produits'])
-            ->where('id', $artisanId)
-            ->where('statut', 'approuve')
+        $craftsman = \App\Models\Craftsman::with(['user', 'products'])
+            ->where('id', $craftsmanId)
+            ->where('status', 'approved')
             ->firstOrFail();
     
-        return view('interfaces.shop.artisan-profile', compact('user', 'boutique', 'artisan'));
+        return view('interfaces.shop.craftsman-profile', compact('user', 'shop', 'craftsman'));
     }
     
 
     private function showArtisanDashboard($user)
     {
-        $artisan = $user->artisan;
-        $produits = $artisan ? $artisan->produits()->latest()->take(5)->get() : collect();
-        $demandes = $artisan ? $artisan->demandes()->latest()->take(5)->get() : collect();
+        $artisan = $user->craftsman;
+        $products = $artisan ? $artisan->products()->latest()->take(5)->get() : collect();
+        $demandes = $artisan ? $artisan->requests()->latest()->take(5)->get() : collect();
         
-        return view('interfaces.artisan.dashboard', compact('user', 'artisan', 'produits', 'demandes'));
+        return view('interfaces.artisan.dashboard', compact('user', 'artisan', 'products', 'demandes'));
     }
 
     private function showDefaultDashboard($user)

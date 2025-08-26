@@ -83,8 +83,11 @@ class UserRoleService
     public function hasCompleteProfile(User $user, string $roleType): bool
     {
         return match($roleType) {
-            'shop' => $user->hasRole('shop') && $user->boutique && $user->boutique->statut === 'approuve',
-            'artisan' => $user->hasRole('artisan') && $user->artisan && $user->artisan->statut === 'approuve',
+            'shop' => $user->hasRole('shop') && $user->shop && $user->shop->status === 'approved',
+            'artisan' => $user->hasRole('artisan') && $user->craftsman && $user->craftsman->status === 'approved',
+            'shop-artisan' => $user->hasRole('shop-artisan') && 
+                             $user->shop && $user->shop->status === 'approved' &&
+                             $user->craftsman && $user->craftsman->status === 'approved',
             default => false
         };
     }
@@ -114,10 +117,29 @@ class UserRoleService
     }
 
     /**
+     * Assigner le rôle combiné à un utilisateur
+     */
+    public function assignCombinedRole(User $user): bool
+    {
+        try {
+            $user->assignRole('shop-artisan');
+            Log::info("Rôle 'shop-artisan' assigné à l'utilisateur {$user->id}");
+            return true;
+        } catch (\Exception $e) {
+            Log::error("Erreur lors de l'assignation du rôle 'shop-artisan' à l'utilisateur {$user->id}: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Obtenir le rôle principal d'un utilisateur
      */
     public function getPrimaryRole(User $user): ?string
     {
+        if ($user->hasRole('shop-artisan')) {
+            return 'shop-artisan';
+        }
+        
         if ($user->hasRole('shop') && $user->hasRole('artisan')) {
             return 'both';
         }

@@ -14,7 +14,7 @@
                 </p>
             </div>
             <div class="flex gap-3">
-                <a href="{{ route('shop.artisans') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">
+                <a href="{{ route('shop.craftsmen') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
@@ -102,8 +102,8 @@
                 <div class="border-t pt-6">
                     <div class="grid grid-cols-2 gap-4 text-center">
                         <div>
-                            <p class="text-2xl font-bold text-blue-600">{{ $artisan->produits->count() }}</p>
-                            <p class="text-sm text-gray-500">Produits</p>
+                            <p class="text-2xl font-bold text-blue-600">{{ $artisan->products->count() }}</p>
+                            <p class="text-sm text-gray-500">products</p>
                         </div>
                         <div>
                             <p class="text-2xl font-bold text-green-600">{{ $artisan->experience_annees ?? 0 }}</p>
@@ -146,7 +146,7 @@
                         
                         <!-- Bouton Contacter l'artisan -->
                         <div class="mt-4">
-                            <a href="{{ route('chat.artisan.start', $artisan->id) }}" class="w-full bg-green-600 text-white px-4 py-3 rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex items-center justify-center">
+                            <a href="{{ route('chat.craftsman.start', $artisan->id) }}" class="w-full bg-green-600 text-white px-4 py-3 rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex items-center justify-center">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                                 </svg>
@@ -158,21 +158,21 @@
             </div>
         </div>
 
-        <!-- Colonne droite : Produits de l'artisan -->
+        <!-- Colonne droite : products de l'artisan -->
         <div class="lg:col-span-2">
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-2xl font-bold text-gray-900">
-                        Produits de {{ $artisan->nom_artisan }}
+                        products de {{ $artisan->nom_artisan }}
                     </h3>
                     <span class="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full">
-                        {{ $artisan->produits->count() }} produit(s)
+                        {{ $artisan->products->count() }} produit(s)
                     </span>
                 </div>
 
-                @if($artisan->produits->count() > 0)
+                @if($artisan->products->count() > 0)
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                        @foreach($artisan->produits as $produit)
+                        @foreach($artisan->products as $produit)
                             <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
                                 <!-- Image du produit -->
                                 <div class="aspect-square bg-gradient-to-br from-gray-200 to-gray-300">
@@ -216,7 +216,7 @@
                             </svg>
                         </div>
                         <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun produit disponible</h3>
-                        <p class="text-gray-500">Cet artisan n'a pas encore publié de produits.</p>
+                        <p class="text-gray-500">Cet artisan n'a pas encore publié de products.</p>
                     </div>
                 @endif
             </div>

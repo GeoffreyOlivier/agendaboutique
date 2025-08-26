@@ -21,7 +21,7 @@ class ShopArtisanSeeder extends Seeder
 
         $artisanRole = Role::firstOrCreate(['name' => 'artisan'], [
             'guard_name' => 'web',
-            'description' => 'Artisan avec possibilité de gérer ses produits et expositions.',
+            'description' => 'Artisan avec possibilité de gérer ses products et expositions.',
         ]);
 
         // Créer les permissions pour les boutiques

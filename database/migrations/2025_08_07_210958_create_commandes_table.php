@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('artisan_id')->constrained()->onDelete('cascade');
             $table->string('numero_commande')->unique();
             
-            // Produits commandés
-            $table->json('produits'); // [{produit_id, quantite, prix_adapte}]
+            // products commandés
+            $table->json('products'); // [{produit_id, quantite, prix_adapte}]
             
             // Prix et facturation
             $table->decimal('total_ht', 10, 2);

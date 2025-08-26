@@ -72,14 +72,14 @@ class User extends WaveUser
     }
 
     // Relations
-    public function boutique()
+    public function shop()
     {
-        return $this->hasOne(Boutique::class);
+        return $this->hasOne(Shop::class);
     }
 
-    public function artisan()
+    public function craftsman()
     {
-        return $this->hasOne(Artisan::class);
+        return $this->hasOne(Craftsman::class);
     }
 
     // Méthodes pour vérifier les rôles
@@ -124,25 +124,51 @@ class User extends WaveUser
         return $this->syncRoles(['shop', 'artisan']);
     }
 
-    // Méthodes pour récupérer les données associées
-    public function getBoutiqueData()
+    public function assignCombinedRole()
     {
-        return $this->boutique;
+        return $this->assignRole('shop-artisan');
     }
 
-    public function getArtisanData()
+    public function isShopArtisan()
     {
-        return $this->artisan;
+        return $this->hasRole('shop-artisan');
+    }
+
+    // Méthodes pour récupérer les données associées
+    public function getShopData()
+    {
+        return $this->shop;
+    }
+
+    public function getCraftsmanData()
+    {
+        return $this->craftsman;
     }
 
     // Méthode pour vérifier si l'utilisateur a des données complètes
     public function hasCompleteShopProfile()
     {
-        return $this->isShop() && $this->boutique && $this->boutique->statut === 'approuve';
+        return $this->isShop() && $this->shop && $this->shop->status === 'approved';
+    }
+
+    public function hasCompleteCraftsmanProfile()
+    {
+        return $this->isArtisan() && $this->craftsman && $this->craftsman->status === 'approved';
+    }
+
+    // Aliases pour maintenir la compatibilité temporaire
+    public function getBoutiqueData()
+    {
+        return $this->getShopData();
+    }
+
+    public function getArtisanData()
+    {
+        return $this->getCraftsmanData();
     }
 
     public function hasCompleteArtisanProfile()
     {
-        return $this->isArtisan() && $this->artisan && $this->artisan->statut === 'approuve';
+        return $this->hasCompleteCraftsmanProfile();
     }
 }

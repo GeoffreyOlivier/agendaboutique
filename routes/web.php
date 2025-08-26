@@ -21,8 +21,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route publique pour afficher les produits
-Route::get('/catalogue', [ProductPublicController::class, 'index'])->name('produits.public');
+// Route publique pour afficher les products
+Route::get('/catalog', [ProductPublicController::class, 'index'])->name('products.public');
 
 // Routes pour les interfaces selon les rôles
 Route::middleware(['auth'])->group(function () {
@@ -31,17 +31,17 @@ Route::middleware(['auth'])->group(function () {
     
     // Routes boutique (rôle 'shop')
     Route::middleware(['role:shop'])->prefix('shop')->name('shop.')->group(function () {
-        Route::get('/artisans', [InterfaceController::class, 'shopArtisans'])->name('artisans');
-        Route::get('/artisans/{artisan}', [InterfaceController::class, 'shopArtisanProfile'])->name('artisan.profile');
+        Route::get('/craftsmen', [InterfaceController::class, 'shopCraftsmen'])->name('craftsmen');
+        Route::get('/craftsmen/{craftsman}', [InterfaceController::class, 'shopCraftsmanProfile'])->name('craftsman.profile');
         Route::get('/create', [ShopController::class, 'create'])->name('create');
         Route::post('/store', [ShopController::class, 'store'])->name('store');
         Route::get('/{shop}/edit', [ShopController::class, 'edit'])->name('edit')->middleware('resource.owner:shop');
         Route::put('/{shop}', [ShopController::class, 'update'])->name('update')->middleware('resource.owner:shop');
     });
     
-    // Routes artisan (rôle 'artisan')
-    Route::middleware(['role:artisan'])->prefix('artisan')->name('artisan.')->group(function () {
-        Route::get('/dashboard', [InterfaceController::class, 'artisanDashboard'])->name('dashboard');
+    // Routes craftsman (rôle 'artisan')
+    Route::middleware(['role:artisan'])->prefix('craftsman')->name('craftsman.')->group(function () {
+        Route::get('/dashboard', [InterfaceController::class, 'craftsmanDashboard'])->name('dashboard');
     });
     
     // Interface par défaut
@@ -49,18 +49,18 @@ Route::middleware(['auth'])->group(function () {
     
     // Routes pour assigner les rôles
     Route::post('/assign/shop-role', [RoleController::class, 'assignShopRole'])->name('assign.shop.role');
-    Route::post('/assign/artisan-role', [RoleController::class, 'assignArtisanRole'])->name('assign.artisan.role');
+    Route::post('/assign/craftsman-role', [RoleController::class, 'assignCraftsmanRole'])->name('assign.craftsman.role');
     Route::post('/assign/both-roles', [RoleController::class, 'assignBothRoles'])->name('assign.both.roles');
     
     // Route pour switcher entre les interfaces
     Route::post('/switch-interface', [InterfaceController::class, 'switchInterface'])->name('switch.interface');
     
     // Routes chat
-    Route::get('/chat/artisan/{artisan}', [ChatController::class, 'startConversationWithArtisan'])
-        ->name('chat.artisan.start')
+    Route::get('/chat/craftsman/{craftsman}', [ChatController::class, 'startConversationWithCraftsman'])
+        ->name('chat.craftsman.start')
         ->middleware('role:shop');
     
-    // Routes produits (rôle 'artisan' + propriété)
+    // Routes products (rôle 'artisan' + propriété)
     Route::middleware(['role:artisan'])->group(function () {
         Route::resource('products', ProductController::class)
             ->except(['show', 'edit', 'update', 'destroy']);

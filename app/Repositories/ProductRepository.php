@@ -14,7 +14,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir tous les produits disponibles
+     * Obtenir tous les products disponibles
      */
     public function getAvailableProducts(): Collection
     {
@@ -22,7 +22,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les produits par catégorie
+     * Obtenir les products par catégorie
      */
     public function getProductsByCategory(string $category): Collection
     {
@@ -34,7 +34,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les produits d'un artisan
+     * Obtenir les products d'un artisan
      */
     public function getProductsByCraftsman(Craftsman $craftsman): Collection
     {
@@ -45,7 +45,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les produits publiés
+     * Obtenir les products publiés
      */
     public function getPublishedProducts(): Collection
     {
@@ -56,7 +56,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les produits en brouillon
+     * Obtenir les products en brouillon
      */
     public function getDraftProducts(): Collection
     {
@@ -66,7 +66,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Rechercher des produits avec critères
+     * Rechercher des products avec critères
      */
     public function searchProducts(array $criteria): Collection
     {
@@ -96,7 +96,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les produits par gamme de prix
+     * Obtenir les products par gamme de prix
      */
     public function getProductsByPriceRange(float $min, float $max): Collection
     {
@@ -109,7 +109,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les produits avec pagination
+     * Obtenir les products avec pagination
      */
     public function getProductsPaginated(int $perPage = 12)
     {
@@ -121,7 +121,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les produits récents
+     * Obtenir les products récents
      */
     public function getRecentProducts(int $limit = 8): Collection
     {
@@ -134,7 +134,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les produits populaires (par nombre de vues ou commandes)
+     * Obtenir les products populaires (par nombre de vues ou commandes)
      */
     public function getPopularProducts(int $limit = 8): Collection
     {
@@ -147,7 +147,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les statistiques des produits
+     * Obtenir les statistiques des products
      */
     public function getProductsStats(): array
     {
@@ -161,7 +161,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les produits par statut
+     * Obtenir les products par statut
      */
     public function getProductsByStatus(string $status): Collection
     {
@@ -179,7 +179,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les produits avec leurs images
+     * Obtenir les products avec leurs images
      */
     public function getProductsWithImages(): Collection
     {

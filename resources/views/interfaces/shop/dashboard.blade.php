@@ -139,7 +139,7 @@
                         @endforeach
                     </div>
                     <div class="mt-4">
-                        <a href="{{ route('shop.artisans') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        <a href="{{ route('shop.craftsmen') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
                             Voir tous les artisans →
                         </a>
                     </div>
@@ -148,7 +148,7 @@
                 @endif
                 
                 <div class="mt-6">
-                    <a href="{{ route('shop.artisans') }}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                    <a href="{{ route('shop.craftsmen') }}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
@@ -172,7 +172,7 @@
                     <p class="text-sm text-gray-500">Créer une demande d'artisan</p>
                 </a>
 
-                <a href="{{ route('shop.artisans') }}" class="block p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                <a href="{{ route('shop.craftsmen') }}" class="block p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
                     <div class="text-green-500 mb-2">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>

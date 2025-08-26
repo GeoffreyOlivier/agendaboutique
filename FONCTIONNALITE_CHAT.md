@@ -24,7 +24,7 @@ Cette fonctionnalité permet aux utilisateurs ayant le rôle "boutique" de conta
 
 ### ✅ Interface utilisateur mise à jour
 - **Profil de l'artisan** : Bouton "Contacter l'artisan" transformé en lien fonctionnel
-- **Liste des produits** : Bouton "Contacter" redirige vers le profil de l'artisan
+- **Liste des products** : Bouton "Contacter" redirige vers le profil de l'artisan
 - **Navigation** : Redirection automatique vers la page de chat
 
 ### ✅ Intégration WireChat
@@ -64,7 +64,7 @@ Cette fonctionnalité permet aux utilisateurs ayant le rôle "boutique" de conta
 ### Fichiers modifiés
 - `routes/web.php` - Ajout de la route de chat
 - `resources/views/interfaces/shop/artisan-profile.blade.php` - Bouton "Contacter l'artisan"
-- `resources/views/produits/index-public.blade.php` - Bouton "Contacter"
+- `resources/views/products/index-public.blade.php` - Bouton "Contacter"
 
 ## Tests effectués
 

@@ -7,19 +7,19 @@ Cette fonctionnalité permet aux boutiques de visualiser et gérer tous les arti
 ## Fonctionnalités
 
 ### 📊 Tableau de bord des artisans
-- **Statistiques en temps réel** : Nombre total d'artisans, produits disponibles, catégories représentées
+- **Statistiques en temps réel** : Nombre total d'artisans, products disponibles, catégories représentées
 - **Vue d'ensemble** : Informations clés sur chaque artisan associé
 
 ### 🔍 Recherche et filtrage
 - **Recherche textuelle** : Par nom, description ou spécialités
-- **Filtrage par catégorie** : Affichage des artisans par type de produits
+- **Filtrage par catégorie** : Affichage des artisans par type de products
 - **Interface responsive** : Optimisée pour tous les appareils
 
 ### 👤 Profils d'artisans
 - **Photo de profil** : Image par défaut stylisée (SVG personnalisé)
 - **Informations détaillées** : Nom, description, spécialités, expérience
-- **Catégories de produits** : Affichage des types de créations
-- **Statistiques** : Nombre de produits, années d'expérience
+- **Catégories de products** : Affichage des types de créations
+- **Statistiques** : Nombre de products, années d'expérience
 
 ### 🎨 Interface utilisateur
 - **Design moderne** : Utilisation de Tailwind CSS
@@ -54,8 +54,8 @@ Cette fonctionnalité permet aux boutiques de visualiser et gérer tous les arti
 - `Boutique` : Boutique de l'utilisateur connecté
 - `BoutiqueArtisan` : Relation entre boutique et artisans
 - `Artisan` : Informations des artisans
-- `Produit` : Produits des artisans
-- `Category` : Catégories de produits
+- `Produit` : products des artisans
+- `Category` : Catégories de products
 
 ## Fonctionnalités futures
 

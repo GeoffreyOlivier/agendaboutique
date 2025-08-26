@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Boutique;
-use App\Models\Artisan;
+use App\Models\Shop;
+use App\Models\Craftsman;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -29,18 +29,18 @@ class TestUsersSeeder extends Seeder
         ]);
         $user1->assignRole($shopRole);
         
-        Boutique::create([
+        Shop::create([
             'user_id' => $user1->id,
-            'nom' => 'Atelier Créatif Marie',
+            'name' => 'Atelier Créatif Marie',
             'description' => 'Boutique d\'artisanat local spécialisée dans la création textile.',
-            'adresse' => '15 Rue de la Créativité',
-            'ville' => 'Lyon',
-            'code_postal' => '69001',
-            'telephone' => '04 78 12 34 56',
+            'address' => '15 Rue de la Créativité',
+            'city' => 'Lyon',
+            'postal_code' => '69001',
+            'phone' => '04 78 12 34 56',
             'email' => 'contact@atelier-marie.fr',
-            'taille' => 'moyenne',
-            'statut' => 'approuve',
-            'actif' => true,
+            'size' => 'medium',
+            'status' => 'approved',
+            'active' => true,
         ]);
 
         // Boutique 2
@@ -53,18 +53,18 @@ class TestUsersSeeder extends Seeder
         ]);
         $user2->assignRole($shopRole);
         
-        Boutique::create([
+        Shop::create([
             'user_id' => $user2->id,
-            'nom' => 'Galerie Pierre & Co',
+            'name' => 'Galerie Pierre & Co',
             'description' => 'Galerie d\'art contemporain et boutique d\'objets uniques.',
-            'adresse' => '28 Avenue des Arts',
-            'ville' => 'Marseille',
-            'code_postal' => '13001',
-            'telephone' => '04 91 23 45 67',
+            'address' => '28 Avenue des Arts',
+            'city' => 'Marseille',
+            'postal_code' => '13001',
+            'phone' => '04 91 23 45 67',
             'email' => 'info@galerie-pierre.fr',
-            'taille' => 'grande',
-            'statut' => 'approuve',
-            'actif' => true,
+            'size' => 'large',
+            'status' => 'approved',
+            'active' => true,
         ]);
 
         // Boutique 3
@@ -77,18 +77,18 @@ class TestUsersSeeder extends Seeder
         ]);
         $user3->assignRole($shopRole);
         
-        Boutique::create([
+        Shop::create([
             'user_id' => $user3->id,
-            'nom' => 'Boutique Artisanale Sophie',
-            'description' => 'Spécialisée dans la vente de produits artisanaux traditionnels.',
-            'adresse' => '7 Place du Marché',
-            'ville' => 'Bordeaux',
-            'code_postal' => '33000',
-            'telephone' => '05 56 78 90 12',
+            'name' => 'Boutique Artisanale Sophie',
+            'description' => 'Spécialisée dans la vente de products artisanaux traditionnels.',
+            'address' => '7 Place du Marché',
+            'city' => 'Bordeaux',
+            'postal_code' => '33000',
+            'phone' => '05 56 78 90 12',
             'email' => 'contact@boutique-sophie.fr',
-            'taille' => 'petite',
-            'statut' => 'approuve',
-            'actif' => true,
+            'size' => 'small',
+            'status' => 'approved',
+            'active' => true,
         ]);
 
         // === ARTISANS ===
@@ -103,20 +103,21 @@ class TestUsersSeeder extends Seeder
         ]);
         $user4->assignRole($artisanRole);
         
-        Artisan::create([
+        Craftsman::create([
             'user_id' => $user4->id,
-            'nom_artisan' => 'Jean Dupont',
+            'first_name' => 'Jean',
+            'last_name' => 'Dupont',
             'description' => 'Artisan verrier spécialisé dans la création de vitraux.',
-            'specialites' => json_encode(['Vitrail', 'Verre soufflé', 'Décoration']),
-            'experience_annees' => 15,
-            'adresse_atelier' => '123 Rue des Artisans',
-            'ville_atelier' => 'Paris',
-            'code_postal_atelier' => '75001',
-            'telephone_atelier' => '01 42 34 56 78',
-            'email_atelier' => 'atelier@jean-dupont.fr',
-            'site_web' => 'www.jean-dupont-artisan.fr',
-            'statut' => 'approuve',
-            'actif' => true,
+            'specialty' => 'Vitrail, Verre soufflé, Décoration',
+            'experience_years' => 15,
+            'address' => '123 Rue des Artisans',
+            'city' => 'Paris',
+            'postal_code' => '75001',
+            'phone' => '01 42 34 56 78',
+            'email' => 'atelier@jean-dupont.fr',
+            'website' => 'www.jean-dupont-artisan.fr',
+            'status' => 'approved',
+            'active' => true,
         ]);
 
         // Artisan 2
@@ -129,20 +130,21 @@ class TestUsersSeeder extends Seeder
         ]);
         $user5->assignRole($artisanRole);
         
-        Artisan::create([
+        Craftsman::create([
             'user_id' => $user5->id,
-            'nom_artisan' => 'Claire Moreau',
+            'first_name' => 'Claire',
+            'last_name' => 'Moreau',
             'description' => 'Céramiste passionnée par la création de pièces uniques.',
-            'specialites' => json_encode(['Céramique', 'Grès', 'Porcelaine']),
-            'experience_annees' => 8,
-            'adresse_atelier' => '45 Chemin des Créateurs',
-            'ville_atelier' => 'Toulouse',
-            'code_postal_atelier' => '31000',
-            'telephone_atelier' => '05 61 23 45 67',
-            'email_atelier' => 'contact@claire-moreau.fr',
-            'site_web' => 'www.claire-moreau-ceramique.fr',
-            'statut' => 'approuve',
-            'actif' => true,
+            'specialty' => 'Céramique, Grès, Porcelaine',
+            'experience_years' => 8,
+            'address' => '45 Chemin des Créateurs',
+            'city' => 'Toulouse',
+            'postal_code' => '31000',
+            'phone' => '05 61 23 45 67',
+            'email' => 'contact@claire-moreau.fr',
+            'website' => 'www.claire-moreau-ceramique.fr',
+            'status' => 'approved',
+            'active' => true,
         ]);
 
         // Artisan 3
@@ -155,22 +157,23 @@ class TestUsersSeeder extends Seeder
         ]);
         $user6->assignRole($artisanRole);
         
-        Artisan::create([
+        Craftsman::create([
             'user_id' => $user6->id,
-            'nom_artisan' => 'Thomas Leroy',
+            'first_name' => 'Thomas',
+            'last_name' => 'Leroy',
             'description' => 'Ébéniste traditionnel créant des meubles sur mesure.',
-            'specialites' => json_encode(['Ébénisterie', 'Marqueterie', 'Restauration']),
-            'experience_annees' => 12,
-            'adresse_atelier' => '78 Impasse du Bois',
-            'ville_atelier' => 'Nantes',
-            'code_postal_atelier' => '44000',
-            'telephone_atelier' => '02 40 12 34 56',
-            'email_atelier' => 'thomas@leroy-ebeniste.fr',
-            'site_web' => 'www.thomas-leroy-ebeniste.fr',
-            'statut' => 'approuve',
-            'actif' => true,
+            'specialty' => 'Ébénisterie, Marqueterie, Restauration',
+            'experience_years' => 12,
+            'address' => '78 Impasse du Bois',
+            'city' => 'Nantes',
+            'postal_code' => '44000',
+            'phone' => '02 40 12 34 56',
+            'email' => 'thomas@leroy-ebeniste.fr',
+            'website' => 'www.thomas-leroy-ebeniste.fr',
+            'status' => 'approved',
+            'active' => true,
         ]);
 
-        $this->command->info('✅ 3 boutiques et 3 artisans créés avec succès !');
+        $this->command->info('✅ 3 shops et 3 craftsmen créés avec succès !');
     }
 }

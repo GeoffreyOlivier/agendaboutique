@@ -28,17 +28,20 @@ class CheckResourceOwnership
 
         // Vérifier la propriété selon le type de ressource
         switch ($resourceType) {
-            case 'boutique':
+            case 'shop':
+            case 'boutique': // Support pour compatibilité
                 if ($resource->user_id !== $user->id) {
                     return redirect()->route('dashboard')->with('error', 'Vous ne pouvez pas modifier cette boutique.');
                 }
                 break;
-            case 'produit':
-                if ($resource->artisan_id !== $user->artisan->id) {
+            case 'product':
+            case 'produit': // Support pour compatibilité
+                if ($resource->craftsman_id !== $user->craftsman->id) {
                     return redirect()->route('dashboard')->with('error', 'Vous ne pouvez pas modifier ce produit.');
                 }
                 break;
-            case 'artisan':
+            case 'craftsman':
+            case 'artisan': // Support pour compatibilité
                 if ($resource->user_id !== $user->id) {
                     return redirect()->route('dashboard')->with('error', 'Vous ne pouvez pas modifier ce profil artisan.');
                 }

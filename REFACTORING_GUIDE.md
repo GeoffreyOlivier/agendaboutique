@@ -135,7 +135,7 @@ Ce document décrit la refactorisation complète du système de nommage dans le 
 // Renommer les tables
 Schema::rename('artisans', 'craftsmen');
 Schema::rename('boutiques', 'shops');
-Schema::rename('produits', 'products');
+Schema::rename('products', 'products');
 
 // Renommer les colonnes
 Schema::table('craftsmen', function (Blueprint $table) {

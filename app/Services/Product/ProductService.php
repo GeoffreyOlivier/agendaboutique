@@ -194,7 +194,7 @@ class ProductService
     }
 
     /**
-     * Obtenir les produits disponibles
+     * Obtenir les products disponibles
      */
     public function getAvailableProducts()
     {
@@ -202,7 +202,7 @@ class ProductService
     }
 
     /**
-     * Obtenir les produits par catégorie
+     * Obtenir les products par catégorie
      */
     public function getProductsByCategory(string $category)
     {
@@ -210,7 +210,7 @@ class ProductService
     }
 
     /**
-     * Obtenir les produits d'un artisan
+     * Obtenir les products d'un artisan
      */
     public function getProductsByCraftsman(Craftsman $craftsman)
     {

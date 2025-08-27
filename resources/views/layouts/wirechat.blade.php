@@ -5,8 +5,6 @@
     {{ $slot }}
 </div>
 @endsection
-
-@push('styles')
 <style>
     /* Ajustements spécifiques pour Wirechat */
     

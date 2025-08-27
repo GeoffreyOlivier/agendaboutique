@@ -7,10 +7,10 @@
         <div class="flex items-center justify-between mb-4">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">
-                    Profil de {{ $craftsman->nom_artisan }}
+                    Profil de {{ $craftsman->first_name }} {{ $craftsman->last_name }}
                 </h1>
                 <p class="text-gray-600 mt-2">
-                    Découvrez le talent et les créations de cet craftsman
+                    Découvrez le talent et les créations de cet artisan
                 </p>
             </div>
             <div class="flex gap-3">
@@ -37,10 +37,10 @@
                 <!-- Photo de profil -->
                 <div class="text-center mb-6">
                     <div class="w-32 h-32 mx-auto bg-gradient-to-br from-blue-400 to-purple-600 rounded-full flex items-center justify-center mb-4">
-                        <img src="{{ asset('images/default-craftsman-avatar.svg') }}" alt="Photo de profil de {{ $craftsman->nom_artisan }}" class="w-28 h-28 object-contain rounded-full">
+                        <img src="{{ asset('images/default-craftsman-avatar.svg') }}" alt="Photo de profil de {{ $craftsman->first_name }} {{ $craftsman->last_name }}" class="w-28 h-28 object-contain rounded-full">
                     </div>
                     <div class="flex items-center justify-center gap-3 mb-2">
-                        <h2 class="text-2xl font-bold text-gray-900">{{ $craftsman->nom_artisan }}</h2>
+                        <h2 class="text-2xl font-bold text-gray-900">{{ $craftsman->first_name }} {{ $craftsman->last_name }}</h2>
                         <button class="p-2 text-gray-400 hover:text-red-500 transition-colors" title="Ajouter aux favoris">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
@@ -61,37 +61,25 @@
                 @endif
 
 
-                @if(!empty($craftsman->specialites))
-                    @foreach($craftsman->specialites as $specialite)
-                        <span class="px-3 py-1 text-sm gap-2 bg-blue-100 text-blue-800 rounded-full">
-                        {{ $specialite }}
-                        </span>
-                    @endforeach
-                @endif
-
-
-                <!-- Techniques -->
-                @if($craftsman->techniques && count($craftsman->techniques) > 0)
+                <!-- Spécialités -->
+                @if($craftsman->specialty)
                     <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Techniques</h3>
-                        <div class="flex flex-wrap gap-2">
-                            @foreach($craftsman->techniques as $technique)
-                                <span class="px-3 py-1 text-sm bg-purple-100 text-purple-800 rounded-full">
-                                    {{ $technique }}
-                                </span>
-                            @endforeach
-                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Spécialité</h3>
+                        <span class="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full">
+                            {{ $craftsman->specialty }}
+                        </span>
                     </div>
                 @endif
 
-                <!-- Matériaux préférés -->
-                @if($craftsman->materiaux_preferes && count($craftsman->materiaux_preferes) > 0)
+
+                <!-- Matériaux -->
+                @if($craftsman->material)
                     <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Matériaux préférés</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Matériaux</h3>
                         <div class="flex flex-wrap gap-2">
-                            @foreach($craftsman->materiaux_preferes as $materiau)
+                            @foreach(explode(',', $craftsman->material) as $materiau)
                                 <span class="px-3 py-1 text-sm bg-yellow-100 text-yellow-800 rounded-full">
-                                    {{ $materiau }}
+                                    {{ trim($materiau) }}
                                 </span>
                             @endforeach
                         </div>
@@ -103,7 +91,7 @@
                     <div class="grid grid-cols-2 gap-4 text-center">
                         <div>
                             <p class="text-2xl font-bold text-blue-600">{{ $craftsman->products->count() }}</p>
-                            <p class="text-sm text-gray-500">products</p>
+                            <p class="text-sm text-gray-500">Produits</p>
                         </div>
                         <div>
                             <p class="text-2xl font-bold text-green-600">{{ $craftsman->experience_annees ?? 0 }}</p>
@@ -113,48 +101,46 @@
                 </div>
 
                 <!-- Contact -->
-                @if($craftsman->email_atelier || $craftsman->telephone_atelier)
-                    <div class="border-t pt-6 mt-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Contact</h3>
-                        <div class="space-y-2">
-                            @if($craftsman->email_atelier)
-                                <div class="flex items-center text-sm text-gray-600">
-                                    <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                    </svg>
-                                    <a href="mailto:{{ $craftsman->email_atelier }}" class="hover:text-blue-600">{{ $craftsman->email_atelier }}</a>
-                                </div>
-                            @endif
-                            @if($craftsman->telephone_atelier)
-                                <div class="flex items-center text-sm text-gray-600">
-                                    <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                    </svg>
-                                    <a href="tel:{{ $craftsman->telephone_atelier }}" class="hover:text-blue-600">{{ $craftsman->telephone_atelier }}</a>
-                                </div>
-                            @endif
-                            @if($craftsman->adresse_atelier)
-                                <div class="flex items-start text-sm text-gray-600">
-                                    <svg class="w-4 h-4 mr-2 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    <span>{{ $craftsman->adresse_complete }}</span>
-                                </div>
-                            @endif
-                        </div>
-                        
-                        <!-- Bouton Contacter l'craftsman -->
-                        <div class="mt-4">
-                            <a href="{{ route('chat.craftsman.start', $craftsman->id) }}" class="w-full bg-green-600 text-white px-4 py-3 rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                <div class="border-t pt-6 mt-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Contact</h3>
+                    <div class="space-y-2">
+                        @if($craftsman->email)
+                            <div class="flex items-center text-sm text-gray-600">
+                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                 </svg>
-                                Contacter l'craftsman
-                            </a>
-                        </div>
+                                <a href="mailto:{{ $craftsman->email }}" class="hover:text-blue-600">{{ $craftsman->email }}</a>
+                            </div>
+                        @endif
+                        @if($craftsman->phone)
+                            <div class="flex items-center text-sm text-gray-600">
+                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                </svg>
+                                <a href="tel:{{ $craftsman->phone }}" class="hover:text-blue-600">{{ $craftsman->phone }}</a>
+                            </div>
+                        @endif
+                        @if($craftsman->address)
+                            <div class="flex items-start text-sm text-gray-600">
+                                <svg class="w-4 h-4 mr-2 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span>{{ $craftsman->address }}</span>
+                            </div>
+                        @endif
                     </div>
-                @endif
+                    
+                    <!-- Bouton Contacter l'artisan -->
+                    <div class="mt-4">
+                        <a href="{{ route('chat.craftsman.start', $craftsman->id) }}" class="w-full bg-green-600 text-white px-4 py-3 rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                            Contacter l'artisan
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -162,9 +148,9 @@
         <div class="lg:col-span-2">
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-2xl font-bold text-gray-900">
-                        products de {{ $craftsman->nom_artisan }}
-                    </h3>
+                                    <h3 class="text-2xl font-bold text-gray-900">
+                    Produits de {{ $craftsman->first_name }} {{ $craftsman->last_name }}
+                </h3>
                     <span class="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full">
                         {{ $craftsman->products->count() }} produit(s)
                     </span>
@@ -176,33 +162,33 @@
                             <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
                                 <!-- Image du produit -->
                                 <div class="aspect-square bg-gradient-to-br from-gray-200 to-gray-300">
-                                    @if($produit->image_principale)
-                                        <img src="{{ asset('storage/' . $produit->image_principale) }}" alt="{{ $produit->nom }}" class="w-full h-full object-cover">
+                                    @if($produit->main_image)
+                                        <img src="{{ asset('storage/' . $produit->main_image) }}" alt="{{ $produit->name }}" class="w-full h-full object-cover">
                                     @else
-                                        <img src="{{ asset('images/products/default-product.svg') }}" alt="{{ $produit->nom }}" class="w-full h-full object-cover">
+                                        <img src="{{ asset('images/products/default-product.svg') }}" alt="{{ $produit->name }}" class="w-full h-full object-cover">
                                     @endif
                                 </div>
                                 
                                 <!-- Informations du produit -->
                                 <div class="p-4">
-                                    <h4 class="font-semibold text-gray-900 mb-2">{{ $produit->nom }}</h4>
+                                    <h4 class="font-semibold text-gray-900 mb-2">{{ $produit->name }}</h4>
                                     @if($produit->description)
                                         <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ Str::limit($produit->description, 80) }}</p>
                                     @endif
                                     
-                                    <!-- Catégorie et tags -->
+                                    <!-- Catégorie et prix -->
                                     <div class="flex items-center justify-between mb-3">
-                                        @if($produit->categorie)
+                                        @if($produit->category)
                                             <span class="px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded-full">
-                                                {{ $produit->categorie }}
+                                                {{ $produit->category }}
                                             </span>
                                         @endif
-                                        <span class="text-lg font-bold text-blue-600">{{ $produit->prix_formate }}</span>
+                                        <span class="text-lg font-bold text-blue-600">{{ number_format($produit->base_price, 2) }} €</span>
                                     </div>
                                     
                                     <!-- Matériau -->
-                                    @if($produit->matiere)
-                                        <p class="text-xs text-gray-500 mb-3">Matériau : {{ $produit->matiere }}</p>
+                                    @if($produit->material)
+                                        <p class="text-xs text-gray-500 mb-3">Matériau : {{ $produit->material }}</p>
                                     @endif
                                 </div>
                             </div>
@@ -216,7 +202,7 @@
                             </svg>
                         </div>
                         <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun produit disponible</h3>
-                        <p class="text-gray-500">Cet craftsman n'a pas encore publié de products.</p>
+                        <p class="text-gray-500">Cet artisan n'a pas encore publié de produits.</p>
                     </div>
                 @endif
             </div>

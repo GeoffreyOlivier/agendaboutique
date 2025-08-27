@@ -48,12 +48,12 @@ class RolesTableSeeder extends Seeder
 
         Role::firstOrCreate(['name' => 'craftsman'], [
             'guard_name' => 'web',
-            'description' => 'craftsman avec possibilité de gérer ses products et expositions.',
+            'description' => 'Craftsman with ability to manage products and exhibitions.',
         ]);
 
         Role::firstOrCreate(['name' => 'shop-craftsman'], [
             'guard_name' => 'web',
-            'description' => 'Utilisateur ayant à la fois un statut de propriétaire de boutique et d\'craftsman.',
+            'description' => 'User with both shop owner and craftsman status.',
         ]);
     }
 }

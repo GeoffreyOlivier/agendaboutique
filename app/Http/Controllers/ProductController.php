@@ -7,7 +7,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\Craftsman;
 use App\Services\Product\ProductService;
-use App\Services\ProductImageService;
+use App\Services\Product\ProductImageService;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
@@ -42,14 +42,23 @@ class ProductController extends Controller
         }
 
         try {
+            // Log des données reçues pour debug
+            \Log::info('ProductController store - Data received:', $request->all());
+            
             // Adapter les données pour le service
             $data = $request->validated();
             $data['images'] = $request->file('images');
             
+            \Log::info('ProductController store - Data validated:', $data);
+            
             $product = $this->productService->createProduct($data, $craftsman);
+            
+            \Log::info('ProductController store - Product created:', ['id' => $product->id]);
+            
             return redirect()->route('craftsman.dashboard')->with('success', 'Produit ajouté avec succès !');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Erreur lors de la création du produit. Veuillez réessayer.');
+            \Log::error('ProductController store error:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return redirect()->back()->with('error', 'Erreur lors de la création du produit : ' . $e->getMessage());
         }
     }
 

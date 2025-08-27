@@ -5,7 +5,7 @@ namespace App\Services\Product;
 use App\Models\Product;
 use App\Models\Craftsman;
 use App\Models\User;
-use App\Services\ProductImageService;
+use App\Services\Product\ProductImageService;
 use App\Repositories\ProductRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

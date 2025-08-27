@@ -26,6 +26,31 @@
             <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 
+                <!-- Affichage des erreurs de validation -->
+                @if ($errors->any())
+                    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+                        <h4 class="text-red-800 font-medium mb-2">Erreurs de validation :</h4>
+                        <ul class="text-red-700 text-sm list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                
+                <!-- Messages flash -->
+                @if (session('error'))
+                    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+                        <p class="text-red-800">{{ session('error') }}</p>
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
+                        <p class="text-green-800">{{ session('success') }}</p>
+                    </div>
+                @endif
+                
                 <!-- Informations de base -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>

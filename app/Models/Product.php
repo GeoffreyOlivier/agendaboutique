@@ -150,6 +150,6 @@ class Product extends Model
 
     public function setMaterialAttribute($value)
     {
-        $this->attributes['material'] = ucfirst(strtolower($value));
+        $this->attributes['material'] = $value ? ucfirst(strtolower($value)) : null;
     }
 }

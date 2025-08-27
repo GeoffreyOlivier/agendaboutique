@@ -15,7 +15,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Enregistrer l'implémentation de l'interface ImageService
+        $this->app->bind(
+            \App\Contracts\Services\ImageServiceInterface::class,
+            \App\Services\ImageService::class
+        );
     }
 
     /**

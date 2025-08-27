@@ -41,9 +41,9 @@ class CheckResourceOwnership
                 }
                 break;
             case 'craftsman':
-            case 'artisan': // Support pour compatibilité
+            case 'craftsman': // Support pour compatibilité
                 if ($resource->user_id !== $user->id) {
-                    return redirect()->route('dashboard')->with('error', 'Vous ne pouvez pas modifier ce profil artisan.');
+                    return redirect()->route('dashboard')->with('error', 'Vous ne pouvez pas modifier ce profil craftsman.');
                 }
                 break;
             default:

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Artisan;
+use App\Models\craftsman;
 use App\Models\Produit;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,11 +21,11 @@ class ArtisansTableSeeder extends Seeder
         $artisansData = [
             [
                 'name' => 'Marie Dubois',
-                'email' => 'marie.dubois@artisan.com',
+                'email' => 'marie.dubois@craftsman.com',
                 'username' => 'marie_dubois',
                 'password' => Hash::make('password'),
                 'verified' => 1,
-                'artisan' => [
+                'craftsman' => [
                     'nom_artisan' => 'Marie Dubois',
                     'description' => 'Artisane passionnée de céramique et de poterie. Je crée des pièces uniques et personnalisées pour votre intérieur.',
                     'specialites' => ['Céramique', 'Poterie', 'Décoration'],
@@ -34,7 +34,7 @@ class ArtisansTableSeeder extends Seeder
                     'ville_atelier' => 'Lyon',
                     'code_postal_atelier' => '69001',
                     'telephone_atelier' => '04 78 12 34 56',
-                    'email_atelier' => 'marie.dubois@artisan.com',
+                    'email_atelier' => 'marie.dubois@craftsman.com',
                     'statut' => 'approuve',
                     'actif' => true,
                     'bio' => 'Passionnée par l\'art de la terre depuis mon plus jeune âge, je crée des pièces uniques qui allient tradition et modernité.',
@@ -44,11 +44,11 @@ class ArtisansTableSeeder extends Seeder
             ],
             [
                 'name' => 'Pierre Martin',
-                'email' => 'pierre.martin@artisan.com',
+                'email' => 'pierre.martin@craftsman.com',
                 'username' => 'pierre_martin',
                 'password' => Hash::make('password'),
                 'verified' => 1,
-                'artisan' => [
+                'craftsman' => [
                     'nom_artisan' => 'Pierre Martin',
                     'description' => 'Ébéniste traditionnel spécialisé dans la création de meubles sur mesure et la restauration d\'antiquités.',
                     'specialites' => ['Ébénisterie', 'Menuiserie', 'Restauration'],
@@ -57,7 +57,7 @@ class ArtisansTableSeeder extends Seeder
                     'ville_atelier' => 'Bordeaux',
                     'code_postal_atelier' => '33000',
                     'telephone_atelier' => '05 56 78 90 12',
-                    'email_atelier' => 'pierre.martin@artisan.com',
+                    'email_atelier' => 'pierre.martin@craftsman.com',
                     'statut' => 'approuve',
                     'actif' => true,
                     'bio' => 'Ébéniste de père en fils, je perpétue les techniques ancestrales tout en apportant une touche contemporaine.',
@@ -67,11 +67,11 @@ class ArtisansTableSeeder extends Seeder
             ],
             [
                 'name' => 'Sophie Laurent',
-                'email' => 'sophie.laurent@artisan.com',
+                'email' => 'sophie.laurent@craftsman.com',
                 'username' => 'sophie_laurent',
                 'password' => Hash::make('password'),
                 'verified' => 1,
-                'artisan' => [
+                'craftsman' => [
                     'nom_artisan' => 'Sophie Laurent',
                     'description' => 'Créatrice textile spécialisée dans la confection de vêtements et accessoires en laine et coton bio.',
                     'specialites' => ['Textile', 'Tricot', 'Crochet'],
@@ -80,7 +80,7 @@ class ArtisansTableSeeder extends Seeder
                     'ville_atelier' => 'Nantes',
                     'code_postal_atelier' => '44000',
                     'telephone_atelier' => '02 40 12 34 56',
-                    'email_atelier' => 'sophie.laurent@artisan.com',
+                    'email_atelier' => 'sophie.laurent@craftsman.com',
                     'statut' => 'approuve',
                     'actif' => true,
                     'bio' => 'Passionnée de mode éthique, je crée des pièces uniques qui respectent l\'environnement et valorisent le savoir-faire artisanal.',
@@ -100,18 +100,18 @@ class ArtisansTableSeeder extends Seeder
                 'verified' => $artisanData['verified'],
             ]);
 
-            // Assigner le rôle artisan
+            // Assigner le rôle craftsman
             $user->assignArtisanRole();
 
-            // Créer l'artisan
-            $artisan = $user->artisan()->create($artisanData['artisan']);
+            // Créer l'craftsman
+            $craftsman = $user->craftsman()->create($artisanData['craftsman']);
 
-            // Créer des products pour chaque artisan
-            $this->createProductsForArtisan($artisan);
+            // Créer des products pour chaque craftsman
+            $this->createProductsForArtisan($craftsman);
         }
     }
 
-    private function createProductsForArtisan($artisan)
+    private function createProductsForArtisan($craftsman)
     {
         $productsData = [
             [
@@ -155,7 +155,7 @@ class ArtisansTableSeeder extends Seeder
             ]
         ];
 
-        if ($artisan->nom_artisan === 'Pierre Martin') {
+        if ($craftsman->nom_artisan === 'Pierre Martin') {
             $productsData = [
                 [
                     'nom' => 'Table basse en chêne',
@@ -199,7 +199,7 @@ class ArtisansTableSeeder extends Seeder
             ];
         }
 
-        if ($artisan->nom_artisan === 'Sophie Laurent') {
+        if ($craftsman->nom_artisan === 'Sophie Laurent') {
             $productsData = [
                 [
                     'nom' => 'Écharpe en laine bio',
@@ -244,7 +244,7 @@ class ArtisansTableSeeder extends Seeder
         }
 
         foreach ($productsData as $productData) {
-            $artisan->products()->create($productData);
+            $craftsman->products()->create($productData);
         }
     }
 }

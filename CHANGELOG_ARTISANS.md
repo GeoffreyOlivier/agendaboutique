@@ -11,21 +11,21 @@
 - **Fichier modifié** : `resources/views/interfaces/shop/artisans.blade.php`
 - **Changement** : Mise en page en deux lignes
 - **Nouvelle structure** :
-  - **Première ligne** : Photo de profil, nom de l'artisan, description, spécialités, statistiques, bouton "Voir le profil"
+  - **Première ligne** : Photo de profil, nom de l'craftsman, description, spécialités, statistiques, bouton "Voir le profil"
   - **Deuxième ligne** : Trois photos de products avec noms et prix
 
 ### 3. Bouton "Voir le profil" fonctionnel
 - **Fichier modifié** : `resources/views/interfaces/shop/artisans.blade.php`
-- **Nouvelle route** : `shop.artisan.profile` ajoutée dans `routes/web.php`
+- **Nouvelle route** : `shop.craftsman.profile` ajoutée dans `routes/web.php`
 - **Nouveau contrôleur** : Méthode `shopArtisanProfile` dans `InterfaceController`
-- **Nouvelle vue** : `resources/views/interfaces/shop/artisan-profile.blade.php`
-- **Fonctionnalité** : Affichage du profil complet de l'artisan avec tous ses products
+- **Nouvelle vue** : `resources/views/interfaces/shop/craftsman-profile.blade.php`
+- **Fonctionnalité** : Affichage du profil complet de l'craftsman avec tous ses products
 
 ### 4. Améliorations de l'interface utilisateur
-- **Bouton "Contacter l'artisan"** : Ajouté dans la section contact du profil
-- **Bouton cœur (favoris)** : Déplacé sur la carte de l'artisan (nom + icône)
+- **Bouton "Contacter l'craftsman"** : Ajouté dans la section contact du profil
+- **Bouton cœur (favoris)** : Déplacé sur la carte de l'craftsman (nom + icône)
 - **Simplification des products** : Suppression des boutons d'action sur chaque produit
-- **Meilleure organisation** : Actions centralisées sur la carte de l'artisan
+- **Meilleure organisation** : Actions centralisées sur la carte de l'craftsman
 
 ### 5. Création de données de test
 - **Nouveau fichier** : `database/seeders/ArtisansTableSeeder.php`
@@ -46,10 +46,10 @@
 ### Pour les utilisateurs Shop :
 1. **Accès aux artisans** : Bouton "Trouver des Artisans" dans les actions rapides
 2. **Vue des artisans** : Liste en deux lignes avec :
-   - Informations de l'artisan (profil, spécialités, expérience)
+   - Informations de l'craftsman (profil, spécialités, expérience)
    - Aperçu des products (3 photos avec noms et prix)
    - Bouton "Voir le profil" fonctionnel
-3. **Profil détaillé de l'artisan** : Page complète avec :
+3. **Profil détaillé de l'craftsman** : Page complète avec :
    - Informations détaillées (description, techniques, matériaux)
    - Statistiques (nombre de products, expérience)
    - Coordonnées de contact
@@ -58,11 +58,11 @@
 5. **Navigation** : Retour au dashboard boutique et à la liste des artisans
 
 ### Affichage des products :
-- **Grille 3x1** : Trois products par artisan dans la liste
+- **Grille 3x1** : Trois products par craftsman dans la liste
 - **Galerie complète** : Tous les products dans le profil détaillé
 - **Images** : Utilisation d'images par défaut si aucune image n'est disponible
 - **Informations** : Nom du produit, prix formaté, catégorie, matériau
-- **Actions centralisées** : Bouton "Contacter l'artisan" et cœur (favoris) sur la carte de l'artisan
+- **Actions centralisées** : Bouton "Contacter l'craftsman" et cœur (favoris) sur la carte de l'craftsman
 
 ## Utilisation
 
@@ -81,21 +81,21 @@
 
 ### Modèles utilisés :
 - `User` : Utilisateurs avec rôles
-- `Artisan` : Profils des artisans
+- `craftsman` : Profils des artisans
 - `Produit` : products des artisans
 - `Boutique` : Boutiques des utilisateurs
 
 ### Routes :
 - `shop.artisans` : Liste des artisans pour les boutiques
-- `shop.artisan.profile` : Profil détaillé d'un artisan
+- `shop.craftsman.profile` : Profil détaillé d'un craftsman
 
 ### Contrôleur :
 - `InterfaceController@shopArtisans` : Gestion de l'affichage des artisans
-- `InterfaceController@shopArtisanProfile` : Gestion du profil détaillé d'un artisan
+- `InterfaceController@shopArtisanProfile` : Gestion du profil détaillé d'un craftsman
 
 ## Améliorations futures possibles
 
-1. **Galerie de products** : Page dédiée pour chaque artisan ✅ **IMPLÉMENTÉ**
+1. **Galerie de products** : Page dédiée pour chaque craftsman ✅ **IMPLÉMENTÉ**
 2. **Contact direct** : Système de messagerie entre boutiques et artisans
 3. **Favoris** : Système de favoris pour les artisans
 4. **Évaluations** : Système de notation et commentaires

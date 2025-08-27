@@ -72,12 +72,12 @@ class ProductService
             $product = $this->productRepository->create($productData);
 
             DB::commit();
-            Log::info("Product créé avec succès pour l'artisan {$craftsman->id}");
+            Log::info("Product créé avec succès pour l'craftsman {$craftsman->id}");
 
             return $product;
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error("Erreur lors de la création du produit pour l'artisan {$craftsman->id}: " . $e->getMessage());
+            Log::error("Erreur lors de la création du produit pour l'craftsman {$craftsman->id}: " . $e->getMessage());
             throw $e;
         }
     }
@@ -210,7 +210,7 @@ class ProductService
     }
 
     /**
-     * Obtenir les products d'un artisan
+     * Obtenir les products d'un craftsman
      */
     public function getProductsByCraftsman(Craftsman $craftsman)
     {

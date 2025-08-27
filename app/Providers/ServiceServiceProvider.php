@@ -8,7 +8,7 @@ use App\Contracts\Services\ProductServiceInterface;
 use App\Services\Shop\ShopService;
 use App\Services\Product\ProductService;
 use App\Services\User\UserRoleService;
-use App\Services\Artisan\ArtisanService;
+use App\Services\craftsman\ArtisanService;
 use App\Services\ShopImageService;
 use App\Services\ProductImageService;
 use App\Services\ArtisanImageService;

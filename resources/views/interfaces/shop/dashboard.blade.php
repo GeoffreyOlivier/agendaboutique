@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    @if($hasBoutique)
+    @if($hasShop)
         <!-- Tableau de bord complet pour les utilisateurs avec boutique -->
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-gray-900 mb-4">
@@ -50,7 +50,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500">Artisans</p>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $artisans->count() }}</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ $craftsmen->count() }}</p>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500">Demandes actives</p>
-                        <p class="text-2xl font-semibold text-gray-900">{{ $demandes->where('statut', 'en_attente')->count() }}</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ $demandes->where('status', 'pending')->count() }}</p>
                     </div>
                 </div>
             </div>
@@ -81,17 +81,17 @@
                         @foreach($demandes->take(5) as $demande)
                         <div class="border border-gray-200 rounded-lg p-4">
                             <div class="flex justify-between items-start mb-2">
-                                <h4 class="font-medium text-gray-900">{{ $demande->titre }}</h4>
+                                <h4 class="font-medium text-gray-900">{{ $demande->title }}</h4>
                                 <span class="px-2 py-1 text-xs rounded-full 
-                                    @if($demande->statut === 'en_attente') bg-yellow-100 text-yellow-800
-                                    @elseif($demande->statut === 'acceptee') bg-green-100 text-green-800
+                                    @if($demande->status === 'pending') bg-yellow-100 text-yellow-800
+                                    @elseif($demande->status === 'accepted') bg-green-100 text-green-800
                                     @else bg-red-100 text-red-800 @endif">
-                                    {{ ucfirst($demande->statut) }}
+                                    {{ ucfirst($demande->status) }}
                                 </span>
                             </div>
                             <p class="text-sm text-gray-600 mb-2">{{ Str::limit($demande->description, 100) }}</p>
                             <div class="flex justify-between items-center text-xs text-gray-500">
-                                <span>{{ $demande->artisan->nom_artisan }}</span>
+                                <span>{{ $demande->craftsman->first_name }} {{ $demande->craftsman->last_name }}</span>
                                 <span>{{ $demande->created_at->format('d/m/Y') }}</span>
                             </div>
                         </div>
@@ -120,20 +120,20 @@
             <div class="bg-white rounded-lg shadow-md p-6">
                 <h3 class="text-xl font-semibold text-gray-900 mb-4">Artisans associés</h3>
                 
-                @if($artisans->count() > 0)
+                @if($craftsmen->count() > 0)
                     <div class="space-y-4">
-                        @foreach($artisans->take(5) as $artisan)
+                        @foreach($craftsmen->take(5) as $craftsman)
                         <div class="border border-gray-200 rounded-lg p-4">
                             <div class="flex justify-between items-start mb-2">
-                                <h4 class="font-medium text-gray-900">{{ $artisan->nom_artisan }}</h4>
+                                <h4 class="font-medium text-gray-900">{{ $craftsman->first_name }} {{ $craftsman->last_name }}</h4>
                                 <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
                                     Actif
                                 </span>
                             </div>
-                            <p class="text-sm text-gray-600 mb-2">{{ Str::limit($artisan->description, 80) }}</p>
+                            <p class="text-sm text-gray-600 mb-2">{{ Str::limit($craftsman->description, 80) }}</p>
                             <div class="flex justify-between items-center text-xs text-gray-500">
-                                <span>{{ $artisan->specialites_liste }}</span>
-                                <span>{{ $artisan->created_at->format('d/m/Y') }}</span>
+                                <span>{{ $craftsman->specialty }}</span>
+                                <span>{{ $craftsman->created_at->format('d/m/Y') }}</span>
                             </div>
                         </div>
                         @endforeach
@@ -144,7 +144,7 @@
                         </a>
                     </div>
                 @else
-                    <p class="text-gray-500 text-center py-8">Aucun artisan associé pour le moment</p>
+                    <p class="text-gray-500 text-center py-8">Aucun craftsman associé pour le moment</p>
                 @endif
                 
                 <div class="mt-6">
@@ -169,7 +169,7 @@
                         </svg>
                     </div>
                     <h4 class="font-medium text-gray-900">Nouvelle demande</h4>
-                    <p class="text-sm text-gray-500">Créer une demande d'artisan</p>
+                    <p class="text-sm text-gray-500">Créer une demande d'craftsman</p>
                 </a>
 
                 <a href="{{ route('shop.craftsmen') }}" class="block p-4 border border-gray-200 rounded-lg hover:bg-gray-50">

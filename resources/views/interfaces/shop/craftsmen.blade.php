@@ -14,7 +14,7 @@
                     Tous les Artisans
                 </h1>
                 <p class="text-gray-600 mt-2">
-                    @if($boutique)
+                    @if($shop)
                         Découvrez les talents et créateurs qui font vivre votre boutique
                     @else
                         Découvrez tous les artisans disponibles pour votre future boutique
@@ -41,7 +41,7 @@
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500">Total Artisans</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $artisans->count() }}</p>
+                    <p class="text-2xl font-semibold text-gray-900">{{ $craftsmen->count() }}</p>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500">products Disponibles</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $artisans->sum(function($artisan) { return $artisan->products->count(); }) }}</p>
+                    <p class="text-2xl font-semibold text-gray-900">{{ $craftsmen->sum(function($craftsman) { return $craftsman->products->count(); }) }}</p>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="ml-4">
                     <p class="text-sm font-medium text-gray-500">Catégories</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $artisans->flatMap(function($artisan) { return $artisan->products->pluck('categorie'); })->unique()->filter()->count() }}</p>
+                    <p class="text-2xl font-semibold text-gray-900">{{ $craftsmen->flatMap(function($craftsman) { return $craftsman->products->pluck('categorie'); })->unique()->filter()->count() }}</p>
                 </div>
             </div>
         </div>
@@ -79,14 +79,14 @@
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
         <div class="flex flex-col md:flex-row gap-4">
             <div class="flex-1">
-                <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Rechercher un artisan</label>
+                <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Rechercher un craftsman</label>
                 <input type="text" id="search" placeholder="Nom, spécialité, catégorie..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
             <div class="md:w-48">
                 <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
                 <select id="category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="">Toutes les catégories</option>
-                    @foreach($artisans->flatMap(function($artisan) { return $artisan->products->pluck('categorie'); })->unique()->filter() as $categoryName)
+                    @foreach($craftsmen->flatMap(function($craftsman) { return $craftsman->products->pluck('categorie'); })->unique()->filter() as $categoryName)
                         @if($categoryName)
                             <option value="{{ $categoryName }}">{{ $categoryName }}</option>
                         @endif
@@ -97,17 +97,17 @@
     </div>
 
     <!-- Liste des artisans -->
-    @if($artisans->count() > 0)
+    @if($craftsmen->count() > 0)
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            @foreach($artisans as $artisan)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 artisan-card">
-                    <!-- Première ligne : Informations de l'artisan -->
+            @foreach($craftsmen as $craftsman)
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 craftsman-card">
+                    <!-- Première ligne : Informations de l'craftsman -->
                     <div class="p-6">
                         <div class="flex items-start gap-4 mb-4">
                             <!-- Photo de profil -->
                             <div class="flex-shrink-0">
                                 <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full flex items-center justify-center">
-                                    <img src="{{ asset('images/default-artisan-avatar.svg') }}" alt="Photo de profil de {{ $artisan->nom_artisan }}" class="w-16 h-16 object-contain rounded-full">
+                                    <img src="{{ asset('images/default-craftsman-avatar.svg') }}" alt="Photo de profil de {{ $craftsman->nom_artisan }}" class="w-16 h-16 object-contain rounded-full">
                                 </div>
                             </div>
                             
@@ -115,7 +115,7 @@
                             <div class="flex-1">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="flex items-center gap-2">
-                                        <h3 class="text-xl font-semibold text-gray-900">{{ $artisan->nom_artisan }}</h3>
+                                        <h3 class="text-xl font-semibold text-gray-900">{{ $craftsman->nom_artisan }}</h3>
                                         <button class="p-1 text-gray-400 hover:text-red-500 transition-colors" title="Ajouter aux favoris">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
@@ -127,15 +127,15 @@
                                     </span>
                                 </div>
                                 
-                                @if($artisan->description)
-                                    <p class="text-gray-600 mb-3 text-sm">{{ Str::limit($artisan->description, 120) }}</p>
+                                @if($craftsman->description)
+                                    <p class="text-gray-600 mb-3 text-sm">{{ Str::limit($craftsman->description, 120) }}</p>
                                 @endif
                                 
                                 <!-- Spécialités -->
-                                @if($artisan->specialite)
+                                @if($craftsman->specialite)
                                     <div class="mb-3">
                                         <div class="flex flex-wrap gap-2">
-                                            @foreach($artisan->specialites as $specialite)
+                                            @foreach($craftsman->specialites as $specialite)
                                                 <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
                                                     {{ $specialite }}
                                                 </span>
@@ -146,9 +146,9 @@
                                 
                                 <!-- Statistiques -->
                                 <div class="flex items-center justify-between text-sm text-gray-500">
-                                    <span>{{ $artisan->products->count() }} produit(s)</span>
-                                    @if($artisan->experience_annees)
-                                        <span>{{ $artisan->experience_annees }} an(s) d'expérience</span>
+                                    <span>{{ $craftsman->products->count() }} produit(s)</span>
+                                    @if($craftsman->experience_annees)
+                                        <span>{{ $craftsman->experience_annees }} an(s) d'expérience</span>
                                     @endif
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                         
                         <!-- Bouton voir le profil -->
                         <div class="text-center">
-                            <a href="{{ route('shop.craftsman.profile', $artisan->id) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors">
+                            <a href="{{ route('shop.craftsman.profile', $craftsman->id) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
@@ -167,9 +167,9 @@
                     
                     <!-- Deuxième ligne : Photos des products -->
                     <div class="bg-gray-50 p-4">
-                        @if($artisan->products->count() > 0)
+                        @if($craftsman->products->count() > 0)
                             <div class="grid grid-cols-3 gap-3">
-                                @foreach($artisan->products->take(3) as $produit)
+                                @foreach($craftsman->products->take(3) as $produit)
                                     <div class="bg-white rounded-lg p-2 shadow-sm">
                                         <div class="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 rounded-md flex items-center justify-center mb-2">
                                             @if($produit->image_principale)
@@ -186,7 +186,7 @@
                                 @endforeach
                                 
                                 <!-- Si moins de 3 products, afficher des placeholders -->
-                                @for($i = $artisan->products->count(); $i < 3; $i++)
+                                @for($i = $craftsman->products->count(); $i < 3; $i++)
                                     <div class="bg-white rounded-lg p-2 shadow-sm">
                                         <div class="aspect-square bg-gray-100 rounded-md flex items-center justify-center">
                                             <div class="text-gray-300 text-xs text-center">
@@ -217,14 +217,14 @@
             @endforeach
         </div>
     @else
-        <!-- Message si aucun artisan -->
+        <!-- Message si aucun craftsman -->
         <div class="bg-white rounded-lg shadow-md p-12 text-center">
             <div class="text-gray-400 mb-4">
                 <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                 </svg>
             </div>
-            <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun artisan associé</h3>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun craftsman associé</h3>
             <p class="text-gray-500 mb-6">
                 Vous n'avez pas encore d'artisans associés à votre boutique. Commencez par approuver des demandes d'artisans.
             </p>

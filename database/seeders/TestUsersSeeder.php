@@ -15,7 +15,7 @@ class TestUsersSeeder extends Seeder
     {
         // Créer les rôles s'ils n'existent pas
         $shopRole = Role::firstOrCreate(['name' => 'shop'], ['guard_name' => 'web']);
-        $artisanRole = Role::firstOrCreate(['name' => 'artisan'], ['guard_name' => 'web']);
+        $artisanRole = Role::firstOrCreate(['name' => 'craftsman'], ['guard_name' => 'web']);
 
         // === BOUTIQUES ===
         
@@ -93,10 +93,10 @@ class TestUsersSeeder extends Seeder
 
         // === ARTISANS ===
         
-        // Artisan 1
+        // craftsman 1
         $user4 = User::create([
             'name' => 'Jean Dupont',
-            'email' => 'jean.dupont@artisan.fr',
+            'email' => 'jean.dupont@craftsman.fr',
             'username' => 'jeandupont',
             'password' => Hash::make('adminartisan'),
             'verified' => 1,
@@ -107,7 +107,7 @@ class TestUsersSeeder extends Seeder
             'user_id' => $user4->id,
             'first_name' => 'Jean',
             'last_name' => 'Dupont',
-            'description' => 'Artisan verrier spécialisé dans la création de vitraux.',
+            'description' => 'craftsman verrier spécialisé dans la création de vitraux.',
             'specialty' => 'Vitrail, Verre soufflé, Décoration',
             'experience_years' => 15,
             'address' => '123 Rue des Artisans',
@@ -115,15 +115,15 @@ class TestUsersSeeder extends Seeder
             'postal_code' => '75001',
             'phone' => '01 42 34 56 78',
             'email' => 'atelier@jean-dupont.fr',
-            'website' => 'www.jean-dupont-artisan.fr',
+            'website' => 'www.jean-dupont-craftsman.fr',
             'status' => 'approved',
             'active' => true,
         ]);
 
-        // Artisan 2
+        // craftsman 2
         $user5 = User::create([
             'name' => 'Claire Moreau',
-            'email' => 'claire.moreau@artisan.fr',
+            'email' => 'claire.moreau@craftsman.fr',
             'username' => 'clairemoreau',
             'password' => Hash::make('adminartisan'),
             'verified' => 1,
@@ -147,10 +147,10 @@ class TestUsersSeeder extends Seeder
             'active' => true,
         ]);
 
-        // Artisan 3
+        // craftsman 3
         $user6 = User::create([
             'name' => 'Thomas Leroy',
-            'email' => 'thomas.leroy@artisan.fr',
+            'email' => 'thomas.leroy@craftsman.fr',
             'username' => 'thomasleroy',
             'password' => Hash::make('adminartisan'),
             'verified' => 1,

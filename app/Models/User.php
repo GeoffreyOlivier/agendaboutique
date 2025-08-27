@@ -90,22 +90,22 @@ class User extends WaveUser
 
     public function isArtisan()
     {
-        return $this->hasRole('artisan');
+        return $this->hasRole('craftsman');
     }
 
     public function isShopAndArtisan()
     {
-        return $this->hasRole('shop') && $this->hasRole('artisan');
+        return $this->hasRole('shop') && $this->hasRole('craftsman');
     }
 
     public function isShopOnly()
     {
-        return $this->hasRole('shop') && !$this->hasRole('artisan');
+        return $this->hasRole('shop') && !$this->hasRole('craftsman');
     }
 
     public function isArtisanOnly()
     {
-        return $this->hasRole('artisan') && !$this->hasRole('shop');
+        return $this->hasRole('craftsman') && !$this->hasRole('shop');
     }
 
     // Méthodes pour assigner les rôles
@@ -116,22 +116,22 @@ class User extends WaveUser
 
     public function assignArtisanRole()
     {
-        return $this->assignRole('artisan');
+        return $this->assignRole('craftsman');
     }
 
     public function assignShopAndArtisanRoles()
     {
-        return $this->syncRoles(['shop', 'artisan']);
+        return $this->syncRoles(['shop', 'craftsman']);
     }
 
     public function assignCombinedRole()
     {
-        return $this->assignRole('shop-artisan');
+        return $this->assignRole('shop-craftsman');
     }
 
     public function isShopArtisan()
     {
-        return $this->hasRole('shop-artisan');
+        return $this->hasRole('shop-craftsman');
     }
 
     // Méthodes pour récupérer les données associées

@@ -14,7 +14,7 @@ La refactorisation complète du système de nommage a été réalisée avec succ
 - ✅ `BoutiqueServiceInterface` → `ShopServiceInterface`
 
 ### 2. Modèles refactorisés
-- ✅ `Artisan` → `Craftsman`
+- ✅ `craftsman` → `Craftsman`
 - ✅ `Boutique` → `Shop`
 - ✅ `Produit` → `Product`
 - ✅ `Commande` → `Order`
@@ -33,7 +33,7 @@ La refactorisation complète du système de nommage a été réalisée avec succ
 
 ### Modèles principaux
 ```
-Craftsman (anciennement Artisan)
+Craftsman (anciennement craftsman)
 ├── Relations: user, products, requests, shops
 ├── Champs: first_name, last_name, specialty, experience_years
 └── Scopes: approved, active, pending, available
@@ -111,7 +111,7 @@ CraftsmanRepository
 ## 🗑️ Fichiers supprimés
 
 ### Anciens modèles
-- `app/Models/Artisan.php`
+- `app/Models/craftsman.php`
 - `app/Models/Boutique.php`
 - `app/Models/Produit.php`
 - `app/Models/Commande.php`
@@ -126,8 +126,8 @@ CraftsmanRepository
 - `app/Contracts/Services/BoutiqueServiceInterface.php`
 
 ### Anciens services
-- `app/Services/Artisan/ArtisanService.php`
-- `app/Services/Artisan/ArtisanImageService.php`
+- `app/Services/craftsman/ArtisanService.php`
+- `app/Services/craftsman/ArtisanImageService.php`
 
 ### Anciens repositories
 - `app/Repositories/ArtisanRepository.php`

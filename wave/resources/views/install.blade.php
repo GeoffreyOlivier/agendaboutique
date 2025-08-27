@@ -16,11 +16,11 @@
             @php
             
 
-                \Illuminate\Support\Facades\Artisan::call('db:seed', [
+                \Illuminate\Support\Facades\craftsman::call('db:seed', [
                 '--force' => true
                 ]);
 
-                \Illuminate\Support\Facades\Artisan::call('storage:link');
+                \Illuminate\Support\Facades\craftsman::call('storage:link');
 
                 Auth::login(\App\Models\User::first());
 
@@ -52,7 +52,7 @@
                 if (!\Illuminate\Support\Facades\File::exists(database_path('database.sqlite'))) {
                     \Illuminate\Support\Facades\File::put(database_path('database.sqlite'), '');
                 }
-                \Illuminate\Support\Facades\Artisan::call('migrate', [
+                \Illuminate\Support\Facades\craftsman::call('migrate', [
                     '--force' => true
                     ]);
             @endphp

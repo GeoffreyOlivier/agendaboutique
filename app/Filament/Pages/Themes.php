@@ -114,9 +114,9 @@ class Themes extends Page
                 ->send();
         }
 
-        \Artisan::call('config:clear');
-        \Artisan::call('view:clear');
-        \Artisan::call('route:clear');
+        \craftsman::call('config:clear');
+        \craftsman::call('view:clear');
+        \craftsman::call('route:clear');
 
         $this->refreshThemes();
 

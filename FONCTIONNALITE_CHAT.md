@@ -2,7 +2,7 @@
 
 ## Vue d'ensemble
 
-Cette fonctionnalité permet aux utilisateurs ayant le rôle "boutique" de contacter directement les artisans via un système de chat intégré. Quand un utilisateur boutique clique sur le bouton "Contacter l'artisan", il est redirigé vers la page de chat avec une nouvelle conversation ou une conversation existante.
+Cette fonctionnalité permet aux utilisateurs ayant le rôle "boutique" de contacter directement les artisans via un système de chat intégré. Quand un utilisateur boutique clique sur le bouton "Contacter l'craftsman", il est redirigé vers la page de chat avec une nouvelle conversation ou une conversation existante.
 
 ## Fonctionnalités implémentées
 
@@ -11,20 +11,20 @@ Cette fonctionnalité permet aux utilisateurs ayant le rôle "boutique" de conta
 - **Méthode principale** : `startConversationWithArtisan($artisanId)`
 - **Fonctionnalités** :
   - Vérification des permissions (rôle boutique requis)
-  - Vérification du statut de l'artisan (doit être approuvé)
+  - Vérification du statut de l'craftsman (doit être approuvé)
   - Création automatique de conversation via WireChat
   - Redirection vers la page de chat
 
 ### ✅ Route ajoutée
-- **URL** : `/chat/artisan/{artisan}`
-- **Nom** : `chat.artisan.start`
+- **URL** : `/chat/craftsman/{craftsman}`
+- **Nom** : `chat.craftsman.start`
 - **Méthode** : GET
 - **Middleware** : `auth`
 - **Contrôleur** : `ChatController@startConversationWithArtisan`
 
 ### ✅ Interface utilisateur mise à jour
-- **Profil de l'artisan** : Bouton "Contacter l'artisan" transformé en lien fonctionnel
-- **Liste des products** : Bouton "Contacter" redirige vers le profil de l'artisan
+- **Profil de l'craftsman** : Bouton "Contacter l'craftsman" transformé en lien fonctionnel
+- **Liste des products** : Bouton "Contacter" redirige vers le profil de l'craftsman
 - **Navigation** : Redirection automatique vers la page de chat
 
 ### ✅ Intégration WireChat
@@ -37,20 +37,20 @@ Cette fonctionnalité permet aux utilisateurs ayant le rôle "boutique" de conta
 
 ### 1. Flux utilisateur
 1. L'utilisateur boutique va sur la page des artisans (`/shop/artisans`)
-2. Il clique sur "Voir le profil" d'un artisan
-3. Sur le profil de l'artisan, il clique sur "Contacter l'artisan"
+2. Il clique sur "Voir le profil" d'un craftsman
+3. Sur le profil de l'craftsman, il clique sur "Contacter l'craftsman"
 4. Il est automatiquement redirigé vers la page de chat avec la conversation ouverte
 
 ### 2. Vérifications de sécurité
 - ✅ L'utilisateur doit avoir le rôle "boutique"
-- ✅ L'artisan doit avoir le statut "approuve"
-- ✅ L'artisan doit avoir un utilisateur associé
+- ✅ L'craftsman doit avoir le statut "approuve"
+- ✅ L'craftsman doit avoir un utilisateur associé
 - ✅ L'utilisateur ne peut pas se contacter lui-même
 
 ### 3. Gestion des conversations
 - **Nouvelle conversation** : Créée automatiquement si aucune n'existe
 - **Conversation existante** : Récupérée si elle existe déjà
-- **Participants** : L'utilisateur boutique et l'artisan sont ajoutés automatiquement
+- **Participants** : L'utilisateur boutique et l'craftsman sont ajoutés automatiquement
 - **Type** : Conversation privée (1-1)
 - **Redirection** : Redirection directe vers la conversation spécifique (`/chats/{id}`)
 
@@ -63,7 +63,7 @@ Cette fonctionnalité permet aux utilisateurs ayant le rôle "boutique" de conta
 
 ### Fichiers modifiés
 - `routes/web.php` - Ajout de la route de chat
-- `resources/views/interfaces/shop/artisan-profile.blade.php` - Bouton "Contacter l'artisan"
+- `resources/views/interfaces/shop/craftsman-profile.blade.php` - Bouton "Contacter l'craftsman"
 - `resources/views/products/index-public.blade.php` - Bouton "Contacter"
 
 ## Tests effectués
@@ -76,7 +76,7 @@ Cette fonctionnalité permet aux utilisateurs ayant le rôle "boutique" de conta
 - Vérification des rôles
 
 ### ✅ Test des routes
-- Route `/chat/artisan/{artisan}` accessible
+- Route `/chat/craftsman/{craftsman}` accessible
 - Redirection vers `/chats/{id}` fonctionnelle
 - Intégration avec WireChat
 
@@ -85,14 +85,14 @@ Cette fonctionnalité permet aux utilisateurs ayant le rôle "boutique" de conta
 ### Pour les utilisateurs boutique
 1. Se connecter avec un compte ayant le rôle "boutique"
 2. Aller sur `/shop/artisans`
-3. Cliquer sur "Voir le profil" d'un artisan
-4. Cliquer sur "Contacter l'artisan"
+3. Cliquer sur "Voir le profil" d'un craftsman
+4. Cliquer sur "Contacter l'craftsman"
 5. Être redirigé vers la page de chat
 
 ### Pour les développeurs
 ```php
-// Créer une conversation avec un artisan
-$conversation = $user->createConversationWith($artisan->user);
+// Créer une conversation avec un craftsman
+$conversation = $user->createConversationWith($craftsman->user);
 
 // Rediriger vers la conversation spécifique
 return redirect()->route('chat', $conversation->id);
@@ -108,7 +108,7 @@ return redirect()->route('chat', $conversation->id);
 ## Configuration requise
 
 - Base de données avec les tables WireChat
-- Utilisateurs avec rôles "boutique" et "artisan"
+- Utilisateurs avec rôles "boutique" et "craftsman"
 - Artisans avec statut "approuve"
 - Middleware d'authentification actif
 
@@ -116,13 +116,13 @@ return redirect()->route('chat', $conversation->id);
 
 ### Erreurs courantes
 1. **"Vous devez avoir un rôle boutique"** : L'utilisateur n'a pas le bon rôle
-2. **"Cet artisan n'est pas encore approuvé"** : L'artisan n'est pas approuvé
-3. **"Impossible de contacter cet artisan"** : L'artisan n'a pas d'utilisateur associé
+2. **"Cet craftsman n'est pas encore approuvé"** : L'craftsman n'est pas approuvé
+3. **"Impossible de contacter cet craftsman"** : L'craftsman n'a pas d'utilisateur associé
 
 ### Vérifications
 - Vérifier que l'utilisateur a le rôle "shop"
-- Vérifier que l'artisan a le statut "approuve"
-- Vérifier que l'artisan a un utilisateur associé
+- Vérifier que l'craftsman a le statut "approuve"
+- Vérifier que l'craftsman a un utilisateur associé
 - Vérifier que les tables WireChat existent
 
 ## Évolutions futures
@@ -132,7 +132,7 @@ return redirect()->route('chat', $conversation->id);
 - Historique des conversations
 - Statuts de lecture des messages
 - Support des fichiers et images
-- Intégration avec les demandes d'artisan
+- Intégration avec les demandes d'craftsman
 
 ## Support
 

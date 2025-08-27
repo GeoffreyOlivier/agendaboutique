@@ -8,7 +8,7 @@ Cette fonctionnalité permet aux boutiques de visualiser et gérer tous les arti
 
 ### 📊 Tableau de bord des artisans
 - **Statistiques en temps réel** : Nombre total d'artisans, products disponibles, catégories représentées
-- **Vue d'ensemble** : Informations clés sur chaque artisan associé
+- **Vue d'ensemble** : Informations clés sur chaque craftsman associé
 
 ### 🔍 Recherche et filtrage
 - **Recherche textuelle** : Par nom, description ou spécialités
@@ -53,7 +53,7 @@ Cette fonctionnalité permet aux boutiques de visualiser et gérer tous les arti
 ### Modèles utilisés
 - `Boutique` : Boutique de l'utilisateur connecté
 - `BoutiqueArtisan` : Relation entre boutique et artisans
-- `Artisan` : Informations des artisans
+- `craftsman` : Informations des artisans
 - `Produit` : products des artisans
 - `Category` : Catégories de products
 
@@ -82,7 +82,7 @@ npm run build
 Les modifications CSS doivent être faites dans `resources/themes/anchor/assets/css/artisans.css` puis recompilées avec Vite.
 
 ### Images par défaut
-L'avatar par défaut des artisans se trouve dans `public/images/default-artisan-avatar.svg`.
+L'avatar par défaut des artisans se trouve dans `public/images/default-craftsman-avatar.svg`.
 
 ## Support
 

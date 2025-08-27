@@ -34,16 +34,16 @@ print_info() {
 }
 
 # Vérifier que nous sommes dans le bon répertoire
-if [ ! -f "artisan" ]; then
+if [ ! -f "craftsman" ]; then
     print_error "Ce script doit être exécuté depuis la racine du projet Laravel"
     exit 1
 fi
 
 # Nettoyer le cache avant les tests
 print_info "Nettoyage du cache..."
-php artisan config:clear
-php artisan route:clear
-php artisan cache:clear
+php craftsman config:clear
+php craftsman route:clear
+php craftsman cache:clear
 
 # Fonction pour exécuter les tests
 run_tests() {
@@ -53,9 +53,9 @@ run_tests() {
     print_header "Exécution des tests: $description"
     
     if [ -z "$test_suite" ]; then
-        php artisan test
+        php craftsman test
     else
-        php artisan test --testsuite="$test_suite"
+        php craftsman test --testsuite="$test_suite"
     fi
     
     local exit_code=$?
@@ -80,7 +80,7 @@ run_tests_with_coverage() {
         return 1
     fi
     
-    php artisan test --coverage --coverage-html=coverage --coverage-text=coverage.txt
+    php craftsman test --coverage --coverage-html=coverage --coverage-text=coverage.txt
     
     local exit_code=$?
     
@@ -105,7 +105,7 @@ run_tests_watch() {
         ./vendor/bin/pest --watch
     else
         print_warning "Pest n'est pas installé. Utilisation de PHPUnit en mode normal."
-        php artisan test
+        php craftsman test
     fi
 }
 

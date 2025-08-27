@@ -7,19 +7,19 @@
     overflow: hidden;
 }
 
-.artisan-card {
+.craftsman-card {
     transition: all 0.3s ease;
 }
 
-.artisan-card:hover {
+.craftsman-card:hover {
     transform: translateY(-4px);
 }
 
-.artisan-avatar {
+.craftsman-avatar {
     transition: transform 0.3s ease;
 }
 
-.artisan-card:hover .artisan-avatar {
+.craftsman-card:hover .craftsman-avatar {
     transform: scale(1.05);
 }
 
@@ -53,20 +53,20 @@
     }
 }
 
-.artisan-card {
+.craftsman-card {
     animation: fadeInUp 0.6s ease forwards;
 }
 
-.artisan-card:nth-child(1) { animation-delay: 0.1s; }
-.artisan-card:nth-child(2) { animation-delay: 0.2s; }
-.artisan-card:nth-child(3) { animation-delay: 0.3s; }
-.artisan-card:nth-child(4) { animation-delay: 0.4s; }
-.artisan-card:nth-child(5) { animation-delay: 0.5s; }
-.artisan-card:nth-child(6) { animation-delay: 0.6s; }
+.craftsman-card:nth-child(1) { animation-delay: 0.1s; }
+.craftsman-card:nth-child(2) { animation-delay: 0.2s; }
+.craftsman-card:nth-child(3) { animation-delay: 0.3s; }
+.craftsman-card:nth-child(4) { animation-delay: 0.4s; }
+.craftsman-card:nth-child(5) { animation-delay: 0.5s; }
+.craftsman-card:nth-child(6) { animation-delay: 0.6s; }
 
 /* Responsive design amélioré */
 @media (max-width: 768px) {
-    .artisan-card {
+    .craftsman-card {
         margin-bottom: 1rem;
     }
     

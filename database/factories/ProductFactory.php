@@ -38,7 +38,7 @@ class ProductFactory extends Factory
                 'Metalwork', 'Woodwork', 'Glass', 'Leather', 'Paper'
             ]),
             'tags' => $this->faker->randomElements([
-                'handmade', 'artisan', 'unique', 'sustainable', 'vintage', 
+                'handmade', 'craftsman', 'unique', 'sustainable', 'vintage', 
                 'modern', 'traditional', 'eco-friendly', 'luxury', 'affordable'
             ], $this->faker->numberBetween(1, 5)),
             'images' => $this->faker->optional()->randomElements([

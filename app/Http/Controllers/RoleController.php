@@ -20,7 +20,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Assigner le rôle artisan à l'utilisateur
+     * Assigner le rôle craftsman à l'utilisateur
      */
     public function assignArtisanRole(AssignRoleRequest $request)
     {
@@ -28,11 +28,11 @@ class RoleController extends Controller
         $user->assignArtisanRole();
         
         return redirect()->route('dashboard')
-            ->with('success', 'Rôle artisan assigné avec succès !');
+            ->with('success', 'Rôle craftsman assigné avec succès !');
     }
 
     /**
-     * Assigner le rôle craftsman à l'utilisateur (alias pour artisan)
+     * Assigner le rôle craftsman à l'utilisateur (alias pour craftsman)
      */
     public function assignCraftsmanRole(AssignRoleRequest $request)
     {
@@ -48,6 +48,6 @@ class RoleController extends Controller
         $user->assignShopAndArtisanRoles();
         
         return redirect()->route('dashboard')
-            ->with('success', 'Rôles boutique et artisan assignés avec succès !');
+            ->with('success', 'Rôles boutique et craftsman assignés avec succès !');
     }
 }

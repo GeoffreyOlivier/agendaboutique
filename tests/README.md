@@ -17,12 +17,12 @@ tests/
 ## 🔧 Infrastructure Backend Prête
 
 ### Interfaces de Services
-- `app/Contracts/Services/ArtisanServiceInterface.php` - Interface pour le service Artisan
+- `app/Contracts/Services/ArtisanServiceInterface.php` - Interface pour le service craftsman
 - Permet le mocking dans les tests futurs
 
 ### Interfaces de Repositories
 - `app/Contracts/Repositories/BaseRepositoryInterface.php` - Interface générique
-- `app/Contracts/Repositories/ArtisanRepositoryInterface.php` - Interface spécifique Artisan
+- `app/Contracts/Repositories/ArtisanRepositoryInterface.php` - Interface spécifique craftsman
 - Permettent le mocking des repositories
 
 ### Factories
@@ -30,7 +30,7 @@ tests/
 - États prédéfinis : `approuve()`, `rejete()`, `inactif()`, etc.
 
 ### Services Implémentés
-- `app/Services/Artisan/ArtisanService.php` - Implémente l'interface
+- `app/Services/craftsman/ArtisanService.php` - Implémente l'interface
 - `app/Repositories/ArtisanRepository.php` - Implémente l'interface
 
 ## 🚀 Prêt pour les Tests
@@ -45,7 +45,7 @@ tests/
 - Structure permettant d'isoler les tests
 
 ### Données de Test
-- Factory Artisan prête avec états variés
+- Factory craftsman prête avec états variés
 - Structure extensible pour d'autres modèles
 
 ## 📝 Prochaines Étapes

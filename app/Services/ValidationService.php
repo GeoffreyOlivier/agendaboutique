@@ -106,7 +106,7 @@ class ValidationService
     }
 
     /**
-     * Valider les informations d'artisan
+     * Valider les informations d'craftsman
      */
     public function validateArtisanInfo(array $data): array
     {

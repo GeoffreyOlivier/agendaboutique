@@ -39,8 +39,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/{shop}', [ShopController::class, 'update'])->name('update')->middleware('resource.owner:shop');
     });
     
-    // Routes craftsman (rôle 'artisan')
-    Route::middleware(['role:artisan'])->prefix('craftsman')->name('craftsman.')->group(function () {
+    // Routes craftsman (rôle 'craftsman')
+    Route::middleware(['role:craftsman'])->prefix('craftsman')->name('craftsman.')->group(function () {
         Route::get('/dashboard', [InterfaceController::class, 'craftsmanDashboard'])->name('dashboard');
     });
     
@@ -60,8 +60,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('chat.craftsman.start')
         ->middleware('role:shop');
     
-    // Routes products (rôle 'artisan' + propriété)
-    Route::middleware(['role:artisan'])->group(function () {
+    // Routes products (rôle 'craftsman' + propriété)
+    Route::middleware(['role:craftsman'])->group(function () {
         Route::resource('products', ProductController::class)
             ->except(['show', 'edit', 'update', 'destroy']);
         

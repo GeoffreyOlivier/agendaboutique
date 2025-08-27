@@ -60,7 +60,7 @@
                     <!-- Modale volante au survol -->
                     <div class="tooltip-content absolute bottom-full right-0 mb-2 w-64 p-3 bg-gray-900 text-white text-sm rounded-lg shadow-lg opacity-0 invisible transition-all duration-200 pointer-events-none z-10" style="position: absolute; bottom: 100%; right: 0; margin-bottom: 0.5rem; width: 16rem; padding: 0.75rem; background-color: #111827; color: white; font-size: 0.875rem; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); opacity: 0; visibility: hidden; transition: all 0.2s; pointer-events: none; z-index: 10;">
                         <div class="relative">
-                            <p class="mb-2">Accédez à votre espace artisan pour :</p>
+                            <p class="mb-2">Accédez à votre espace craftsman pour :</p>
                             <ul class="text-xs space-y-1">
                                 <li>• Présenter vos créations</li>
                                 <li>• Répondre aux demandes des boutiques</li>
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Icône temporaire représentant un artisan -->
+                <!-- Icône temporaire représentant un craftsman -->
                 <div class="absolute inset-0 flex items-center justify-center">
                     <svg class="w-24 h-24 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
@@ -92,7 +92,7 @@
 
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="relative h-48 bg-gradient-to-br from-purple-400 to-purple-600">
-                <!-- Image temporaire pour "Pour Artisan & Boutique" -->
+                <!-- Image temporaire pour "Pour craftsman & Boutique" -->
                 <div class="absolute inset-0 bg-purple-900 bg-opacity-40"></div>
                 <div class="relative top-4 right-4 w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center cursor-help" style="position: absolute; top: 1rem; right: 1rem;">
                     <x-phosphor-question-mark class="text-white text-lg" />
@@ -111,7 +111,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Icône temporaire représentant artisan + boutique -->
+                <!-- Icône temporaire représentant craftsman + boutique -->
                 <div class="absolute inset-0 flex items-center justify-center">
                     <svg class="w-24 h-24 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
@@ -119,7 +119,7 @@
                 </div>
             </div>
             <div class="p-6">
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Pour Artisan & Boutique</h3>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Pour craftsman & Boutique</h3>
                 <p class="text-gray-600 mb-4">
                     Combinez les deux rôles et maximisez vos opportunités de collaboration et de croissance.
                 </p>

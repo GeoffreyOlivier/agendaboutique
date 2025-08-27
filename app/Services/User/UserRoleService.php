@@ -24,31 +24,31 @@ class UserRoleService
     }
 
     /**
-     * Assigner le rôle artisan à un utilisateur
+     * Assigner le rôle craftsman à un utilisateur
      */
     public function assignArtisanRole(User $user): bool
     {
         try {
-            $user->assignRole('artisan');
-            Log::info("Rôle 'artisan' assigné à l'utilisateur {$user->id}");
+            $user->assignRole('craftsman');
+            Log::info("Rôle 'craftsman' assigné à l'utilisateur {$user->id}");
             return true;
         } catch (\Exception $e) {
-            Log::error("Erreur lors de l'assignation du rôle 'artisan' à l'utilisateur {$user->id}: " . $e->getMessage());
+            Log::error("Erreur lors de l'assignation du rôle 'craftsman' à l'utilisateur {$user->id}: " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Assigner les deux rôles (boutique et artisan) à un utilisateur
+     * Assigner les deux rôles (boutique et craftsman) à un utilisateur
      */
     public function assignBothRoles(User $user): bool
     {
         try {
-            $user->syncRoles(['shop', 'artisan']);
-            Log::info("Rôles 'shop' et 'artisan' assignés à l'utilisateur {$user->id}");
+            $user->syncRoles(['shop', 'craftsman']);
+            Log::info("Rôles 'shop' et 'craftsman' assignés à l'utilisateur {$user->id}");
             return true;
         } catch (\Exception $e) {
-            Log::error("Erreur lors de l'assignation des rôles 'shop' et 'artisan' à l'utilisateur {$user->id}: " . $e->getMessage());
+            Log::error("Erreur lors de l'assignation des rôles 'shop' et 'craftsman' à l'utilisateur {$user->id}: " . $e->getMessage());
             return false;
         }
     }
@@ -84,8 +84,8 @@ class UserRoleService
     {
         return match($roleType) {
             'shop' => $user->hasRole('shop') && $user->shop && $user->shop->status === 'approved',
-            'artisan' => $user->hasRole('artisan') && $user->craftsman && $user->craftsman->status === 'approved',
-            'shop-artisan' => $user->hasRole('shop-artisan') && 
+            'craftsman' => $user->hasRole('craftsman') && $user->craftsman && $user->craftsman->status === 'approved',
+            'shop-craftsman' => $user->hasRole('shop-craftsman') && 
                              $user->shop && $user->shop->status === 'approved' &&
                              $user->craftsman && $user->craftsman->status === 'approved',
             default => false
@@ -122,11 +122,11 @@ class UserRoleService
     public function assignCombinedRole(User $user): bool
     {
         try {
-            $user->assignRole('shop-artisan');
-            Log::info("Rôle 'shop-artisan' assigné à l'utilisateur {$user->id}");
+            $user->assignRole('shop-craftsman');
+            Log::info("Rôle 'shop-craftsman' assigné à l'utilisateur {$user->id}");
             return true;
         } catch (\Exception $e) {
-            Log::error("Erreur lors de l'assignation du rôle 'shop-artisan' à l'utilisateur {$user->id}: " . $e->getMessage());
+            Log::error("Erreur lors de l'assignation du rôle 'shop-craftsman' à l'utilisateur {$user->id}: " . $e->getMessage());
             return false;
         }
     }
@@ -136,11 +136,11 @@ class UserRoleService
      */
     public function getPrimaryRole(User $user): ?string
     {
-        if ($user->hasRole('shop-artisan')) {
-            return 'shop-artisan';
+        if ($user->hasRole('shop-craftsman')) {
+            return 'shop-craftsman';
         }
         
-        if ($user->hasRole('shop') && $user->hasRole('artisan')) {
+        if ($user->hasRole('shop') && $user->hasRole('craftsman')) {
             return 'both';
         }
         
@@ -148,8 +148,8 @@ class UserRoleService
             return 'shop';
         }
         
-        if ($user->hasRole('artisan')) {
-            return 'artisan';
+        if ($user->hasRole('craftsman')) {
+            return 'craftsman';
         }
         
         return null;

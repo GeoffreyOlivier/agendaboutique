@@ -7,7 +7,7 @@ Ce document décrit la refactorisation complète du système de nommage dans le 
 ## Problèmes identifiés
 
 ### 1. Mélange de langues
-- **Avant** : Mélange de français et d'anglais (`Artisan`, `Boutique`, `Produit`)
+- **Avant** : Mélange de français et d'anglais (`craftsman`, `Boutique`, `Produit`)
 - **Problème** : Confusion pour les développeurs non-francophones, incohérence avec les standards internationaux
 
 ### 2. Noms d'interfaces peu clairs
@@ -24,7 +24,7 @@ Ce document décrit la refactorisation complète du système de nommage dans le 
 
 | Ancien nom | Nouveau nom | Raison |
 |-------------|-------------|---------|
-| `Artisan` | `Craftsman` | Plus descriptif et standard |
+| `craftsman` | `Craftsman` | Plus descriptif et standard |
 | `Boutique` | `Shop` | Terme standard en anglais |
 | `Produit` | `Product` | Terme standard en anglais |
 | `Commande` | `Order` | Terme standard en anglais |

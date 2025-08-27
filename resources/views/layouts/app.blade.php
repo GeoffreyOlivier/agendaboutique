@@ -299,10 +299,10 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
                                             </svg>
                                             <span class="flex-shrink-0 ease-out duration-50">
-                                                @if(session('current_interface') === 'artisan')
+                                                @if(session('current_interface') === 'craftsman')
                                                     Passer à l'interface Boutique
                                                 @else
-                                                    Passer à l'interface Artisan
+                                                    Passer à l'interface craftsman
                                                 @endif
                                             </span>
                                         </button>

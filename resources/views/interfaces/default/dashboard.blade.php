@@ -52,7 +52,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Artisan</h3>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">craftsman</h3>
                 <p class="text-gray-600 mb-6">
                     Présentez vos créations et répondez aux demandes des boutiques.
                 </p>
@@ -60,7 +60,7 @@
                     <form method="POST" action="{{ route('assign.craftsman.role') }}" class="inline">
                         @csrf
                         <button type="submit" class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
-                            Devenir Artisan
+                            Devenir craftsman
                         </button>
                     </form>
                 @else
@@ -80,9 +80,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                 </svg>
             </div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2">Boutique + Artisan</h3>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Boutique + craftsman</h3>
             <p class="text-gray-600 mb-6">
-                Vous êtes propriétaire de boutique ET artisan ? Accédez aux deux interfaces.
+                Vous êtes propriétaire de boutique ET craftsman ? Accédez aux deux interfaces.
             </p>
             @if(!$user->isShopAndArtisan())
                 <form method="POST" action="{{ route('assign.both.roles') }}" class="inline">

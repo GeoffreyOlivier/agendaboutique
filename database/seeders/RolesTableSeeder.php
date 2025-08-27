@@ -46,14 +46,14 @@ class RolesTableSeeder extends Seeder
             'description' => 'Propriétaire de boutique avec accès à la caisse et gestion des demandes d\'artisans.',
         ]);
 
-        Role::firstOrCreate(['name' => 'artisan'], [
+        Role::firstOrCreate(['name' => 'craftsman'], [
             'guard_name' => 'web',
-            'description' => 'Artisan avec possibilité de gérer ses products et expositions.',
+            'description' => 'craftsman avec possibilité de gérer ses products et expositions.',
         ]);
 
-        Role::firstOrCreate(['name' => 'shop-artisan'], [
+        Role::firstOrCreate(['name' => 'shop-craftsman'], [
             'guard_name' => 'web',
-            'description' => 'Utilisateur ayant à la fois un statut de propriétaire de boutique et d\'artisan.',
+            'description' => 'Utilisateur ayant à la fois un statut de propriétaire de boutique et d\'craftsman.',
         ]);
     }
 }

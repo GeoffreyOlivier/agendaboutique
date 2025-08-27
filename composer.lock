@@ -12096,7 +12096,7 @@
             ],
             "description": "Cli error handling for console/command-line PHP applications.",
             "keywords": [
-                "artisan",
+                "craftsman",
                 "cli",
                 "command-line",
                 "console",

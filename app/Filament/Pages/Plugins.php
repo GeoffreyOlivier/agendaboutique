@@ -6,7 +6,7 @@ use Filament\Pages\Page;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\craftsman;
 
 class Plugins extends Page
 {
@@ -109,7 +109,7 @@ class Plugins extends Page
                 
                 foreach ($commands as $command) {
                     if (is_string($command)) {
-                        Artisan::call($command);
+                        craftsman::call($command);
                     } elseif (is_callable($command)) {
                         $command();
                     }
@@ -119,7 +119,7 @@ class Plugins extends Page
             // Run migrations if they exist
             $migrationPath = resource_path("plugins/{$pluginFolder}/database/migrations");
             if (File::isDirectory($migrationPath)) {
-                Artisan::call('migrate', [
+                craftsman::call('migrate', [
                     '--path' => "resources/plugins/{$pluginFolder}/database/migrations",
                     '--force' => true,
                 ]);

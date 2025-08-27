@@ -34,7 +34,7 @@ class ProductRepository extends BaseRepository
     }
 
     /**
-     * Obtenir les products d'un artisan
+     * Obtenir les products d'un craftsman
      */
     public function getProductsByCraftsman(Craftsman $craftsman): Collection
     {

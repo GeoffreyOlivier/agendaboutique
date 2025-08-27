@@ -19,7 +19,7 @@ class ProductController extends Controller
     {
         $this->productService = $productService;
         $this->imageService = $imageService;
-        // Le middleware 'role:artisan' est maintenant appliqué au niveau des routes
+        // Le middleware 'role:craftsman' est maintenant appliqué au niveau des routes
     }
 
     public function create()
@@ -27,7 +27,7 @@ class ProductController extends Controller
         $craftsman = Auth::user()->craftsman;
         
         if (!$craftsman) {
-            return redirect()->route('dashboard')->with('error', 'Vous devez avoir un profil artisan pour ajouter des products.');
+            return redirect()->route('dashboard')->with('error', 'Vous devez avoir un profil craftsman pour ajouter des products.');
         }
 
         return view('products.create', compact('craftsman'));
@@ -38,7 +38,7 @@ class ProductController extends Controller
         $craftsman = Auth::user()->craftsman;
         
         if (!$craftsman) {
-            return redirect()->route('dashboard')->with('error', 'Vous devez avoir un profil artisan pour ajouter des products.');
+            return redirect()->route('dashboard')->with('error', 'Vous devez avoir un profil craftsman pour ajouter des products.');
         }
 
         try {

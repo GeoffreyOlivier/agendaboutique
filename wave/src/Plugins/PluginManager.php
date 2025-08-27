@@ -79,7 +79,7 @@ class PluginManager
         
         foreach ($commands as $command) {
             if (is_string($command)) {
-                Artisan::call($command);
+                craftsman::call($command);
             } elseif (is_callable($command)) {
                 $command();
             }

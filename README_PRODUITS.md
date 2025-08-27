@@ -9,7 +9,7 @@
   - Affichage des images existantes avec possibilité de suppression
   - Ajout de nouvelles images
 - **Validation** : Tous les champs obligatoires sont validés
-- **Sécurité** : Seul l'artisan propriétaire du produit peut le modifier
+- **Sécurité** : Seul l'craftsman propriétaire du produit peut le modifier
 
 ### Utilisation
 1. Cliquer sur le bouton "Modifier" dans la liste des products
@@ -22,7 +22,7 @@
 ### Fonctionnalités
 - **Confirmation** : Demande de confirmation avant suppression
 - **Suppression complète** : Le produit et ses images sont supprimés de la base de données et du stockage
-- **Sécurité** : Seul l'artisan propriétaire du produit peut le supprimer
+- **Sécurité** : Seul l'craftsman propriétaire du produit peut le supprimer
 - **Redirection** : Retour automatique à la liste des products avec message de succès
 
 ### Utilisation
@@ -44,7 +44,7 @@ DELETE /products/{id}         → ProduitController@destroy
 ## Contrôleur
 
 ### Méthode `edit()`
-- Vérifie que l'utilisateur connecté est l'artisan propriétaire du produit
+- Vérifie que l'utilisateur connecté est l'craftsman propriétaire du produit
 - Retourne la vue d'édition avec les données du produit
 
 ### Méthode `update()`
@@ -63,7 +63,7 @@ DELETE /products/{id}         → ProduitController@destroy
 
 - **Middleware d'authentification** : Seuls les utilisateurs connectés peuvent accéder
 - **Vérification des rôles** : Seuls les artisans peuvent gérer leurs products
-- **Vérification de propriété** : Un artisan ne peut modifier/supprimer que ses propres products
+- **Vérification de propriété** : Un craftsman ne peut modifier/supprimer que ses propres products
 - **Validation des données** : Tous les champs sont validés côté serveur
 
 ## Messages d'Erreur et de Succès

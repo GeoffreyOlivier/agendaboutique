@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\DemandeArtisan;
 use App\Models\Boutique;
-use App\Models\Artisan;
+use App\Models\craftsman;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +21,7 @@ class DemandeArtisanFactory extends Factory
     {
         return [
             'boutique_id' => Boutique::factory(),
-            'artisan_id' => Artisan::factory(),
+            'artisan_id' => craftsman::factory(),
             'statut' => 'en_attente',
             'message' => fake()->paragraph(),
             'date_demande' => fake()->dateTimeBetween('-1 year', 'now'),

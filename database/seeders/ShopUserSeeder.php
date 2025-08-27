@@ -29,7 +29,7 @@ class ShopUserSeeder extends Seeder
         $user->assignShopRole();
 
         // Créer une boutique pour cet utilisateur
-        $boutique = $user->boutique()->create([
+        $shop = $user->boutique()->create([
             'nom' => 'Boutique Test',
             'description' => 'Une boutique de test pour démontrer les fonctionnalités',
             'adresse' => '123 Rue de la Boutique',

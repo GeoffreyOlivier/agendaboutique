@@ -21,7 +21,7 @@ return [
     |---------------------------------------------------------------------------
     |
     | This value is used to specify where Livewire component Blade templates are
-    | stored when running file creation commands like `artisan make:livewire`.
+    | stored when running file creation commands like `craftsman make:livewire`.
     | It is also used if you choose to omit a component's render() method.
     |
     */

@@ -68,21 +68,21 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate --ansi",
+            "@php craftsman key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@php artisan migrate --graceful --ansi",
-            "@php artisan db:seed"
+            "@php craftsman migrate --graceful --ansi",
+            "@php craftsman db:seed"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover",
-            "@php artisan storage:link",
-            "@php artisan filament:upgrade",
-            "@php artisan livewire:publish --assets"
+            "@php craftsman package:discover",
+            "@php craftsman storage:link",
+            "@php craftsman filament:upgrade",
+            "@php craftsman livewire:publish --assets"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php craftsman serve\" \"php craftsman queue:listen --tries=1\" \"php craftsman pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ]
     },
     "config": {

@@ -19,9 +19,9 @@ class ShopArtisanSeeder extends Seeder
             'description' => 'Propriétaire de boutique avec accès à la caisse et gestion des demandes d\'artisans.',
         ]);
 
-        $artisanRole = Role::firstOrCreate(['name' => 'artisan'], [
+        $artisanRole = Role::firstOrCreate(['name' => 'craftsman'], [
             'guard_name' => 'web',
-            'description' => 'Artisan avec possibilité de gérer ses products et expositions.',
+            'description' => 'craftsman avec possibilité de gérer ses products et expositions.',
         ]);
 
         // Créer les permissions pour les boutiques
@@ -61,6 +61,6 @@ class ShopArtisanSeeder extends Seeder
         $shopRole->syncPermissions($shopPermissions);
         $artisanRole->syncPermissions($artisanPermissions);
 
-        $this->command->info('Rôles shop et artisan créés avec leurs permissions.');
+        $this->command->info('Rôles shop et craftsman créés avec leurs permissions.');
     }
 }

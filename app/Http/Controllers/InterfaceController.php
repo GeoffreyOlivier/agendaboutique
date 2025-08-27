@@ -16,7 +16,7 @@ class InterfaceController extends Controller
         if ($user->isShop() && $user->isArtisan()) {
             // Si l'utilisateur a les deux rôles, vérifier l'interface actuelle
             $currentInterface = Session::get('current_interface', 'shop');
-            if ($currentInterface === 'artisan') {
+            if ($currentInterface === 'craftsman') {
                 return $this->showArtisanDashboard($user);
             } else {
                 return $this->showShopDashboard($user);
@@ -25,7 +25,7 @@ class InterfaceController extends Controller
             // Si l'utilisateur a seulement le rôle shop
             return $this->showShopDashboard($user);
         } elseif ($user->isArtisan()) {
-            // Si l'utilisateur a seulement le rôle artisan
+            // Si l'utilisateur a seulement le rôle craftsman
             return $this->showArtisanDashboard($user);
         }
         
@@ -58,11 +58,11 @@ class InterfaceController extends Controller
         $user = Auth::user();
         
         $currentInterface = Session::get('current_interface', 'shop');
-        $newInterface = $currentInterface === 'shop' ? 'artisan' : 'shop';
+        $newInterface = $currentInterface === 'shop' ? 'craftsman' : 'shop';
         
         Session::put('current_interface', $newInterface);
         
-        $message = $newInterface === 'shop' ? 'Interface boutique activée' : 'Interface artisan activée';
+        $message = $newInterface === 'shop' ? 'Interface boutique activée' : 'Interface craftsman activée';
         
         return redirect()->route('dashboard')->with('success', $message);
     }
@@ -79,11 +79,11 @@ class InterfaceController extends Controller
 
     public function shopCraftsmen()
     {
+
         $user = Auth::user();
         
         $shop = $user->shop;
         
-        // Récupérer tous les artisans approuvés avec leurs informations
         $craftsmen = \App\Models\Craftsman::with(['user', 'products'])
             ->where('status', 'approved')
             ->get();
@@ -108,11 +108,11 @@ class InterfaceController extends Controller
 
     private function showArtisanDashboard($user)
     {
-        $artisan = $user->craftsman;
-        $products = $artisan ? $artisan->products()->latest()->take(5)->get() : collect();
-        $demandes = $artisan ? $artisan->requests()->latest()->take(5)->get() : collect();
+        $craftsman = $user->craftsman;
+        $products = $craftsman ? $craftsman->products()->latest()->take(5)->get() : collect();
+        $demandes = $craftsman ? $craftsman->requests()->latest()->take(5)->get() : collect();
         
-        return view('interfaces.artisan.dashboard', compact('user', 'artisan', 'products', 'demandes'));
+        return view('interfaces.craftsman.dashboard', compact('user', 'craftsman', 'products', 'demandes'));
     }
 
     private function showDefaultDashboard($user)

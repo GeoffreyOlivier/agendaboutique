@@ -10,7 +10,7 @@
   <!-- Cercle de fond -->
   <circle cx="100" cy="100" r="90" fill="url(#bgGradient)" stroke="#1F2937" stroke-width="2"/>
   
-  <!-- Icône d'artisan stylisée -->
+  <!-- Icône d'craftsman stylisée -->
   <g transform="translate(100, 100)">
     <!-- Marteau -->
     <rect x="-25" y="-40" width="8" height="60" rx="4" fill="white" opacity="0.9"/>
@@ -28,8 +28,8 @@
     </g>
   </g>
   
-  <!-- Texte "Artisan" -->
+  <!-- Texte "craftsman" -->
   <text x="100" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">
-    ARTISAN
+    craftsman
   </text>
 </svg>

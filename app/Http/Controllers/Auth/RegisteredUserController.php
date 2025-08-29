@@ -33,6 +33,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['required', 'string', 'in:shop,craftsman'],
         ]);
 
         $user = User::create([
@@ -41,14 +42,19 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Créer le rôle 'registered' s'il n'existe pas et l'assigner à l'utilisateur
-        $role = Role::firstOrCreate(['name' => 'registered'], ['guard_name' => 'web']);
+        // Créer le rôle choisi s'il n'existe pas et l'assigner à l'utilisateur
+        $role = Role::firstOrCreate(['name' => $request->role], ['guard_name' => 'web']);
         $user->assignRole($role);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        // Rediriger vers le dashboard approprié selon le rôle choisi
+        if ($request->role === 'shop') {
+            return redirect()->route('dashboard')->with('success', 'Compte créé avec succès ! Vous avez le rôle de boutique.');
+        } else {
+            return redirect()->route('dashboard')->with('success', 'Compte créé avec succès ! Vous avez le rôle d\'artisan.');
+        }
     }
 }

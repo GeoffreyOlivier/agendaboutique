@@ -29,8 +29,9 @@ class InterfaceController extends Controller
             return $this->showArtisanDashboard($user);
         }
         
-        // Si l'utilisateur n'a aucun rôle spécifique, afficher le dashboard par défaut
-        return $this->showDefaultDashboard($user);
+        // Si l'utilisateur n'a aucun rôle spécifique (cas rare), 
+        // rediriger vers une page d'erreur ou créer un compte admin
+        abort(403, 'Aucun rôle valide trouvé. Veuillez contacter l\'administrateur.');
     }
 
 

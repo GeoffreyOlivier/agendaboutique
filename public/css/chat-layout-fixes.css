@@ -1,0 +1,170 @@
+/* Corrections spécifiques pour la messagerie intégrée WireChat */
+
+/* Correction de la structure principale de la page de chat */
+.w-full.flex.min-h-full.h-full.rounded-lg {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    overflow: hidden !important;
+}
+
+/* Correction de la sidebar des conversations */
+.hidden.md\:grid.bg-inherit.border-r {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+}
+
+/* Correction de la zone principale des messages */
+main.grid.w-full.grow.h-\[95vh\] {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Correction du composant de chat principal */
+.w-full.transition.bg-\[var\(--wc-light-primary\)\] {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+/* Correction de la structure interne du chat */
+.flex.flex-col.grow.h-full.relative {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Correction du header du chat */
+.flex.flex-col.grow.h-full.relative > div:first-child {
+    flex-shrink: 0 !important;
+}
+
+/* Correction du body des messages */
+.flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: calc(100vh - 200px) !important;
+    padding: 1rem !important;
+}
+
+/* Correction du footer du chat */
+.shrink-0.h-auto.relative.sticky.bottom-0.mt-auto {
+    position: sticky !important;
+    bottom: 0 !important;
+    background: var(--wc-light-secondary) !important;
+    z-index: 100 !important;
+    border-top: 1px solid var(--wc-light-border) !important;
+    margin-top: auto !important;
+    width: 100% !important;
+}
+
+.dark .shrink-0.h-auto.relative.sticky.bottom-0.mt-auto {
+    background: var(--wc-dark-secondary) !important;
+    border-top: 1px solid var(--wc-dark-border) !important;
+}
+
+/* Correction de la zone de saisie */
+.px-3.border-t.shadow-sm {
+    background: var(--wc-light-secondary) !important;
+    border-top: 1px solid var(--wc-light-border) !important;
+}
+
+.dark .px-3.border-t.shadow-sm {
+    background: var(--wc-dark-secondary) !important;
+    border-top: 1px solid var(--wc-dark-border) !important;
+}
+
+/* Correction pour les écrans mobiles */
+@media (max-width: 768px) {
+    .flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 {
+        max-height: calc(100vh - 180px) !important;
+        padding: 0.75rem !important;
+    }
+    
+    .shrink-0.h-auto.relative.sticky.bottom-0.mt-auto {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+    }
+}
+
+/* Correction pour les écrans de bureau */
+@media (min-width: 769px) {
+    .flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 {
+        max-height: calc(100vh - 220px) !important;
+        padding: 1.5rem !important;
+    }
+}
+
+/* Correction de l'espacement des messages */
+.flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 > div {
+    margin-bottom: 0.5rem !important;
+}
+
+/* Correction du scroll automatique vers le bas */
+.flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 {
+    scroll-behavior: smooth !important;
+}
+
+/* Correction de la hauteur minimale pour éviter le footer flottant */
+.flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 {
+    min-height: calc(100vh - 300px) !important;
+}
+
+/* Correction de l'alignement du footer */
+.shrink-0.h-auto.relative.sticky.bottom-0.mt-auto {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/* Correction spécifique pour la page des chats */
+.w-full.h-full.min-h-full.flex.rounded-lg.wirechat-page-container {
+    height: 100vh !important;
+    min-height: 100vh !important;
+}
+
+/* Correction de la zone de messages principale */
+main.overflow-y-auto.py-2.grow.h-full.relative {
+    height: calc(100vh - 200px) !important;
+    overflow-y: auto !important;
+}
+
+/* Correction du header des chats */
+.px-3.z-10.sticky.top-0.w-full.py-2 {
+    background: var(--wc-light-secondary) !important;
+    z-index: 50 !important;
+}
+
+.dark .px-3.z-10.sticky.top-0.w-full.py-2 {
+    background: var(--wc-dark-secondary) !important;
+}
+
+/* Variables CSS personnalisées pour WireChat */
+:root {
+    --wc-light-primary: #ffffff;
+    --wc-light-secondary: #f8fafc;
+    --wc-light-border: #e2e8f0;
+    --wc-dark-primary: #1e293b;
+    --wc-dark-secondary: #334155;
+    --wc-dark-border: #475569;
+    --wc-brand-primary: #3b82f6;
+}
+
+.dark {
+    --wc-light-primary: #1e293b;
+    --wc-light-secondary: #334155;
+    --wc-light-border: #475569;
+    --wc-dark-primary: #0f172a;
+    --wc-dark-secondary: #1e293b;
+    --wc-dark-border: #334155;
+}
+

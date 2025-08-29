@@ -4,8 +4,9 @@
 .wirechat-page-container {
     display: flex !important;
     width: 100% !important;
-    height: 100% !important;
-    min-height: 100% !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    overflow: hidden !important;
 }
 
 /* Correction de la sidebar des conversations Wirechat */
@@ -29,6 +30,7 @@
     flex-direction: column !important;
     overflow: hidden !important;
     background: var(--wc-light-primary) !important;
+    height: 100vh !important;
 }
 
 .dark .wirechat-main-chat-area {
@@ -80,7 +82,7 @@
 /* Correction du layout des chats */
 .wirechat-chats-layout {
     display: flex;
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
 }
 
@@ -104,7 +106,7 @@
 
 /* Correction de la hauteur du composant principal */
 .wirechat-chat-component {
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -217,4 +219,129 @@
 
 .wirechat-page-container .justify-start {
     justify-content: flex-start !important;
+}
+
+/* NOUVELLES CORRECTIONS POUR LA MESSAGERIE INTÉGRÉE */
+
+/* Correction spécifique pour la page de chat individuel */
+.wirechat-page-container .w-full.flex.min-h-full.h-full.rounded-lg {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    overflow: hidden !important;
+}
+
+/* Correction de la sidebar des conversations */
+.wirechat-page-container .hidden.md\\:grid {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+}
+
+/* Correction de la zone principale des messages */
+.wirechat-page-container main.grid.w-full.grow {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Correction du composant de chat principal */
+.wirechat-page-container .w-full.transition {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+/* Correction de la structure interne du chat */
+.wirechat-page-container .flex.flex-col.grow.h-full.relative {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Correction du header du chat */
+.wirechat-page-container .flex.flex-col.grow.h-full.relative > div:first-child {
+    flex-shrink: 0 !important;
+}
+
+/* Correction du body des messages */
+.wirechat-page-container .flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: calc(100vh - 200px) !important;
+}
+
+/* Correction du footer du chat */
+.wirechat-page-container .shrink-0.h-auto.relative.sticky.bottom-0.mt-auto {
+    position: sticky !important;
+    bottom: 0 !important;
+    background: var(--wc-light-secondary) !important;
+    z-index: 100 !important;
+    border-top: 1px solid var(--wc-light-border) !important;
+    margin-top: auto !important;
+}
+
+.dark .wirechat-page-container .shrink-0.h-auto.relative.sticky.bottom-0.mt-auto {
+    background: var(--wc-dark-secondary) !important;
+    border-top: 1px solid var(--wc-dark-border) !important;
+}
+
+/* Correction de la zone de saisie */
+.wirechat-page-container .px-3.border-t.shadow-sm {
+    background: var(--wc-light-secondary) !important;
+    border-top: 1px solid var(--wc-light-border) !important;
+}
+
+.dark .wirechat-page-container .px-3.border-t.shadow-sm {
+    background: var(--wc-dark-secondary) !important;
+    border-top: 1px solid var(--wc-dark-border) !important;
+}
+
+/* Correction pour les écrans mobiles */
+@media (max-width: 768px) {
+    .wirechat-page-container .flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 {
+        max-height: calc(100vh - 180px) !important;
+        padding: 1rem !important;
+    }
+    
+    .wirechat-page-container .shrink-0.h-auto.relative.sticky.bottom-0.mt-auto {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+    }
+}
+
+/* Correction pour les écrans de bureau */
+@media (min-width: 769px) {
+    .wirechat-page-container .flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 {
+        max-height: calc(100vh - 220px) !important;
+    }
+}
+
+/* Correction de l'espacement des messages */
+.wirechat-page-container .flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 > div {
+    margin-bottom: 0.5rem !important;
+}
+
+/* Correction du scroll automatique vers le bas */
+.wirechat-page-container .flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 {
+    scroll-behavior: smooth !important;
+}
+
+/* Correction de la hauteur minimale pour éviter le footer flottant */
+.wirechat-page-container .flex.flex-col.h-full.relative.gap-2.gap-y-4.p-4 {
+    min-height: calc(100vh - 300px) !important;
+}
+
+/* Correction de l'alignement du footer */
+.wirechat-page-container .shrink-0.h-auto.relative.sticky.bottom-0.mt-auto {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
 }

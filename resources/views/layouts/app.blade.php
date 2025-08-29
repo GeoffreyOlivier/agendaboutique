@@ -18,6 +18,17 @@
     <!-- CSS personnalisé pour Wirechat -->
     <link rel="stylesheet" href="{{ asset('css/wirechat-custom.css') }}">
     
+    <!-- CSS pour les corrections de mise en page de la messagerie -->
+    <link rel="stylesheet" href="{{ asset('css/chat-layout-fixes.css') }}">
+    
+    <!-- JavaScript pour les améliorations de la messagerie -->
+    <script src="{{ asset('js/chat-layout-improvements.js') }}" defer></script>
+    
+    <!-- Script de test pour la messagerie (à retirer en production) -->
+    @if(config('app.debug'))
+        <script src="{{ asset('js/chat-test.js') }}" defer></script>
+    @endif
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
